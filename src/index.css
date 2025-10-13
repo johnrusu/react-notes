@@ -18,7 +18,7 @@ body {
 }
 
 .notes-container {
-  @apply w-full p-4 flex-1 overflow-y-hidden bg-size-[40px_40px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)];
+  @apply w-full p-4 flex-1 bg-size-[40px_40px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative;
 }
 
 .create-note {
@@ -50,7 +50,7 @@ body {
 }
 
 .note {
-  @apply absolute;
+  @apply w-full;
 }
 
 .note + .note {
@@ -58,5 +58,13 @@ body {
 }
 
 .note .note-content {
-  @apply w-100 h-30;
+  @apply w-full h-32 max-h-32 overflow-hidden;
+}
+
+.note .note-content .note-content-textarea {
+  @apply border-none outline-none w-full h-full bg-transparent  resize-none;
+}
+
+.notes-container .notes-grid {
+  @apply m-auto max-w-2xl;
 }

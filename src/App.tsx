@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 // mui
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 
 // components
 import CreateNote from "./components/CreateNote";
@@ -25,9 +25,9 @@ const App = (): React.ReactElement => {
       <Header />
       <Box className="notes-container">
         <CreateNote onNoteAdd={handelNoteAdd} />
-        <Grid container spacing={2} marginTop={2}>
+        <div className="notes-grid">
           <Notes />
-        </Grid>
+        </div>
       </Box>
     </>
   );

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store/store";
 
 // state
-import { deleteNote } from "../features/notesSlice";
+import { deleteNote, updateNote } from "../features/notesSlice";
 
 // components
 import Note from "./Note";
@@ -20,10 +20,14 @@ const Notes: React.FC = (): React.ReactElement | null => {
     dispatch(deleteNote(id));
   };
 
+  const onTextChange = (id: string, text: string) => {
+    // dispatch update note action
+    dispatch(updateNote({ noteId: id, text }));
+  };
+
   return isArrayNotEmpty(notes) ? (
-    <div>
+    <div className="w-full">
       {notes.map(({ text, id, color }, index) => {
-        const zIndex: number = 10 + notes.length + index;
         return (
           <Note
             key={`note-${id}-${index}`}
@@ -31,7 +35,7 @@ const Notes: React.FC = (): React.ReactElement | null => {
             color={color}
             id={id}
             onDelete={onDelete}
-            style={{ zIndex }}
+            onTextChange={onTextChange}
           />
         );
       })}
