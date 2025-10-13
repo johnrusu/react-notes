@@ -13,7 +13,10 @@ export const notesSlice = createSlice({
   initialState,
   reducers: {
     addNote: (state, action: PayloadAction<Note>) => {
-      state.notes.push(action.payload);
+      state.notes = [
+        ...state.notes,
+        { ...action.payload, id: `${state.notes.length + 1}` },
+      ];
     },
     deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);

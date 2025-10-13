@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
 // mui
 import { Box, Grid } from "@mui/material";
@@ -8,21 +9,19 @@ import CreateNote from "./components/CreateNote";
 import Notes from "./components/Notes";
 import Header from "./components/Header";
 
+// state
+import { addNote } from "./features/notesSlice";
 // types
 import type { NoteDefault } from "./types";
 
 const App = (): React.ReactElement => {
-  const [notes, setNotes] = React.useState<NoteDefault[]>([]);
-
+  const dispatch = useDispatch();
   const handelNoteAdd = (note: NoteDefault) => {
-    setNotes((prevNotes) => [
-      ...prevNotes,
-      { ...note, id: `${prevNotes.length + 1}` },
-    ]);
+    dispatch(addNote(note));
   };
 
   return (
-    <Box>
+    <>
       <Header />
       <Box className="notes-container">
         <CreateNote onNoteAdd={handelNoteAdd} />
@@ -30,7 +29,7 @@ const App = (): React.ReactElement => {
           <Notes />
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 };
 
