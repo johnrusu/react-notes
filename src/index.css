@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  @apply font-sans bg-gray-900 text-white;
+}
+
+html,
+body {
+  @apply w-full h-full p-0 m-0 box-border min-h-screen;
+}
+
+.header {
+  @apply p-4  text-left text-2xl font-bold uppercase;
+}
+
+.notes-container {
+  @apply w-full p-4;
+}
+
+.create-note {
+  @apply fixed left-10 top-1/2 transform -translate-y-1/2 bg-gray-800 p-4 rounded-lg shadow-lg z-10;
+}
+
+.color-picker {
+  @apply w-15 h-15 rounded-full border border-gray-300 cursor-pointer mb-3;
+}
+
+.color-picker.selected {
+  @apply ring-4 ring-blue-500;
+}
+
+.color-picker:last-child {
+  @apply mb-0;
+}
+
+.color-picker:hover {
+  @apply opacity-80;
+}
+
+.add-note {
+  @apply w-15 h-15 mb-3;
+}
+
+.add-note button {
+  @apply w-full h-full rounded-full bg-gray-700 text-white  flex items-center justify-center cursor-pointer hover:bg-gray-600;
+}
