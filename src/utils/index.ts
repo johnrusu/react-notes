@@ -199,13 +199,13 @@ export const waitForElm = (selector: string): Promise<unknown> => {
 export const removeArrObjectsDuplicates = (arr: unknown[] = []): unknown[] => {
   if (isArrayNotEmpty(arr)) {
     try {
-      // @ts-ignore
-      const setObj = new Set(arr.map(JSON.stringify));
+      const setObj = new Set(arr.map((item) => JSON.stringify(item)));
       if (!isNilOrEmpty(setObj)) {
-        // @ts-ignore
-        return Array.from(setObj).map(JSON.parse);
+        return Array.from(setObj).map((item) => JSON.parse(item));
       }
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
   }
   return arr;
 };
@@ -220,7 +220,8 @@ export const isValidJSON = (value: string = ""): boolean => {
   const stringIsObject = (function (value: string) {
     try {
       return JSON.parse(value);
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       return false;
     }
   })(value);
