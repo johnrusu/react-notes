@@ -9,6 +9,7 @@ import type { CreateNoteProps, NoteDefault } from "../types";
 
 // components
 import ColorPicker from "./ColorPicker";
+import ColorPickerWithoutColor from "./ColorPickerWithoutColor";
 import AddNote from "./AddNote";
 
 // constants
@@ -41,6 +42,10 @@ const CreateNote: React.FC<CreateNoteProps> = (props) => {
             onClick={() => setColor(noteColor)}
           />
         ))}
+        <ColorPickerWithoutColor
+          onClick={(customColor: string = "") => setColor(customColor)}
+          color={color}
+        />
       </Box>
     </Box>
   ) : null;

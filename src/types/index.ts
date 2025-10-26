@@ -6,8 +6,8 @@ type NoteDefault = {
 
 type ColorPickerProps = {
   color: string;
-  isSelected: boolean;
-  onClick: () => void;
+  isSelected?: boolean;
+  onClick: (color?: string) => void;
 };
 
 type Note = {

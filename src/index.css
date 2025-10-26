@@ -41,6 +41,10 @@ body {
   @apply opacity-80;
 }
 
+.color-picker.custom-color {
+  @apply border-none bg-gray-700;
+}
+
 .add-note {
   @apply w-15 h-15 mb-3;
 }
