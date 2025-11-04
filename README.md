@@ -6,6 +6,8 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 
 ![Light mode](./src/assets/preview-light.png)
 
+![Menu](./src/assets/menu.png)
+
 <h3>Features:</h3>
 
 - Dark mode / light mode
