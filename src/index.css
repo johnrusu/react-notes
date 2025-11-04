@@ -2,19 +2,20 @@
 
 html,
 body {
-  @apply w-full p-0 box-border min-h-[100%];
+  @apply w-full p-0 box-border min-h-[100%] m-0;
+  overflow: hidden;
 }
 
 #root {
-  @apply w-full  flex flex-col justify-between h-full;
+  @apply w-full flex flex-col h-[100vh] overflow-hidden;
 }
 
 .header {
-  @apply p-4  text-left text-2xl font-bold uppercase shadow-2xl bg-gray-800 text-white sticky top-0 z-10 flex items-center;
+  @apply p-4 text-left text-2xl font-bold uppercase shadow-2xl bg-gray-800 text-white sticky top-0 z-50 flex items-center;
 }
 
 .notes-container {
-  @apply w-full h-full p-4 flex-1 bg-size-[40px_40px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative;
+  @apply w-full p-4 flex-1 bg-size-[30px_30px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative overflow-y-auto;
 }
 
 .notes-container.light-theme {

@@ -18,6 +18,7 @@ import { NOTES_LABELS } from "./constants";
 import CreateNote from "./components/CreateNote";
 import Notes from "./components/Notes";
 import Header from "./components/Header";
+import NotesCart from "./components/NotesCart";
 
 // state
 import { addNote } from "./features/notesSlice";
@@ -73,6 +74,7 @@ const App = (): React.ReactElement => {
             <Notes />
           </div>
         </Box>
+        <NotesCart />
       </ThemeProvider>
     </>
   );

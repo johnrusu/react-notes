@@ -17,6 +17,8 @@ const NOTES_LABELS = {
   note: (id: string) => `Note ${id ? id : NOTE_DEFAULT.id}`,
   darkMode: "dark",
   lightMode: "light",
+  simpleNotes: "Simple Notes",
+  highlightedNotes: "Highlighted Notes",
 };
 
 export { NOTE_COLORS, NOTES_LABELS, NOTE_DEFAULT };
