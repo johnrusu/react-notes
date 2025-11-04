@@ -13,7 +13,7 @@ const ColorPickerWithoutColor: React.FC<ColorPickerProps> = ({
   onClick,
   color,
 }): React.ReactElement => {
-  const [pickerColor, setPickerColor] = useState<string>("");
+  const [pickerColor, setPickerColor] = useState<string>("#000000");
 
   const handleColorChange = useCallback(
     (newColor: string) => {
@@ -32,7 +32,7 @@ const ColorPickerWithoutColor: React.FC<ColorPickerProps> = ({
       <>
         <ColorizeIcon
           fontSize="large"
-          className="z-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="z-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white"
         />
         <input
           type="color"

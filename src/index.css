@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  @apply font-sans bg-gray-900 text-white;
+  @apply font-sans bg-gray-900;
 }
 
 html,
@@ -14,11 +14,15 @@ body {
 }
 
 .header {
-  @apply p-4 bg-gray-900  text-left text-2xl font-bold uppercase;
+  @apply p-4  text-left text-2xl font-bold uppercase shadow-2xl bg-gray-800 text-white;
 }
 
 .notes-container {
   @apply w-full p-4 flex-1 bg-size-[40px_40px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative;
+}
+
+.notes-container.light-theme {
+  @apply bg-[radial-gradient(circle,#000_1px,rgba(0,0,0,0)_1px)];
 }
 
 .create-note {

@@ -1,7 +1,10 @@
+import { type PaletteMode } from "@mui/material";
+
 type NoteDefault = {
   id: string;
   text: string;
   color: string;
+  highlighted: boolean;
 };
 
 type ColorPickerProps = {
@@ -14,18 +17,25 @@ type Note = {
   id: string;
   text: string;
   color: string;
+  highlighted: boolean;
 };
 
 interface NotesState {
   notes: Note[];
 }
 
+interface NotesThemeState {
+  theme: PaletteMode;
+}
+
 interface AddNoteProps {
   onNoteAdd: (note: Note) => void;
+  onNoteHightlightedNote: (note: Note) => void;
 }
 
 interface CreateNoteProps {
   onNoteAdd: (note: Note) => void;
+  onNoteHightlightedNote: (note: Note) => void;
 }
 
 export type {
@@ -35,4 +45,5 @@ export type {
   CreateNoteProps,
   AddNoteProps,
   NoteDefault,
+  NotesThemeState,
 };

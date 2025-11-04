@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import { pathOr } from "ramda";
 
 // mui
@@ -15,36 +15,63 @@ import AddNote from "./AddNote";
 // constants
 import { NOTE_COLORS, NOTE_DEFAULT } from "../constants";
 
+// hooks
+import { useColor } from "../hooks/setColor";
+
 // utils
 import { isArrayNotEmpty } from "../utils";
 
 const CreateNote: React.FC<CreateNoteProps> = (props) => {
+  const { currentColor, setCurrentColor } = useColor(NOTE_COLORS[0]);
+
   const onNoteAdd: (note: NoteDefault) => void = pathOr(
     () => {},
     ["onNoteAdd"],
     props,
   );
-  const [color, setColor] = useState<string>(NOTE_COLORS[0]);
+  const onNoteHightlightedNote: (note: NoteDefault) => void = pathOr(
+    () => {},
+    ["onNoteHightlightedNote"],
+    props,
+  );
 
   const handelNoteAdd = () => {
-    onNoteAdd({ ...NOTE_DEFAULT, color });
+    const color: string = currentColor;
+    onNoteAdd({ ...NOTE_DEFAULT, color, highlighted: false });
+  };
+
+  const handelHighlightedNoteAdd = () => {
+    const color: string = currentColor;
+    onNoteHightlightedNote({
+      ...NOTE_DEFAULT,
+      color,
+      highlighted: true,
+    });
+  };
+
+  const handleSetColor = (noteColor: string) => {
+    setCurrentColor(noteColor);
   };
 
   return isArrayNotEmpty(NOTE_COLORS) ? (
     <Box className="create-note">
-      <AddNote onNoteAdd={handelNoteAdd} />
+      <AddNote
+        onNoteAdd={handelNoteAdd}
+        onNoteHightlightedNote={handelHighlightedNoteAdd}
+      />
       <Box>
         {NOTE_COLORS.map((noteColor: string, noteColorIndex: number) => (
           <ColorPicker
             key={`color-picker-${noteColorIndex}`}
             color={noteColor}
-            isSelected={color === noteColor}
-            onClick={() => setColor(noteColor)}
+            isSelected={currentColor === noteColor}
+            onClick={() => handleSetColor(noteColor)}
           />
         ))}
+
         <ColorPickerWithoutColor
-          onClick={(customColor: string = "") => setColor(customColor)}
-          color={color}
+          onClick={(customColor: string = "") => handleSetColor(customColor)}
+          color={currentColor as string}
         />
       </Box>
     </Box>

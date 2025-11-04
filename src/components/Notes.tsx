@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../store/store";
 
 // state
@@ -12,8 +13,15 @@ import Note from "./Note";
 // utils
 import { isArrayNotEmpty } from "../utils";
 
+// Memoized selector to avoid unnecessary re-renders
+const selectSortedNotes = createSelector(
+  [(state: RootState) => state.notes.notes],
+  (notes) =>
+    [...notes].sort((a, b) => Number(b.highlighted) - Number(a.highlighted)),
+);
+
 const Notes: React.FC = (): React.ReactElement | null => {
-  const notes = useSelector((state: RootState) => state.notes.notes);
+  const notes = useSelector(selectSortedNotes);
   const dispatch = useDispatch();
 
   const onDelete = (id: string) => {
@@ -27,12 +35,13 @@ const Notes: React.FC = (): React.ReactElement | null => {
 
   return isArrayNotEmpty(notes) ? (
     <div className="w-full">
-      {notes.map(({ text, id, color }, index) => {
+      {notes.map(({ text, id, color, highlighted }, index) => {
         return (
           <Note
             key={`note-${id}-${index}`}
             text={text}
             color={color}
+            highlighted={highlighted}
             id={id}
             onDelete={onDelete}
             onTextChange={onTextChange}
