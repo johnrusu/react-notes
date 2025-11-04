@@ -22,6 +22,7 @@ type Note = {
 
 interface NotesState {
   notes: Note[];
+  filteredNotes: Note[];
 }
 
 interface NotesThemeState {
@@ -38,6 +39,13 @@ interface CreateNoteProps {
   onNoteHightlightedNote: (note: Note) => void;
 }
 
+interface NotesCounterProps {
+  onNotesClick?: (arg: NotesType) => void;
+  notesType?: NotesType;
+}
+
+type NotesType = "simple" | "highlighted" | "allNotes";
+
 export type {
   ColorPickerProps,
   Note,
@@ -46,4 +54,6 @@ export type {
   AddNoteProps,
   NoteDefault,
   NotesThemeState,
+  NotesCounterProps,
+  NotesType,
 };

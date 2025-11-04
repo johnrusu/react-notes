@@ -227,3 +227,59 @@ export const isValidJSON = (value: string = ""): boolean => {
   })(value);
   return is(Object, stringIsObject) ? true : false;
 };
+
+/**
+ * Checks if a hex color is light or dark
+ * @param {string} hexColor - hex color string
+ * @returns {boolean} - true if light, false if dark
+ *
+ * @example
+ * isLightColor("#FFFFFF"); // returns true
+ * isLightColor("#000000"); // returns false
+ */
+export const isLightColor = (hexColor: string): boolean => {
+  // Remove # if present
+  const hex = hexColor.replace("#", "");
+
+  // Convert hex to RGB
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+
+  // Calculate luminance using relative luminance formula
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+  // Return true if light (luminance > 0.5)
+  return luminance > 0.5;
+};
+
+export const hexToRgb = (
+  hex: string,
+): { r: number; g: number; b: number } | null => {
+  // Remove the leading '#' if present
+  const cleanedHex = hex.replace(/^#/, "");
+  // Check for shorthand hex format (e.g., #03F)
+  const fullHex =
+    cleanedHex.length === 3
+      ? cleanedHex
+          .split("")
+          .map((char) => char + char)
+          .join("")
+      : cleanedHex;
+  // Ensure the hex code is valid
+  if (!/^([0-9A-Fa-f]{6})$/.test(fullHex)) {
+    return null;
+  }
+  const r = parseInt(fullHex.slice(0, 2), 16);
+  const g = parseInt(fullHex.slice(2, 4), 16);
+  const b = parseInt(fullHex.slice(4, 6), 16);
+  return { r, g, b };
+};
+
+export const hexToRgba = (
+  hex: string,
+  alpha: number,
+): { r: number; g: number; b: number; a: number } | null => {
+  const rgb = hexToRgb(hex);
+  return rgb ? { ...rgb, a: alpha } : null;
+};

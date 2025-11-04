@@ -15,7 +15,12 @@ import { isArrayNotEmpty } from "../utils";
 
 // Memoized selector to avoid unnecessary re-renders
 const selectSortedNotes = createSelector(
-  [(state: RootState) => state.notes.notes],
+  [
+    (state: RootState) =>
+      isArrayNotEmpty(state.notes.filteredNotes)
+        ? state.notes.filteredNotes
+        : state.notes.notes,
+  ],
   (notes) =>
     [...notes].sort((a, b) => Number(b.highlighted) - Number(a.highlighted)),
 );

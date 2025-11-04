@@ -8,6 +8,7 @@ import {
   CardActions,
   IconButton,
   CardHeader,
+  Box,
 } from "@mui/material";
 
 // mui icons
@@ -22,6 +23,9 @@ import NoteContent from "./NoteContent";
 
 // constants
 import { NOTES_LABELS } from "../constants";
+
+// utils
+import { isLightColor, hexToRgba } from "../utils";
 
 // types
 interface NoteProps extends NoteDefault {
@@ -40,23 +44,9 @@ const Note: React.FC<NoteProps> = ({
   const title: string = NOTES_LABELS.note(id);
 
   // Function to determine if a color is light or dark
-  const isLightColor = (hexColor: string): boolean => {
-    // Remove # if present
-    const hex = hexColor.replace("#", "");
-
-    // Convert hex to RGB
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
-
-    // Calculate luminance using relative luminance formula
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-    // Return true if light (luminance > 0.5)
-    return luminance > 0.5;
-  };
-
   const textColor = isLightColor(color) ? "#000000" : "#ffffff";
+  const rgbaColor: { r: number; g: number; b: number; a: number } | null =
+    hexToRgba(textColor, 0.5);
 
   return (
     <Card
@@ -68,7 +58,19 @@ const Note: React.FC<NoteProps> = ({
     >
       <CardHeader
         title={<Typography variant="subtitle1">{title}</Typography>}
-        action={highlighted ? <GradeIcon color="warning" /> : null}
+        action={
+          highlighted ? (
+            <Box
+              sx={{
+                backgroundColor: `rgba(${rgbaColor?.r}, ${rgbaColor?.g}, ${rgbaColor?.b}, ${rgbaColor?.a})`,
+                borderRadius: "50%",
+                padding: "4px",
+              }}
+            >
+              <GradeIcon color="warning" />
+            </Box>
+          ) : null
+        }
       />
       <CardContent className="note-content">
         <NoteContent text={text} onTextChange={onTextChange} id={id} />

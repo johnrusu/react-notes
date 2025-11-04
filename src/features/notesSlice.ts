@@ -2,10 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 // types
-import type { NotesState, Note } from "../types";
+import type { NotesState, Note, NoteDefault, NotesType } from "../types";
+
+// constants
+import { NOTES_TYPE } from "../constants";
 
 const initialState: NotesState = {
   notes: [],
+  filteredNotes: [],
 };
 
 export const notesSlice = createSlice({
@@ -20,6 +24,20 @@ export const notesSlice = createSlice({
     },
     deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
+      state.filteredNotes = state.filteredNotes.filter(
+        (note) => note.id !== action.payload,
+      );
+    },
+    filterNotes: (state, action: PayloadAction<NotesType>) => {
+      const notesType = action.payload;
+      state.filteredNotes = state.notes.filter(
+        (note: NoteDefault) =>
+          notesType ===
+          (note?.highlighted ? NOTES_TYPE.highlighted : NOTES_TYPE.simple),
+      );
+    },
+    resetFilteredNotes: (state) => {
+      state.filteredNotes = [];
     },
     updateNote: (
       state,
@@ -29,12 +47,19 @@ export const notesSlice = createSlice({
       const noteIndex = state.notes.findIndex((note) => note.id === noteId);
       if (noteIndex !== -1) {
         state.notes[noteIndex].text = text;
+        state.filteredNotes[noteIndex].text = text;
       }
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addNote, deleteNote, updateNote } = notesSlice.actions;
+export const {
+  addNote,
+  deleteNote,
+  updateNote,
+  filterNotes,
+  resetFilteredNotes,
+} = notesSlice.actions;
 
 export default notesSlice.reducer;

@@ -1,3 +1,5 @@
+import type { NotesType } from "../types";
+
 const NOTE_COLORS = ["#FFEB3B", "#FFCDD2", "#C8E6C9", "#BBDEFB", "#D1C4E9"];
 
 const NOTE_DEFAULT = {
@@ -19,6 +21,13 @@ const NOTES_LABELS = {
   lightMode: "light",
   simpleNotes: "Simple Notes",
   highlightedNotes: "Highlighted Notes",
+  resetFilteredNotes: "All Notes",
 };
 
-export { NOTE_COLORS, NOTES_LABELS, NOTE_DEFAULT };
+const NOTES_TYPE: { [key in NotesType]: NotesType } = {
+  simple: "simple",
+  highlighted: "highlighted",
+  allNotes: "allNotes",
+};
+
+export { NOTE_COLORS, NOTES_LABELS, NOTE_DEFAULT, NOTES_TYPE };
