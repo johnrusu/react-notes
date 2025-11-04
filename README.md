@@ -13,3 +13,4 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 - Dark mode / light mode
 - Color changes based on background color
 - Add highlighted notes and mapped them on render
+- Filtering by Highlighted or simple notes
