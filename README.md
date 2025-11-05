@@ -2,9 +2,9 @@
 
 React Notes application created with Vite, Tailwind, React and Typescript.
 
-![Dark mode](./src/assets/preview-dark.png)
+![Dark mode](./src/assets/project-preview-dark.gif)
 
-![Light mode](./src/assets/preview-light.png)
+![Light mode](./src/assets/project-preview-light.gif)
 
 ![Menu](./src/assets/menu.png)
 
