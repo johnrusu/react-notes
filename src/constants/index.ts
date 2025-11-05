@@ -21,7 +21,8 @@ const NOTES_LABELS = {
   lightMode: "light",
   simpleNotes: "Simple Notes",
   highlightedNotes: "Highlighted Notes",
-  resetFilteredNotes: "All Notes",
+  resetFilteredNotes: "Reset Filters",
+  notesCounterTitle: "Filter notes by type:",
 };
 
 const NOTES_TYPE: { [key in NotesType]: NotesType } = {

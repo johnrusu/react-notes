@@ -6,7 +6,7 @@ import {
   Typography,
   CardContent,
   CardActions,
-  IconButton,
+  Button,
   CardHeader,
   Box,
 } from "@mui/material";
@@ -46,7 +46,7 @@ const Note: React.FC<NoteProps> = ({
   // Function to determine if a color is light or dark
   const textColor = isLightColor(color) ? "#000000" : "#ffffff";
   const rgbaColor: { r: number; g: number; b: number; a: number } | null =
-    hexToRgba(textColor, 0.5);
+    hexToRgba(textColor, 0.3);
 
   return (
     <Card
@@ -67,7 +67,7 @@ const Note: React.FC<NoteProps> = ({
                 padding: "4px",
               }}
             >
-              <GradeIcon color="warning" />
+              <GradeIcon sx={{ color: "#ffffff" }} />
             </Box>
           ) : null
         }
@@ -76,9 +76,15 @@ const Note: React.FC<NoteProps> = ({
         <NoteContent text={text} onTextChange={onTextChange} id={id} />
       </CardContent>
       <CardActions className="flex justify-end">
-        <IconButton aria-label="delete note" onClick={() => onDelete(id)}>
-          <DeleteForeverIcon sx={{ color: textColor }} />
-        </IconButton>
+        <Button
+          aria-label="delete note"
+          variant="text"
+          sx={{ color: textColor }}
+          onClick={() => onDelete(id)}
+          startIcon={<DeleteForeverIcon />}
+        >
+          {NOTES_LABELS.deleteButton}
+        </Button>
       </CardActions>
     </Card>
   );

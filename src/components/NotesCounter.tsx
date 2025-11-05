@@ -3,7 +3,17 @@ import React from "react";
 import { pathOr } from "ramda";
 
 // mui
-import { Card, Box, Badge, Button } from "@mui/material";
+import {
+  Card,
+  Box,
+  Badge,
+  Button,
+  Typography,
+  CardActions,
+  CardContent,
+} from "@mui/material";
+// icons
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // types
 import type { RootState } from "../store/store";
@@ -34,48 +44,58 @@ const NotesCounter: React.FC<NotesCounterProps> = (
   );
   const highlightedNotes = notes.filter((note) => note.highlighted);
   const simpleNotes = notes.filter((note) => !note.highlighted);
+  const showCondition =
+    isArrayNotEmpty(simpleNotes) && isArrayNotEmpty(highlightedNotes);
 
-  return isArrayNotEmpty(notes) ? (
-    <Card className="notes-cart fixed bottom-10 right-10 p-2">
-      <Box display={"flex"} flexDirection={"column"} gap={1} p={2}>
-        {isArrayNotEmpty(simpleNotes) ? (
-          <Box>
-            <Badge
-              color="primary"
-              badgeContent={simpleNotes.length}
-              onClick={() => notesClick(NOTES_TYPE.simple)}
-              className={`hover:underline cursor-pointer ${
-                notesType === NOTES_TYPE.simple ? "underline" : ""
-              }`}
-            >
-              <span className="mr-2">{NOTES_LABELS.simpleNotes}</span>
-            </Badge>
-          </Box>
+  return showCondition ? (
+    <Card className="notes-cart fixed bottom-10 right-10 p-2 min-w-[300px] z-10">
+      <CardContent>
+        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
+          {NOTES_LABELS.notesCounterTitle}
+        </Typography>
+        <Box display={"flex"} flexDirection={"column"} gap={1} mt={3}>
+          {isArrayNotEmpty(simpleNotes) ? (
+            <Box>
+              <Badge
+                color="primary"
+                badgeContent={simpleNotes.length}
+                onClick={() => notesClick(NOTES_TYPE.simple)}
+                className={`hover:underline cursor-pointer ${
+                  notesType === NOTES_TYPE.simple ? "underline" : ""
+                }`}
+              >
+                <span className="mr-3">{NOTES_LABELS.simpleNotes}</span>
+              </Badge>
+            </Box>
+          ) : null}
+          {isArrayNotEmpty(highlightedNotes) ? (
+            <Box>
+              <Badge
+                color="primary"
+                badgeContent={highlightedNotes.length}
+                onClick={() => notesClick(NOTES_TYPE.highlighted)}
+                className={`hover:underline cursor-pointer ${
+                  notesType === NOTES_TYPE.highlighted ? "underline" : ""
+                }`}
+              >
+                <span className="mr-3">{NOTES_LABELS.highlightedNotes}</span>
+              </Badge>
+            </Box>
+          ) : null}
+        </Box>
+      </CardContent>
+      <CardActions>
+        {isArrayNotEmpty(filteredNotes) ? (
+          <Button
+            startIcon={<DeleteIcon />}
+            variant="text"
+            className="w-full"
+            onClick={() => notesClick(NOTES_TYPE.allNotes)}
+          >
+            {NOTES_LABELS.resetFilteredNotes}
+          </Button>
         ) : null}
-        {isArrayNotEmpty(highlightedNotes) ? (
-          <Box>
-            <Badge
-              color="primary"
-              badgeContent={highlightedNotes.length}
-              onClick={() => notesClick(NOTES_TYPE.highlighted)}
-              className={`hover:underline cursor-pointer ${
-                notesType === NOTES_TYPE.highlighted ? "underline" : ""
-              }`}
-            >
-              <span className="mr-2">{NOTES_LABELS.highlightedNotes}</span>
-            </Badge>
-          </Box>
-        ) : null}
-      </Box>
-      {isArrayNotEmpty(filteredNotes) ? (
-        <Button
-          variant="text"
-          className="w-full"
-          onClick={() => notesClick(NOTES_TYPE.allNotes)}
-        >
-          {NOTES_LABELS.resetFilteredNotes}
-        </Button>
-      ) : null}
+      </CardActions>
     </Card>
   ) : null;
 };

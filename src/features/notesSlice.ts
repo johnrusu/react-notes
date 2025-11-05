@@ -47,7 +47,12 @@ export const notesSlice = createSlice({
       const noteIndex = state.notes.findIndex((note) => note.id === noteId);
       if (noteIndex !== -1) {
         state.notes[noteIndex].text = text;
-        state.filteredNotes[noteIndex].text = text;
+      }
+      const filteredNoteIndex = state.filteredNotes.findIndex(
+        (note) => note.id === noteId,
+      );
+      if (filteredNoteIndex !== -1) {
+        state.filteredNotes[filteredNoteIndex].text = text;
       }
     },
   },
