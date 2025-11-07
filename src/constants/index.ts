@@ -23,6 +23,11 @@ const NOTES_LABELS = {
   highlightedNotes: "Highlighted Notes",
   resetFilteredNotes: "Reset Filters",
   notesCounterTitle: "Filter notes by type:",
+  previewNotesTitle: "Preview of notes:",
+  reorderNotes: "Reorder Notes:",
+  applyOrderButton: "Apply Order",
+  warningReorderNotes:
+    "Simple notes can only be reordered among other simple notes, and highlighted notes can only be reordered among other highlighted notes.",
 };
 
 const NOTES_TYPE: { [key in NotesType]: NotesType } = {
@@ -31,4 +36,21 @@ const NOTES_TYPE: { [key in NotesType]: NotesType } = {
   allNotes: "allNotes",
 };
 
-export { NOTE_COLORS, NOTES_LABELS, NOTE_DEFAULT, NOTES_TYPE };
+const ITEM_TYPES = {
+  CARD: "card",
+  NOTE: "note",
+};
+
+const THEMES = {
+  DARK: "dark-theme",
+  LIGHT: "light-theme",
+};
+
+export {
+  NOTE_COLORS,
+  NOTES_LABELS,
+  NOTE_DEFAULT,
+  NOTES_TYPE,
+  ITEM_TYPES,
+  THEMES,
+};

@@ -13,16 +13,12 @@ type ColorPickerProps = {
   onClick: (color?: string) => void;
 };
 
-type Note = {
-  id: string;
-  text: string;
-  color: string;
-  highlighted: boolean;
-};
+type Note = NoteDefault;
 
 interface NotesState {
   notes: Note[];
   filteredNotes: Note[];
+  filteredBy: NotesType;
 }
 
 interface NotesThemeState {
@@ -46,6 +42,22 @@ interface NotesCounterProps {
 
 type NotesType = "simple" | "highlighted" | "allNotes";
 
+interface DraggableNoteProps {
+  id: string;
+  text?: string;
+  index: number;
+  moveNote: (dragIndex: number, hoverIndex: number) => void;
+  className?: string;
+  color?: string;
+  highlighted?: boolean;
+}
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
+
 export type {
   ColorPickerProps,
   Note,
@@ -56,4 +68,6 @@ export type {
   NotesThemeState,
   NotesCounterProps,
   NotesType,
+  DraggableNoteProps,
+  DragItem,
 };

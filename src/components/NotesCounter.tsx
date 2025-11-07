@@ -48,10 +48,15 @@ const NotesCounter: React.FC<NotesCounterProps> = (
     isArrayNotEmpty(simpleNotes) && isArrayNotEmpty(highlightedNotes);
 
   return showCondition ? (
-    <Card className="notes-cart fixed bottom-10 right-10 p-2 min-w-[300px] z-10">
+    <Card className="notes-counter">
       <CardContent>
-        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-          {NOTES_LABELS.notesCounterTitle}
+        <Typography
+          gutterBottom
+          sx={{ color: "[&&]:text.secondary", fontSize: 14 }}
+        >
+          <span className="[&&]:text-gray-400">
+            {NOTES_LABELS.notesCounterTitle}
+          </span>
         </Typography>
         <Box display={"flex"} flexDirection={"column"} gap={1} mt={3}>
           {isArrayNotEmpty(simpleNotes) ? (
@@ -60,7 +65,7 @@ const NotesCounter: React.FC<NotesCounterProps> = (
                 color="primary"
                 badgeContent={simpleNotes.length}
                 onClick={() => notesClick(NOTES_TYPE.simple)}
-                className={`hover:underline cursor-pointer ${
+                className={`text-white hover:underline cursor-pointer ${
                   notesType === NOTES_TYPE.simple ? "underline" : ""
                 }`}
               >
@@ -74,7 +79,7 @@ const NotesCounter: React.FC<NotesCounterProps> = (
                 color="primary"
                 badgeContent={highlightedNotes.length}
                 onClick={() => notesClick(NOTES_TYPE.highlighted)}
-                className={`hover:underline cursor-pointer ${
+                className={`text-white  hover:underline cursor-pointer ${
                   notesType === NOTES_TYPE.highlighted ? "underline" : ""
                 }`}
               >

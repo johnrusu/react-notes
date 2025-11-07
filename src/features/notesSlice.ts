@@ -8,6 +8,7 @@ import type { NotesState, Note, NoteDefault, NotesType } from "../types";
 import { NOTES_TYPE } from "../constants";
 
 const initialState: NotesState = {
+  filteredBy: NOTES_TYPE.allNotes,
   notes: [],
   filteredNotes: [],
 };
@@ -28,6 +29,18 @@ export const notesSlice = createSlice({
         (note) => note.id !== action.payload,
       );
     },
+    setReorderedNotes: (state, action: PayloadAction<NoteDefault[]>) => {
+      state.notes = action.payload;
+      state.filteredNotes = state.notes.filter(
+        (note: NoteDefault) =>
+          state.filteredBy ===
+          (note?.highlighted ? NOTES_TYPE.highlighted : NOTES_TYPE.simple),
+      );
+    },
+    setFilteredType: (state, action: PayloadAction<NotesType>) => {
+      state.filteredBy = action.payload;
+    },
+
     filterNotes: (state, action: PayloadAction<NotesType>) => {
       const notesType = action.payload;
       state.filteredNotes = state.notes.filter(
@@ -65,6 +78,8 @@ export const {
   updateNote,
   filterNotes,
   resetFilteredNotes,
+  setFilteredType,
+  setReorderedNotes,
 } = notesSlice.actions;
 
 export default notesSlice.reducer;

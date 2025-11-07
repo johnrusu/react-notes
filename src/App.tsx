@@ -12,19 +12,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/material";
 
 // constants
-import { NOTES_LABELS, NOTES_TYPE } from "./constants";
+import { NOTES_LABELS, NOTES_TYPE, THEMES } from "./constants/index";
 
 // components
 import CreateNote from "./components/CreateNote";
 import Notes from "./components/Notes";
 import Header from "./components/Header";
-import NotesCounter from "./components/NotesCounter";
+const NotesCounter = React.lazy(() => import("./components/NotesCounter"));
+const PreviewNotes = React.lazy(() => import("./components/PreviewNotes"));
 
 // state
 import {
   addNote,
   filterNotes,
   resetFilteredNotes,
+  setFilteredType,
 } from "./features/notesSlice";
 import { setTheme } from "./features/themeSlice";
 
@@ -66,7 +68,7 @@ const App = (): React.ReactElement => {
   }, [dispatch, dark]);
 
   const notesContainerClass = `notes-container ${
-    currentTheme === NOTES_LABELS.darkMode ? "dark-theme" : "light-theme"
+    currentTheme === NOTES_LABELS.darkMode ? THEMES.DARK : THEMES.LIGHT
   }`;
 
   const handleNotesClick = (notesType: NotesType) => {
@@ -76,6 +78,7 @@ const App = (): React.ReactElement => {
       dispatch(filterNotes(notesType));
     }
     setNotesType(notesType);
+    dispatch(setFilteredType(notesType));
   };
 
   return (
@@ -88,11 +91,12 @@ const App = (): React.ReactElement => {
             onNoteAdd={handelNoteAdd}
             onNoteHightlightedNote={handelHighlightedNoteAdd}
           />
-          <div className="notes-grid">
+          <Box className="notes-grid">
             <Notes />
-          </div>
+          </Box>
         </Box>
         <NotesCounter onNotesClick={handleNotesClick} notesType={notesType} />
+        <PreviewNotes />
       </ThemeProvider>
     </>
   );
