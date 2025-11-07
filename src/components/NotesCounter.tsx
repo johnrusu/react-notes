@@ -42,7 +42,9 @@ const NotesCounter: React.FC<NotesCounterProps> = (
   const filteredNotes = useSelector(
     (state: RootState) => state.notes.filteredNotes,
   );
-  const highlightedNotes = notes.filter((note) => note.highlighted);
+  const highlightedNotes = useSelector(
+    (state: RootState) => state.notes.notes,
+  ).filter((note) => note.highlighted);
   const simpleNotes = notes.filter((note) => !note.highlighted);
   const showCondition =
     isArrayNotEmpty(simpleNotes) && isArrayNotEmpty(highlightedNotes);

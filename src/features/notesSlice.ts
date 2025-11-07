@@ -30,12 +30,32 @@ export const notesSlice = createSlice({
       );
     },
     setReorderedNotes: (state, action: PayloadAction<NoteDefault[]>) => {
-      state.notes = action.payload;
-      state.filteredNotes = state.notes.filter(
-        (note: NoteDefault) =>
-          state.filteredBy ===
-          (note?.highlighted ? NOTES_TYPE.highlighted : NOTES_TYPE.simple),
-      );
+      switch (state.filteredBy) {
+        default:
+        case NOTES_TYPE.allNotes:
+          {
+            state.notes = action.payload;
+            state.filteredNotes = [];
+            state.filteredBy = NOTES_TYPE.allNotes;
+          }
+          break;
+        case NOTES_TYPE.simple:
+        case NOTES_TYPE.highlighted:
+          {
+            // Get IDs of reordered notes from payload
+            const reorderedIds = action.payload.map((note) => note.id);
+
+            // Get notes that are NOT in the reordered list
+            const remainingNotes = state.notes.filter(
+              (note) => !reorderedIds.includes(note.id),
+            );
+
+            // Concatenate: reordered notes first, then remaining notes
+            state.notes = [...action.payload, ...remainingNotes];
+            state.filteredNotes = action.payload;
+          }
+          break;
+      }
     },
     setFilteredType: (state, action: PayloadAction<NotesType>) => {
       state.filteredBy = action.payload;

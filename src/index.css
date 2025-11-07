@@ -66,12 +66,36 @@ body {
   @apply w-full h-full rounded-full bg-gray-700 text-white flex items-center justify-center cursor-pointer hover:bg-gray-600;
 }
 
+@keyframes noteSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes notePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
 .note {
   @apply w-full relative !overflow-visible relative;
+  animation: noteSlideIn 0.4s ease-out forwards;
+  opacity: 0;
 }
 
 .note:hover::after {
   @apply content-[''] absolute top-[-10px] left-[-10px] right-[-10px] bottom-[-10px] border-2 border-dashed border-blue-400 rounded-lg pointer-events-none;
+  animation: notePulse 0.6s ease-in-out;
 }
 
 .light-theme .note:hover::after {

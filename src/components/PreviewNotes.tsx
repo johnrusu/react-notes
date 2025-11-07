@@ -35,7 +35,12 @@ import type { NoteDefault } from "../types";
 
 // Memoized selector to avoid unnecessary re-renders
 const selectSortedNotes = createSelector(
-  [(state: RootState) => state.notes.notes],
+  [
+    (state: RootState) =>
+      isArrayNotEmpty(state.notes.filteredNotes)
+        ? state.notes.filteredNotes
+        : state.notes.notes,
+  ],
   (notes) =>
     [...notes].sort((a, b) => Number(b.highlighted) - Number(a.highlighted)),
 );
@@ -51,7 +56,7 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
     dispatch(setReorderedNotes(reorderedNotes));
   };
 
-  const showCondition: boolean = isArrayNotEmpty(notes) && notes.length > 1;
+  const showCondition: boolean = isArrayNotEmpty(notes);
 
   const moveNote = useCallback(
     (dragIndex: number, hoverIndex: number) => {

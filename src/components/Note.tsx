@@ -31,6 +31,7 @@ import { isLightColor, hexToRgba } from "../utils";
 interface NoteProps extends NoteDefault {
   onTextChange: (id: string, text: string) => void;
   onDelete: (id: string) => void;
+  style?: React.CSSProperties;
 }
 
 const Note: React.FC<NoteProps> = ({
@@ -40,6 +41,7 @@ const Note: React.FC<NoteProps> = ({
   highlighted,
   onDelete,
   onTextChange,
+  style,
 }): React.ReactElement => {
   const title: string = NOTES_LABELS.note(id);
 
@@ -54,6 +56,7 @@ const Note: React.FC<NoteProps> = ({
         backgroundColor: color,
         color: textColor,
       }}
+      style={style}
       className="note"
     >
       <CardHeader

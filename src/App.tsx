@@ -47,16 +47,15 @@ const App = (): React.ReactElement => {
 
   const handelNoteAdd = (note: NoteDefault) => {
     dispatch(addNote(note));
-    handleNotesClick(notesType);
+    handleFilteredNotesClick(notesType);
   };
 
   const handelHighlightedNoteAdd = (note: NoteDefault) => {
     dispatch(addNote(note));
-    handleNotesClick(notesType);
+    handleFilteredNotesClick(notesType);
   };
 
   const dark: PaletteMode = NOTES_LABELS.darkMode as PaletteMode;
-
   const darkTheme = createTheme({
     palette: {
       mode: currentTheme,
@@ -71,7 +70,7 @@ const App = (): React.ReactElement => {
     currentTheme === NOTES_LABELS.darkMode ? THEMES.DARK : THEMES.LIGHT
   }`;
 
-  const handleNotesClick = (notesType: NotesType) => {
+  const handleFilteredNotesClick = (notesType: NotesType) => {
     if (notesType === NOTES_TYPE.allNotes) {
       dispatch(resetFilteredNotes());
     } else {
@@ -95,7 +94,10 @@ const App = (): React.ReactElement => {
             <Notes />
           </Box>
         </Box>
-        <NotesCounter onNotesClick={handleNotesClick} notesType={notesType} />
+        <NotesCounter
+          onNotesClick={handleFilteredNotesClick}
+          notesType={notesType}
+        />
         <PreviewNotes />
       </ThemeProvider>
     </>

@@ -50,6 +50,9 @@ const Notes: React.FC = (): React.ReactElement | null => {
             id={id}
             onDelete={onDelete}
             onTextChange={onTextChange}
+            style={{
+              animationDelay: `${index * 0.1}s`,
+            }}
           />
         );
       })}
