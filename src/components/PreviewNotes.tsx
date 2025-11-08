@@ -94,14 +94,6 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
           </Typography>
 
           <Box mt={1}>
-            <Typography
-              gutterBottom
-              sx={{ color: "text.secondary", fontSize: 12 }}
-            >
-              <span className="[&&]:text-gray-400">
-                {NOTES_LABELS.reorderNotes}
-              </span>
-            </Typography>
             <Box
               display={"flex"}
               flexDirection={"column"}

@@ -23,8 +23,7 @@ const NOTES_LABELS = {
   highlightedNotes: "Highlighted Notes",
   resetFilteredNotes: "Reset Filters",
   notesCounterTitle: "Filter notes by type",
-  previewNotesTitle: "Preview of notes",
-  reorderNotes: "Reorder Notes",
+  previewNotesTitle: "Reorder of notes",
   applyOrderButton: "Apply Order",
   warningReorderNotes:
     "Simple notes can only be reordered among other simple notes, and highlighted notes can only be reordered among other highlighted notes.",

@@ -158,7 +158,8 @@ body {
   }
 
   .notes-container .create-note-container .create-note {
-    @apply left-auto top-auto transform-none translate-none flex-0;
+    @apply left-auto top-auto transform-none flex-0;
+    translate: unset;
   }
 
   .notes-container .notes-grid {
@@ -174,7 +175,7 @@ body {
   }
 
   .notes-container .preview-counter-section .notes-counter {
-    @apply relative bottom-auto right-auto w-full  min-w-auto;
+    @apply relative bottom-auto right-auto w-full;
   }
   .notes-container .preview-counter-section .preview-notes {
     @apply relative top-auto right-auto w-full;
