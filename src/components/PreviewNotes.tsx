@@ -72,24 +72,6 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
     [notes],
   );
 
-  const renderNote = useCallback(
-    (note: NoteDefault, index: number) => {
-      return (
-        <DraggableNote
-          moveNote={moveNote}
-          text={`Note #${note.id}`}
-          color={note.color}
-          highlighted={note.highlighted}
-          index={index}
-          key={`note-preview-${note.id}`}
-          id={`note-preview-${note.id}`}
-          className="p-5 w-full rounded-md cursor-move note-preview-item flex items-center justify-center flex-col"
-        />
-      );
-    },
-    [moveNote],
-  );
-
   useEffect(() => {
     setStateReorderedNotes(notes);
   }, [notes]);
@@ -123,9 +105,18 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
               mt={1}
               className="overflow-x-auto preview-notes-container max-h-60 p-2"
             >
-              {reorderedNotes.map((note, noteIndex) =>
-                renderNote(note, noteIndex),
-              )}
+              {reorderedNotes.map((note, noteIndex) => (
+                <DraggableNote
+                  moveNote={moveNote}
+                  text={`Note #${note.id}`}
+                  color={note.color}
+                  highlighted={note.highlighted}
+                  index={noteIndex}
+                  key={`note-preview-${note.id}`}
+                  id={`note-preview-${note.id}`}
+                  className="p-5 w-full rounded-md cursor-move note-preview-item flex items-center justify-center flex-col"
+                />
+              ))}
             </Box>
           </Box>
           <Typography

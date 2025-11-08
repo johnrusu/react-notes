@@ -18,9 +18,12 @@ export const notesSlice = createSlice({
   initialState,
   reducers: {
     addNote: (state, action: PayloadAction<Note>) => {
+      const lastNoteId = [...state.notes]
+        .map((q) => Number(q.id))
+        .reduce((a, b) => Math.max(a, b), 0);
       state.notes = [
         ...state.notes,
-        { ...action.payload, id: `${state.notes.length + 1}` },
+        { ...action.payload, id: `${lastNoteId + 1}` },
       ];
     },
     deleteNote: (state, action: PayloadAction<string>) => {
