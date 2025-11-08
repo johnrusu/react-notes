@@ -26,43 +26,46 @@ body {
   @apply bg-[radial-gradient(circle,#000_1px,rgba(0,0,0,0)_1px)];
 }
 
-.create-note {
+.notes-container .create-note-container .create-note {
   @apply fixed left-10 top-1/2 transform -translate-y-1/2 bg-(--defaultBackground) p-4 rounded-lg shadow-lg z-10;
 }
 
-.notes-counter {
-  @apply fixed [&&]:bg-(--defaultBackground) bottom-10 right-10 p-2 max-w-[300px] z-10;
+.notes-container .notes-counter {
+  @apply fixed [&&]:bg-(--defaultBackground) bottom-10 right-10 p-2 max-w-[300px] min-w-[300px]  z-10;
 }
 
-.preview-notes {
+.notes-container .preview-notes {
   @apply fixed [&&]:bg-(--defaultBackground)  top-[100px] right-10 p-2 max-w-[300px] z-10;
 }
 
-.color-picker {
+.notes-container .create-note-container .create-note .color-picker {
   @apply w-15 h-15 rounded-full border border-gray-300 cursor-pointer mb-3;
 }
 
-.color-picker.selected {
+.notes-container .create-note-container .create-note .color-picker.selected {
   @apply ring-4 ring-blue-500;
 }
 
-.color-picker:last-child {
+.notes-container .create-note-container .create-note .color-picker:last-child {
   @apply mb-0;
 }
 
-.color-picker:hover {
+.notes-container .create-note-container .create-note .color-picker:hover {
   @apply opacity-80;
 }
 
-.color-picker.custom-color {
+.notes-container
+  .create-note-container
+  .create-note
+  .color-picker.custom-color {
   @apply border-none bg-gray-700;
 }
 
-.add-note {
+.notes-container .create-note-container .create-note .add-note {
   @apply w-15 h-15 mb-3;
 }
 
-.add-note button {
+.notes-container .create-note-container .create-note .add-note button {
   @apply w-full h-full rounded-full bg-gray-700 text-white flex items-center justify-center cursor-pointer hover:bg-gray-600;
 }
 
@@ -87,33 +90,97 @@ body {
   }
 }
 
-.note {
+.notes-container .notes-grid {
+  @apply m-auto max-w-2xl;
+}
+
+.notes-container .notes-grid .note {
   @apply w-full relative !overflow-visible relative;
   animation: noteSlideIn 0.4s ease-out forwards;
   opacity: 0;
 }
 
-.note:hover::after {
+.notes-container .notes-grid .note:hover::after {
   @apply content-[''] absolute top-[-10px] left-[-10px] right-[-10px] bottom-[-10px] border-2 border-dashed border-blue-400 rounded-lg pointer-events-none;
   animation: notePulse 0.6s ease-in-out;
 }
 
-.light-theme .note:hover::after {
+.light-theme .notes-container .notes-grid .note:hover::after {
   @apply border-red-400;
 }
 
-.note + .note {
-  @apply mt-8;
+.notes-container .notes-grid .note + .note {
+  @apply mt-4;
 }
 
-.note .note-content {
+.notes-container .notes-grid .note .note-content {
   @apply w-full h-32 max-h-32 overflow-hidden;
 }
 
-.note .note-content .note-content-textarea {
+.notes-container .notes-grid .note .note-content .note-content-textarea {
   @apply border-none outline-none w-full h-full bg-transparent  resize-none;
 }
 
+.notes-container .preview-counter-section {
+  @apply relative top-0 bottom-auto right-auto;
+}
+
+.preview-notes-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.preview-notes-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.preview-notes-container,
 .notes-container .notes-grid {
-  @apply m-auto max-w-2xl;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.preview-notes-container::-webkit-scrollbar,
+.notes-container .notes-grid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+@media (width <= 96rem) {
+  .notes-container {
+    @apply flex overflow-hidden;
+  }
+  .notes-container {
+    @apply flex flex-row gap-4 justify-between;
+  }
+
+  .notes-container .create-note-container {
+    @apply flex flex-0 min-w-[92px];
+  }
+
+  .notes-container .create-note-container .create-note {
+    @apply left-auto top-auto transform-none translate-none flex-0;
+  }
+
+  .notes-container .notes-grid {
+    @apply flex flex-1 m-[unset] overflow-y-auto;
+  }
+
+  .notes-container .notes-grid .note:hover::after {
+    display: none;
+  }
+
+  .notes-container .preview-counter-section {
+    @apply sticky top-0;
+  }
+
+  .notes-container .preview-counter-section .notes-counter {
+    @apply relative bottom-auto right-auto w-full  min-w-auto;
+  }
+  .notes-container .preview-counter-section .preview-notes {
+    @apply relative top-auto right-auto w-full;
+  }
+
+  .notes-container .preview-counter-section {
+    @apply flex flex-col gap-4;
+  }
 }

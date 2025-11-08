@@ -59,7 +59,7 @@ const CreateNote: React.FC<CreateNoteProps> = (props) => {
         onNoteAdd={handelNoteAdd}
         onNoteHightlightedNote={handelHighlightedNoteAdd}
       />
-      <Box>
+      <Box className="color-pickers-container">
         {NOTE_COLORS.map((noteColor: string, noteColorIndex: number) => (
           <ColorPicker
             key={`color-picker-${noteColorIndex}`}

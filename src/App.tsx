@@ -86,19 +86,23 @@ const App = (): React.ReactElement => {
         <CssBaseline />
         <Header />
         <Box className={notesContainerClass}>
-          <CreateNote
-            onNoteAdd={handelNoteAdd}
-            onNoteHightlightedNote={handelHighlightedNoteAdd}
-          />
+          <Box className="create-note-container">
+            <CreateNote
+              onNoteAdd={handelNoteAdd}
+              onNoteHightlightedNote={handelHighlightedNoteAdd}
+            />
+          </Box>
           <Box className="notes-grid">
             <Notes />
           </Box>
+          <Box className="preview-counter-section">
+            <PreviewNotes />
+            <NotesCounter
+              onNotesClick={handleFilteredNotesClick}
+              notesType={notesType}
+            />
+          </Box>
         </Box>
-        <NotesCounter
-          onNotesClick={handleFilteredNotesClick}
-          notesType={notesType}
-        />
-        <PreviewNotes />
       </ThemeProvider>
     </>
   );

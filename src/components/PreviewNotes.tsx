@@ -49,6 +49,8 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
   const dispatch = useDispatch();
 
   const notes = useSelector(selectSortedNotes);
+  const simpleNotes = notes.filter((note) => !note.highlighted);
+  const highlightedNotes = notes.filter((note) => note.highlighted);
 
   const [reorderedNotes, setStateReorderedNotes] = useState<NoteDefault[]>([]);
 
@@ -56,7 +58,9 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
     dispatch(setReorderedNotes(reorderedNotes));
   };
 
-  const showCondition: boolean = isArrayNotEmpty(notes);
+  const showCondition: boolean =
+    (isArrayNotEmpty(simpleNotes) && simpleNotes.length > 1) ||
+    (isArrayNotEmpty(highlightedNotes) && highlightedNotes.length > 1);
 
   const moveNote = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -103,7 +107,7 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
               flexDirection={"column"}
               gap={2}
               mt={1}
-              className="overflow-x-auto preview-notes-container max-h-60 p-2"
+              className="overflow-x-auto preview-notes-container max-h-60 "
             >
               {reorderedNotes.map((note, noteIndex) => (
                 <DraggableNote
