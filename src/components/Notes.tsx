@@ -14,12 +14,23 @@ import Note from "./Note";
 import { isArrayNotEmpty } from "../utils";
 
 // Memoized selector to avoid unnecessary re-renders
+
 const selectSortedNotes = createSelector(
   [
-    (state: RootState) =>
-      isArrayNotEmpty(state.notes.filteredNotes)
-        ? state.notes.filteredNotes
-        : state.notes.notes,
+    (state: RootState) => {
+      const filterText = state.notes.filterText.toLowerCase();
+      if (!isArrayNotEmpty(state.notes.filteredNotes) && !filterText) {
+        return state.notes.notes;
+      } else if (isArrayNotEmpty(state.notes.filteredNotes) && !filterText) {
+        return state.notes.filteredNotes;
+      } else if (!isArrayNotEmpty(state.notes.filteredNotes) && filterText) {
+        return state.notes.filteredNotes;
+      } else {
+        return state.notes.filteredNotes.filter((note) =>
+          note.text.toLowerCase().includes(filterText),
+        );
+      }
+    },
   ],
   (notes) =>
     [...notes].sort((a, b) => Number(b.highlighted) - Number(a.highlighted)),

@@ -1,0 +1,244 @@
+@import "tailwindcss";
+@import "./animations.css";
+
+:root {
+  --defaultBackground: var(--color-gray-800);
+  --topMarginFromHeader: 90px;
+  --headerHeight: 82px;
+  --minCardHeight: 241px;
+}
+
+html,
+body {
+  @apply w-full p-0 box-border min-h-[100%] m-0;
+  overflow: hidden;
+}
+
+#root {
+  @apply w-full flex flex-col h-[100vh] overflow-hidden;
+}
+
+.header {
+  @apply p-4 text-left text-2xl font-bold uppercase shadow-2xl bg-(--defaultBackground) text-white sticky top-0 z-50 flex items-center;
+}
+
+.notes-container {
+  @apply w-full p-4 flex-1 bg-size-[30px_30px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative flex flex-col gap-4 max-h-[calc(100vh_-_var(--headerHeight))];
+}
+
+.notes-container.light-theme {
+  @apply bg-[radial-gradient(circle,#000_1px,rgba(0,0,0,0)_1px)];
+}
+
+.notes-container .filter-notes {
+  @apply bg-(--defaultBackground) p-4 rounded-lg shadow-lg flex items-center gap-4;
+}
+
+.notes-container .filter-notes .filter-notes-input {
+  @apply w-full bg-transparent border-none outline-none text-white;
+}
+
+.notes-container .notes-grid-and-controls {
+  @apply flex-1 flex relative  flex-row gap-4 h-full;
+}
+
+.notes-container .notes-grid-and-controls .create-note-container .create-note {
+  @apply bg-(--defaultBackground) p-4 rounded-lg shadow-lg;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .color-picker {
+  @apply w-15 h-15 rounded-full border border-gray-300 cursor-pointer mb-4;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .color-picker.selected {
+  @apply ring-4 ring-blue-500;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .color-picker:last-child {
+  @apply mb-0;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .color-picker:hover {
+  @apply opacity-80;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .color-picker.custom-color {
+  @apply border-none bg-gray-700;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .add-note {
+  @apply w-15 h-15 mb-4;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .add-note
+  button {
+  @apply w-full h-full rounded-full bg-gray-700 text-white flex items-center justify-center cursor-pointer hover:bg-gray-600;
+}
+
+.notes-container .notes-grid-and-controls .preview-counter-section {
+  @apply flex flex-col gap-4;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-counter-section
+  .notes-counter {
+  @apply min-h-(--minCardHeight) flex flex-col gap-4 justify-between;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-counter-section
+  .notes-counter,
+.notes-container
+  .notes-grid-and-controls
+  .preview-counter-section
+  .preview-notes {
+  @apply [&&]:bg-(--defaultBackground) p-2 max-w-[300px] min-w-[300px];
+}
+
+.notes-container .notes-grid-and-controls .notes-grid {
+  @apply flex flex-1 flex-col gap-4 overflow-y-auto;
+}
+
+.notes-container .notes-grid-and-controls .notes-grid .note {
+  @apply w-full relative min-h-(--minCardHeight);
+  animation: noteSlideIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.notes-container .notes-grid-and-controls .notes-grid .note + .note {
+  @apply mt-4;
+}
+
+.notes-container .notes-grid-and-controls .notes-grid .note .note-content {
+  @apply w-full h-32 max-h-32 overflow-hidden;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .notes-grid
+  .note
+  .note-content
+  .note-content-textarea {
+  @apply border-none outline-none w-full h-full bg-transparent resize-none;
+}
+
+.notes-container .notes-grid-and-controls .preview-notes-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-notes-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.notes-container .notes-grid-and-controls .preview-notes-container,
+.notes-container .notes-grid-and-controls .notes-grid {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-notes-container::-webkit-scrollbar,
+.notes-container .notes-grid-and-controls .notes-grid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+@media (width <= 1024px) {
+  .notes-container .notes-grid-and-controls {
+    @apply flex-col;
+  }
+  .notes-container .notes-grid-and-controls .create-note-container .create-note,
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .color-pickers-container {
+    @apply flex-row flex gap-4;
+  }
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .color-picker,
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .add-note {
+    @apply mb-0;
+  }
+}
+
+@media (width <= 640px) {
+  #root {
+    @apply overflow-y-auto;
+  }
+  .notes-container {
+    @apply max-h-[unset];
+  }
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note {
+    @apply overflow-hidden overflow-x-auto;
+  }
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .color-picker,
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .color-picker
+    input,
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .add-note {
+    @apply w-10 h-10;
+  }
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .color-picker
+    svg {
+    @apply w-6 h-6;
+  }
+}

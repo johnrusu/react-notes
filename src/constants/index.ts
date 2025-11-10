@@ -10,6 +10,8 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
+  filterNotes: "Filter Notes",
+  loading: "Loading...",
   title: "Notes application",
   createNotePlaceholder: "Create a new note...",
   addButton: "Add Note",

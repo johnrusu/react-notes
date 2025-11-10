@@ -6,11 +6,14 @@ import type { NotesState, Note, NoteDefault, NotesType } from "../types";
 
 // constants
 import { NOTES_TYPE } from "../constants";
+import { isNilOrEmpty } from "../utils";
 
 const initialState: NotesState = {
   filteredBy: NOTES_TYPE.allNotes,
   notes: [],
   filteredNotes: [],
+  filterText: "",
+  wasReset: false,
 };
 
 export const notesSlice = createSlice({
@@ -18,6 +21,7 @@ export const notesSlice = createSlice({
   initialState,
   reducers: {
     addNote: (state, action: PayloadAction<Note>) => {
+      state.wasReset = false;
       const lastNoteId = [...state.notes]
         .map((q) => Number(q.id))
         .reduce((a, b) => Math.max(a, b), 0);
@@ -26,13 +30,17 @@ export const notesSlice = createSlice({
         { ...action.payload, id: `${lastNoteId + 1}` },
       ];
     },
+
     deleteNote: (state, action: PayloadAction<string>) => {
+      state.wasReset = false;
       state.notes = state.notes.filter((note) => note.id !== action.payload);
       state.filteredNotes = state.filteredNotes.filter(
         (note) => note.id !== action.payload,
       );
     },
+
     setReorderedNotes: (state, action: PayloadAction<NoteDefault[]>) => {
+      state.wasReset = false;
       switch (state.filteredBy) {
         default:
         case NOTES_TYPE.allNotes:
@@ -60,25 +68,44 @@ export const notesSlice = createSlice({
           break;
       }
     },
+
     setFilteredType: (state, action: PayloadAction<NotesType>) => {
+      state.wasReset = false;
       state.filteredBy = action.payload;
     },
 
     filterNotes: (state, action: PayloadAction<NotesType>) => {
+      state.wasReset = false;
       const notesType = action.payload;
-      state.filteredNotes = state.notes.filter(
-        (note: NoteDefault) =>
-          notesType ===
-          (note?.highlighted ? NOTES_TYPE.highlighted : NOTES_TYPE.simple),
+      const filterText: string = state.filterText.toLowerCase();
+      const filteredNotes = state.notes.filter((note: NoteDefault) =>
+        !isNilOrEmpty(filterText)
+          ? note.text.toLowerCase().includes(filterText) &&
+            (notesType === NOTES_TYPE.simple
+              ? !note.highlighted
+              : notesType === NOTES_TYPE.highlighted
+                ? note.highlighted
+                : true)
+          : notesType === NOTES_TYPE.simple
+            ? !note.highlighted
+            : notesType === NOTES_TYPE.highlighted
+              ? note.highlighted
+              : true,
       );
+      state.filteredNotes = filteredNotes;
     },
+
     resetFilteredNotes: (state) => {
       state.filteredNotes = [];
+      state.filterText = "";
+      state.wasReset = true;
     },
+
     updateNote: (
       state,
       action: PayloadAction<{ noteId: string; text: string }>,
     ) => {
+      state.wasReset = false;
       const { noteId, text } = action.payload;
       const noteIndex = state.notes.findIndex((note) => note.id === noteId);
       if (noteIndex !== -1) {
@@ -90,6 +117,15 @@ export const notesSlice = createSlice({
       if (filteredNoteIndex !== -1) {
         state.filteredNotes[filteredNoteIndex].text = text;
       }
+    },
+
+    filterNotesByText: (state, action: PayloadAction<string>) => {
+      state.wasReset = false;
+      const filterText = action.payload.toLowerCase();
+      state.filterText = action.payload;
+      state.filteredNotes = state.notes.filter((note) =>
+        note.text.toLowerCase().includes(filterText),
+      );
     },
   },
 });
@@ -103,6 +139,7 @@ export const {
   resetFilteredNotes,
   setFilteredType,
   setReorderedNotes,
+  filterNotesByText,
 } = notesSlice.actions;
 
 export default notesSlice.reducer;

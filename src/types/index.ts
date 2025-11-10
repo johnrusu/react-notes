@@ -1,4 +1,5 @@
 import { type PaletteMode } from "@mui/material";
+import type { LottieOptions } from "lottie-react";
 
 type NoteDefault = {
   id: string;
@@ -19,6 +20,8 @@ interface NotesState {
   notes: Note[];
   filteredNotes: Note[];
   filteredBy: NotesType;
+  filterText: string;
+  wasReset: boolean;
 }
 
 interface NotesThemeState {
@@ -58,6 +61,15 @@ interface DragItem {
   type: string;
 }
 
+interface AnimationsLoaderProps {
+  options: LottieOptions<"svg"> | null;
+}
+
+interface FilterNotesProps {
+  onFilterClick: (filter: string) => void;
+  wasReset?: boolean;
+}
+
 export type {
   ColorPickerProps,
   Note,
@@ -70,4 +82,6 @@ export type {
   NotesType,
   DraggableNoteProps,
   DragItem,
+  AnimationsLoaderProps,
+  FilterNotesProps,
 };
