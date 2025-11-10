@@ -57,8 +57,13 @@ const FilterNotes: React.FC<FilterNotesProps> = (props: FilterNotesProps) => {
           <ClearIcon />
         </IconButton>
       )}
-      <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-        <SearchIcon onClick={handleFilterClick} />
+      <IconButton
+        type="button"
+        sx={{ p: "10px" }}
+        aria-label="search"
+        onClick={handleFilterClick}
+      >
+        <SearchIcon />
       </IconButton>
     </Paper>
   );
