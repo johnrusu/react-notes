@@ -36,13 +36,15 @@ import type { NoteDefault } from "../types";
 // Memoized selector to avoid unnecessary re-renders
 const selectSortedNotes = createSelector(
   [
-    (state: RootState) =>
-      isArrayNotEmpty(state.notes.filteredNotes)
-        ? state.notes.filteredNotes
-        : state.notes.notes,
+    (state: RootState) => state.notes.notes,
+    (state: RootState) => state.notes.filteredNotes,
   ],
-  (notes) =>
-    [...notes].sort((a, b) => Number(b.highlighted) - Number(a.highlighted)),
+  (notes, filteredNotes) => {
+    const notesToUse = isArrayNotEmpty(filteredNotes) ? filteredNotes : notes;
+    return [...notesToUse].sort(
+      (a, b) => Number(b.highlighted) - Number(a.highlighted),
+    );
+  },
 );
 
 const PreviewCounter: React.FC = (): React.ReactElement | null => {

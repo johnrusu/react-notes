@@ -17,23 +17,29 @@ import { isArrayNotEmpty } from "../utils";
 
 const selectSortedNotes = createSelector(
   [
-    (state: RootState) => {
-      const filterText = state.notes.filterText.toLowerCase();
-      const hasFilteredNotes = isArrayNotEmpty(state.notes.filteredNotes);
-
-      // No filter text - return all notes or filtered notes
-      if (!filterText) {
-        return hasFilteredNotes ? state.notes.filteredNotes : state.notes.notes;
-      }
-
-      // With filter text - filter the appropriate list
-      return state.notes.filteredNotes.filter((note) =>
-        note.text.toLowerCase().includes(filterText),
-      );
-    },
+    (state: RootState) => state.notes.notes,
+    (state: RootState) => state.notes.filteredNotes,
+    (state: RootState) => state.notes.filterText,
   ],
-  (notes) =>
-    [...notes].sort((a, b) => Number(b.highlighted) - Number(a.highlighted)),
+  (notes, filteredNotes, filterText) => {
+    const hasFilteredNotes = isArrayNotEmpty(filteredNotes);
+    const filterTextLower = filterText.toLowerCase();
+
+    // Determine which notes to use
+    let notesToUse = notes;
+    if (!filterTextLower) {
+      notesToUse = hasFilteredNotes ? filteredNotes : notes;
+    } else {
+      notesToUse = filteredNotes.filter((note) =>
+        note.text.toLowerCase().includes(filterTextLower),
+      );
+    }
+
+    // Sort the notes
+    return [...notesToUse].sort(
+      (a, b) => Number(b.highlighted) - Number(a.highlighted),
+    );
+  },
 );
 
 const Notes: React.FC = (): React.ReactElement | null => {

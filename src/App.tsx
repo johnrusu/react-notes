@@ -98,17 +98,23 @@ const App = (): React.ReactElement => {
 
   const handelNoteAdd = (note: NoteDefault) => {
     dispatch(addNote(note));
-    handleFilteredNotesClick(notesType);
+    handleFilteredNotesClick(notesType, !isNilOrEmpty(filterText));
   };
 
   const handelHighlightedNoteAdd = (note: NoteDefault) => {
     dispatch(addNote(note));
-    handleFilteredNotesClick(notesType);
+    handleFilteredNotesClick(notesType, !isNilOrEmpty(filterText));
   };
 
-  const handleFilteredNotesClick = (notesType: NotesType) => {
+  const handleFilteredNotesClick = (
+    notesType: NotesType,
+    hasFilterText: boolean,
+  ) => {
     if (notesType === NOTES_TYPE.allNotes) {
       dispatch(resetFilteredNotes());
+      if (hasFilterText) {
+        dispatch(filterNotesByText(filterText));
+      }
       return;
     }
     dispatch(filterNotes(notesType));
@@ -161,7 +167,9 @@ const App = (): React.ReactElement => {
                 <Box className="preview-counter-section">
                   <PreviewNotes />
                   <NotesCounter
-                    onNotesClick={handleFilteredNotesClick}
+                    onNotesClick={(type) =>
+                      handleFilteredNotesClick(type, !isNilOrEmpty(filterText))
+                    }
                     notesType={notesType}
                   />
                 </Box>

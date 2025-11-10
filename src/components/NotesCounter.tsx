@@ -31,7 +31,7 @@ import { NOTES_LABELS, NOTES_TYPE } from "../constants";
 const NotesCounter: React.FC<NotesCounterProps> = (
   props: NotesCounterProps,
 ): React.ReactElement | null => {
-  const notesClick: (arg: NotesType) => void = pathOr(
+  const notesClick: (arg: NotesType, hasFilterText: boolean) => void = pathOr(
     () => {},
     ["onNotesClick"],
     props,
@@ -79,7 +79,9 @@ const NotesCounter: React.FC<NotesCounterProps> = (
               <Badge
                 color="primary"
                 badgeContent={String(simpleNotesFilteredLength)}
-                onClick={() => notesClick(NOTES_TYPE.simple)}
+                onClick={() =>
+                  notesClick(NOTES_TYPE.simple, !isNilOrEmpty(filterText))
+                }
                 className={`text-white hover:underline cursor-pointer ${
                   notesType === NOTES_TYPE.simple ? "underline" : ""
                 }`}
@@ -93,7 +95,9 @@ const NotesCounter: React.FC<NotesCounterProps> = (
               <Badge
                 color="primary"
                 badgeContent={String(highlightedNotesFilteredLength)}
-                onClick={() => notesClick(NOTES_TYPE.highlighted)}
+                onClick={() =>
+                  notesClick(NOTES_TYPE.highlighted, !isNilOrEmpty(filterText))
+                }
                 className={`text-white  hover:underline cursor-pointer ${
                   notesType === NOTES_TYPE.highlighted ? "underline" : ""
                 }`}
