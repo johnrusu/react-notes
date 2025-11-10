@@ -114,7 +114,9 @@ const NotesCounter: React.FC<NotesCounterProps> = (
             startIcon={<DeleteIcon />}
             variant="text"
             className="w-full"
-            onClick={() => notesClick(NOTES_TYPE.allNotes)}
+            onClick={() =>
+              notesClick(NOTES_TYPE.allNotes, !isNilOrEmpty(filterText))
+            }
           >
             {NOTES_LABELS.resetFilteredNotes}
           </Button>
