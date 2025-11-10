@@ -12,6 +12,7 @@ const NoteContent: React.FC<{
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditedText(e.target.value);
+    onTextChange(id, e.target.value);
   };
 
   return (
@@ -19,7 +20,6 @@ const NoteContent: React.FC<{
       value={editedText}
       onChange={handleChange}
       className="note-content-textarea"
-      onBlur={() => onTextChange(id, editedText)}
       placeholder={NOTES_LABELS.createNotePlaceholder}
     />
   );

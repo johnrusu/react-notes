@@ -10,7 +10,7 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
-  filterNotes: "Filter Notes",
+  filterNotes: "Search Notes by Text",
   loading: "Loading...",
   title: "Notes application",
   createNotePlaceholder: "Create a new note...",

@@ -5,7 +5,6 @@ import { pathOr } from "ramda";
 import { InputBase, Paper, IconButton } from "@mui/material";
 
 // mui icons
-
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
@@ -16,9 +15,9 @@ import { NOTES_LABELS } from "../constants";
 import type { FilterNotesProps } from "../types";
 
 const FilterNotes: React.FC<FilterNotesProps> = (props: FilterNotesProps) => {
-  const [filter, setFilter] = useState("");
+  const filterText = pathOr("", ["filterText"], props);
+  const [filter, setFilter] = useState(filterText);
   const wasReset = pathOr(false, ["wasReset"], props);
-  console.log("wasReset", wasReset);
   const onFilterClick: (filter: string) => void = pathOr(
     () => {},
     ["onFilterClick"],
@@ -46,8 +45,7 @@ const FilterNotes: React.FC<FilterNotesProps> = (props: FilterNotesProps) => {
       />
       {filter && (
         <IconButton
-          type="button"
-          sx={{ p: "10px" }}
+          sx={{ color: "#ffffff" }}
           aria-label="clear"
           onClick={() => {
             setFilter("");
@@ -58,10 +56,9 @@ const FilterNotes: React.FC<FilterNotesProps> = (props: FilterNotesProps) => {
         </IconButton>
       )}
       <IconButton
-        type="button"
-        sx={{ p: "10px" }}
         aria-label="search"
         onClick={handleFilterClick}
+        sx={{ color: "#ffffff" }}
       >
         <SearchIcon />
       </IconButton>

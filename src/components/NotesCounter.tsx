@@ -47,12 +47,13 @@ const NotesCounter: React.FC<NotesCounterProps> = (
   const highlightedNotes = useSelector(
     (state: RootState) => state.notes.notes,
   ).filter((note) => note.highlighted);
+
   const simpleNotes = notes.filter((note) => !note.highlighted);
   const showCondition =
     isArrayNotEmpty(simpleNotes) && isArrayNotEmpty(highlightedNotes);
 
   const simpleNotesFilteredLength = !isNilOrEmpty(filterText)
-    ? filteredNotes.filter(
+    ? notes.filter(
         (note) => !note.highlighted && note.text.includes(filterText),
       ).length
     : simpleNotes.length;
@@ -77,7 +78,7 @@ const NotesCounter: React.FC<NotesCounterProps> = (
             <Box>
               <Badge
                 color="primary"
-                badgeContent={simpleNotesFilteredLength}
+                badgeContent={String(simpleNotesFilteredLength)}
                 onClick={() => notesClick(NOTES_TYPE.simple)}
                 className={`text-white hover:underline cursor-pointer ${
                   notesType === NOTES_TYPE.simple ? "underline" : ""
@@ -91,7 +92,7 @@ const NotesCounter: React.FC<NotesCounterProps> = (
             <Box>
               <Badge
                 color="primary"
-                badgeContent={highlightedNotesFilteredLength}
+                badgeContent={String(highlightedNotesFilteredLength)}
                 onClick={() => notesClick(NOTES_TYPE.highlighted)}
                 className={`text-white  hover:underline cursor-pointer ${
                   notesType === NOTES_TYPE.highlighted ? "underline" : ""

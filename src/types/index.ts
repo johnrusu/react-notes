@@ -68,6 +68,7 @@ interface AnimationsLoaderProps {
 interface FilterNotesProps {
   onFilterClick: (filter: string) => void;
   wasReset?: boolean;
+  filterText?: string;
 }
 
 export type {

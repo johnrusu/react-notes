@@ -99,6 +99,7 @@ export const notesSlice = createSlice({
       state.filteredNotes = [];
       state.filterText = "";
       state.wasReset = true;
+      state.filteredBy = NOTES_TYPE.allNotes;
     },
 
     updateNote: (

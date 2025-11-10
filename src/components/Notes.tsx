@@ -19,17 +19,17 @@ const selectSortedNotes = createSelector(
   [
     (state: RootState) => {
       const filterText = state.notes.filterText.toLowerCase();
-      if (!isArrayNotEmpty(state.notes.filteredNotes) && !filterText) {
-        return state.notes.notes;
-      } else if (isArrayNotEmpty(state.notes.filteredNotes) && !filterText) {
-        return state.notes.filteredNotes;
-      } else if (!isArrayNotEmpty(state.notes.filteredNotes) && filterText) {
-        return state.notes.filteredNotes;
-      } else {
-        return state.notes.filteredNotes.filter((note) =>
-          note.text.toLowerCase().includes(filterText),
-        );
+      const hasFilteredNotes = isArrayNotEmpty(state.notes.filteredNotes);
+
+      // No filter text - return all notes or filtered notes
+      if (!filterText) {
+        return hasFilteredNotes ? state.notes.filteredNotes : state.notes.notes;
       }
+
+      // With filter text - filter the appropriate list
+      return state.notes.filteredNotes.filter((note) =>
+        note.text.toLowerCase().includes(filterText),
+      );
     },
   ],
   (notes) =>

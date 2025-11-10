@@ -56,14 +56,12 @@ const selectSortedNotes = createSelector(
 );
 
 const App = (): React.ReactElement => {
-  const [notesType, setNotesType] = React.useState<NotesType>(
-    NOTES_TYPE.allNotes,
-  );
   const dispatch = useDispatch();
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
   const filterText = useSelector((state: RootState) => state.notes.filterText);
   const notes = useSelector(selectSortedNotes);
   const wasReset = useSelector((state: RootState) => state.notes.wasReset);
+  const notesType = useSelector((state: RootState) => state.notes.filteredBy);
 
   const showPreviewCounterSectionCondition = (): boolean => {
     if (
@@ -109,7 +107,6 @@ const App = (): React.ReactElement => {
   };
 
   const handleFilteredNotesClick = (notesType: NotesType) => {
-    setNotesType(notesType);
     if (notesType === NOTES_TYPE.allNotes) {
       dispatch(resetFilteredNotes());
       return;
@@ -141,6 +138,7 @@ const App = (): React.ReactElement => {
               <FilterNotes
                 onFilterClick={onFilterNotesChange}
                 wasReset={wasReset}
+                filterText={filterText}
               />
             ) : null}
           </React.Suspense>
