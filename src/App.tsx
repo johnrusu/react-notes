@@ -62,16 +62,14 @@ const App = (): React.ReactElement => {
   const dispatch = useDispatch();
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
   const filterText = useSelector((state: RootState) => state.notes.filterText);
-  const filteredNotes = useSelector(
-    (state: RootState) => state.notes.filteredNotes,
-  );
   const notes = useSelector(selectSortedNotes);
   const wasReset = useSelector((state: RootState) => state.notes.wasReset);
 
   const showPreviewCounterSectionCondition = (): boolean => {
-    if (!isNilOrEmpty(filterText)) {
-      return isArrayNotEmpty(filteredNotes) && filteredNotes.length >= 1;
-    } else if (isArrayNotEmpty(notes) && notes.length > 1) {
+    if (
+      !isNilOrEmpty(filterText) ||
+      (isArrayNotEmpty(notes) && notes.length > 1)
+    ) {
       return true;
     }
     return false;

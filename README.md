@@ -11,3 +11,5 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 - Add highlighted notes and mapped them on render
 - Filtering by Highlighted or simple notes
 - Drag and drop notes using the right preview drag and drop component
+- Added notes filter by text search in content
+- Responsive design
