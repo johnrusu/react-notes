@@ -203,7 +203,7 @@ body {
   }
 }
 
-@media (width <= 640px) {
+@media (width <= 767px) {
   #root {
     @apply overflow-y-auto;
   }
@@ -241,5 +241,28 @@ body {
     .color-picker
     svg {
     @apply w-6 h-6;
+  }
+
+  .header h5 {
+    @apply text-xl;
+  }
+
+  .header .clear-storage-button {
+    width: 20px !important;
+    max-width: 20px !important;
+    min-width: 20px !important;
+    padding: 0 !important;
+  }
+
+  .header .clear-storage-button .MuiButton-startIcon {
+    margin: 0 !important;
+  }
+
+  .header .clear-storage-button span:not(.MuiButton-icon) {
+    display: none !important;
+  }
+
+  .header .MuiButton-icon {
+    @apply mr-0;
   }
 }

@@ -10,6 +10,8 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
+  clearLocalStorage: "Clear local storage",
+  localStorageCleared: "Local storage was cleared successfully!",
   theme: "theme",
   filterNotes: "Search Notes by Text",
   loading: "Loading...",

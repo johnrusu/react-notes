@@ -3,9 +3,7 @@ import { useDispatch } from "react-redux";
 
 // mui
 import { styled, useTheme, type PaletteMode } from "@mui/material/styles";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
+import { FormGroup, FormControlLabel, Switch, Box } from "@mui/material";
 
 // constants
 import { NOTES_LABELS } from "../constants";
@@ -88,25 +86,27 @@ export default function ThemeSwitcher() {
   };
 
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={
-          <ThemeSwitcherStyle
-            sx={{ m: 1 }}
-            checked={currentTheme === NOTES_LABELS.darkMode}
-            onChange={
-              currentTheme === NOTES_LABELS.lightMode
-                ? () => handleCurrentThemeChange(NOTES_LABELS.darkMode)
-                : () => handleCurrentThemeChange(NOTES_LABELS.lightMode)
-            }
-          />
-        }
-        label={
-          currentTheme === NOTES_LABELS.darkMode
-            ? NOTES_LABELS.darkMode
-            : NOTES_LABELS.lightMode
-        }
-      />
-    </FormGroup>
+    <Box display={"flex"} alignItems={"center"} gap={1} flex={1}>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <ThemeSwitcherStyle
+              sx={{ m: 1 }}
+              checked={currentTheme === NOTES_LABELS.darkMode}
+              onChange={
+                currentTheme === NOTES_LABELS.lightMode
+                  ? () => handleCurrentThemeChange(NOTES_LABELS.darkMode)
+                  : () => handleCurrentThemeChange(NOTES_LABELS.lightMode)
+              }
+            />
+          }
+          label={
+            currentTheme === NOTES_LABELS.darkMode
+              ? NOTES_LABELS.darkMode
+              : NOTES_LABELS.lightMode
+          }
+        />
+      </FormGroup>
+    </Box>
   );
 }

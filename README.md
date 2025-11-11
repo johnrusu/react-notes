@@ -13,3 +13,4 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 - Drag and drop notes using the right preview drag and drop component
 - Added notes filter by text search in content
 - Responsive design
+- Implemented localstorage to preserve the data
