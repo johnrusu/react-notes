@@ -10,6 +10,14 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
+  refreshingPage: (time: number) =>
+    `Refreshing page in ${time / 1000} seconds...`,
+  confirmAction: "Confirm Action",
+  yes: "Yes",
+  no: "No",
+  confirmTitleClearLocalStorage: "Confirm Clear Local Storage",
+  confirmMessageClearLocalStorage:
+    "Are you sure you want to clear all notes from local storage? This action cannot be undone.",
   clearLocalStorage: "Clear local storage",
   localStorageCleared: "Local storage was cleared successfully!",
   theme: "theme",
@@ -50,6 +58,8 @@ const THEMES = {
   LIGHT: "light-theme",
 };
 
+const DEFAULT_TIMEOUT_FOR_RELOADING_PAGE = 3000;
+
 export {
   NOTE_COLORS,
   NOTES_LABELS,
@@ -57,4 +67,5 @@ export {
   NOTES_TYPE,
   ITEM_TYPES,
   THEMES,
+  DEFAULT_TIMEOUT_FOR_RELOADING_PAGE,
 };

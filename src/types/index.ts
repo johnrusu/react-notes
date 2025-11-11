@@ -71,6 +71,18 @@ interface FilterNotesProps {
   filterText?: string;
 }
 
+interface ConfirmDialogProps {
+  isOpen: boolean;
+  title?: string;
+  message?: string;
+  labels?: {
+    yes: string;
+    no: string;
+  };
+  onConfirmButtonClick: () => void;
+  onClose: () => void;
+}
+
 export type {
   ColorPickerProps,
   Note,
@@ -85,4 +97,5 @@ export type {
   DragItem,
   AnimationsLoaderProps,
   FilterNotesProps,
+  ConfirmDialogProps,
 };
