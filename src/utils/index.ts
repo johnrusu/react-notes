@@ -283,3 +283,13 @@ export const hexToRgba = (
   const rgb = hexToRgb(hex);
   return rgb ? { ...rgb, a: alpha } : null;
 };
+
+export const stringToJSON = (str: string): object | false | null => {
+  try {
+    const obj = JSON.parse(str);
+    return is(Object, obj) ? obj : null;
+  } catch (error) {
+    console.error("Invalid JSON string:", error);
+    return false;
+  }
+};

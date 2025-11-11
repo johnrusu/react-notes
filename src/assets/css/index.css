@@ -10,20 +10,21 @@
 
 html,
 body {
-  @apply w-full p-0 box-border min-h-[100%] m-0;
+  @apply w-full p-0 box-border min-h-full m-0;
   overflow: hidden;
 }
 
 #root {
-  @apply w-full flex flex-col h-[100vh] overflow-hidden;
+  @apply w-full flex flex-col h-screen overflow-hidden;
 }
 
 .header {
-  @apply p-4 text-left text-2xl font-bold uppercase shadow-2xl bg-(--defaultBackground) text-white sticky top-0 z-50 flex items-center;
+  @apply p-4 text-left text-2xl font-bold uppercase shadow-2xl text-white sticky top-0 z-50 flex items-center;
+  background-color: var(--defaultBackground);
 }
 
 .notes-container {
-  @apply w-full p-4 flex-1 bg-size-[30px_30px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative flex flex-col gap-4 max-h-[calc(100vh_-_var(--headerHeight))];
+  @apply w-full p-4 flex-1 bg-size-[30px_30px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative flex flex-col gap-4 h-[calc(100%-var(--headerHeight))];
 }
 
 .notes-container.light-theme {
@@ -39,7 +40,7 @@ body {
 }
 
 .notes-container .notes-grid-and-controls {
-  @apply flex-1 flex relative  flex-row gap-4 h-full;
+  @apply flex-1 flex relative  flex-row gap-4 h-[calc(100%-104px)];
 }
 
 .notes-container .notes-grid-and-controls .create-note-container .create-note {
@@ -111,7 +112,7 @@ body {
   .notes-grid-and-controls
   .preview-counter-section
   .notes-counter {
-  @apply min-h-(--minCardHeight) flex flex-col gap-4 justify-between;
+  @apply min-h-(--minCardHeight) flex flex-col gap-4 justify-between p-4;
 }
 
 .notes-container
@@ -122,7 +123,7 @@ body {
   .notes-grid-and-controls
   .preview-counter-section
   .preview-notes {
-  @apply [&&]:bg-(--defaultBackground) p-2 max-w-[300px] min-w-[300px];
+  @apply [&&]:bg-(--defaultBackground) p-4 max-w-[300px] min-w-[300px] gap-4 rounded-lg shadow-lg flex flex-col;
 }
 
 .notes-container .notes-grid-and-controls .notes-grid {

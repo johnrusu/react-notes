@@ -10,6 +10,7 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
+  theme: "theme",
   filterNotes: "Search Notes by Text",
   loading: "Loading...",
   title: "Notes application",

@@ -3,15 +3,7 @@ import React from "react";
 import { pathOr } from "ramda";
 
 // mui
-import {
-  Card,
-  Box,
-  Badge,
-  Button,
-  Typography,
-  CardActions,
-  CardContent,
-} from "@mui/material";
+import { Paper, Box, Badge, Button, Typography } from "@mui/material";
 // icons
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -64,16 +56,21 @@ const NotesCounter: React.FC<NotesCounterProps> = (
     : highlightedNotes.length;
 
   return showCondition ? (
-    <Card className="notes-counter">
-      <CardContent
-        sx={{ display: "flex", flexDirection: "column", height: "100%" }}
+    <Paper className="notes-counter">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          gap: 4,
+        }}
       >
         <Typography gutterBottom sx={{ fontSize: 14 }}>
           <span className="[&&]:text-gray-400">
             {NOTES_LABELS.notesCounterTitle}
           </span>
         </Typography>
-        <Box display={"flex"} flexDirection={"column"} gap={1} mt={4} flex={1}>
+        <Box display={"flex"} flexDirection={"column"} gap={2} flex={1}>
           {isArrayNotEmpty(simpleNotes) ? (
             <Box>
               <Badge
@@ -107,9 +104,9 @@ const NotesCounter: React.FC<NotesCounterProps> = (
             </Box>
           ) : null}
         </Box>
-      </CardContent>
-      <CardActions>
-        {isArrayNotEmpty(filteredNotes) ? (
+      </Box>
+      {isArrayNotEmpty(filteredNotes) ? (
+        <Box>
           <Button
             startIcon={<DeleteIcon />}
             variant="text"
@@ -120,9 +117,9 @@ const NotesCounter: React.FC<NotesCounterProps> = (
           >
             {NOTES_LABELS.resetFilteredNotes}
           </Button>
-        ) : null}
-      </CardActions>
-    </Card>
+        </Box>
+      ) : null}
+    </Paper>
   ) : null;
 };
 

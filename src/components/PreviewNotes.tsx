@@ -3,14 +3,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 // mui
-import {
-  Card,
-  Box,
-  Typography,
-  CardContent,
-  Button,
-  CardActions,
-} from "@mui/material";
+import { Paper, Box, Typography, Button } from "@mui/material";
 // icons
 
 // state
@@ -96,50 +89,43 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
 
   return showCondition ? (
     <DndProvider backend={HTML5Backend}>
-      <Card className="preview-notes">
-        <CardContent>
-          <Typography
-            gutterBottom
-            sx={{ color: "text.secondary", fontSize: 14 }}
-          >
-            <span className="[&&]:text-gray-400">
-              {NOTES_LABELS.previewNotesTitle}
-            </span>
-          </Typography>
+      <Paper className="preview-notes">
+        <Typography sx={{ color: "text.secondary", fontSize: 14 }}>
+          <span className="[&&]:text-gray-400">
+            {NOTES_LABELS.previewNotesTitle}
+          </span>
+        </Typography>
 
-          <Box mt={1}>
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              gap={2}
-              mt={1}
-              className="overflow-x-auto preview-notes-container max-h-60 "
-            >
-              {reorderedNotes.map((note, noteIndex) => (
-                <DraggableNote
-                  moveNote={moveNote}
-                  text={`Note #${note.id}`}
-                  color={note.color}
-                  highlighted={note.highlighted}
-                  index={noteIndex}
-                  key={`note-preview-${note.id}`}
-                  id={`note-preview-${note.id}`}
-                  className="p-5 w-full rounded-md cursor-move note-preview-item flex items-center justify-center flex-col"
-                />
-              ))}
-            </Box>
-          </Box>
-          <Typography
-            gutterBottom
-            sx={{ color: "text.secondary", fontSize: 12, marginTop: 2 }}
+        <Box>
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            gap={2}
+            className="overflow-x-auto preview-notes-container max-h-60 "
           >
-            <span className="[&&]:text-gray-400">
-              {NOTES_LABELS.warningReorderNotes}
-            </span>
-          </Typography>
-        </CardContent>
+            {reorderedNotes.map((note, noteIndex) => (
+              <DraggableNote
+                moveNote={moveNote}
+                text={`Note #${note.id}`}
+                color={note.color}
+                highlighted={note.highlighted}
+                index={noteIndex}
+                key={`note-preview-${note.id}`}
+                id={`note-preview-${note.id}`}
+                className="p-4 w-full rounded-md cursor-move note-preview-item flex items-center justify-center flex-col"
+              />
+            ))}
+          </Box>
+        </Box>
+
+        <Typography sx={{ color: "text.secondary", fontSize: 12 }}>
+          <span className="[&&]:text-gray-400">
+            {NOTES_LABELS.warningReorderNotes}
+          </span>
+        </Typography>
+
         {isArrayNotEmpty(reorderedNotes) && (
-          <CardActions>
+          <Box>
             <Button
               variant="contained"
               onClick={handleNotesReMapped}
@@ -147,9 +133,9 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
             >
               {NOTES_LABELS.applyOrderButton}
             </Button>
-          </CardActions>
+          </Box>
         )}
-      </Card>
+      </Paper>
     </DndProvider>
   ) : null;
 };

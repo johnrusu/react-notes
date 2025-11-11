@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
+import { pathOr, is } from "ramda";
 
 import {
   ThemeProvider,
@@ -11,6 +12,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 // mui
 import { Box } from "@mui/material";
+
+// utils
+import { stringToJSON } from "./utils";
 
 // constants
 import { NOTES_LABELS, NOTES_TYPE, THEMES } from "./constants/index";
@@ -36,17 +40,13 @@ import {
 import { setTheme } from "./features/themeSlice";
 
 // types
-import type { NoteDefault, NotesThemeState, NotesType } from "./types";
+import type { NoteDefault, NotesType } from "./types";
+import type { RootState } from "./store/store";
 
 // animations
 import loadingAnimation from "./assets/animations/loading.json";
 import { isArrayNotEmpty, isNilOrEmpty } from "./utils";
-
-// Define the root state type
-interface RootState {
-  theme: NotesThemeState;
-  notes: any; // Replace 'any' with your actual notes state type
-}
+import useStorage from "./hooks/useStorage";
 
 // Memoized selector to avoid unnecessary re-renders
 const selectSortedNotes = createSelector(
@@ -55,28 +55,64 @@ const selectSortedNotes = createSelector(
     [...notes].sort((a, b) => Number(b.highlighted) - Number(a.highlighted)),
 );
 
+const convertedStoredTheme = (storedTheme: string = ""): object | null => {
+  let parsedTheme = stringToJSON(storedTheme);
+  if (parsedTheme === false) return null;
+  if (parsedTheme === null) {
+    parsedTheme = stringToJSON(storedTheme);
+  }
+  return !isNilOrEmpty(parsedTheme) && is(Object, parsedTheme) && parsedTheme
+    ? parsedTheme
+    : null;
+};
+
 const App = (): React.ReactElement => {
   const dispatch = useDispatch();
+  const storageCurrentTheme: (key: string) => string | null = pathOr(
+    () => null,
+    ["getFromStorage"],
+    useStorage(),
+  );
+
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
   const filterText = useSelector((state: RootState) => state.notes.filterText);
   const notes = useSelector(selectSortedNotes);
   const wasReset = useSelector((state: RootState) => state.notes.wasReset);
   const notesType = useSelector((state: RootState) => state.notes.filteredBy);
+  const simpleNotes = notes.filter((note) => !note.highlighted);
+  const highlightedNotes = notes.filter((note) => note.highlighted);
+  let storedTheme = storageCurrentTheme(NOTES_LABELS.theme);
+
+  if (!isNilOrEmpty(storedTheme)) {
+    const storageThemeValue = storageCurrentTheme(NOTES_LABELS.theme);
+    storedTheme = pathOr(
+      NOTES_LABELS.darkMode,
+      [NOTES_LABELS.theme],
+      convertedStoredTheme(storageThemeValue || ""),
+    );
+  }
 
   const showPreviewCounterSectionCondition = (): boolean => {
-    if (
-      !isNilOrEmpty(filterText) ||
-      (isArrayNotEmpty(notes) && notes.length > 1)
-    ) {
-      return true;
-    }
-    return false;
+    // Show if we have multiple simple notes OR multiple highlighted notes
+    const hasMultipleSimpleNotes = simpleNotes.length > 1;
+    const hasMultipleHighlightedNotes = highlightedNotes.length > 1;
+    // Show if we're filtering and have multiple results
+    const hasFilterWithMultipleResults =
+      !isNilOrEmpty(filterText) && notes.length > 1;
+
+    return (
+      hasMultipleSimpleNotes ||
+      hasMultipleHighlightedNotes ||
+      hasFilterWithMultipleResults
+    );
   };
 
-  const dark: PaletteMode = NOTES_LABELS.darkMode as PaletteMode;
+  const currentMode: PaletteMode = !isNilOrEmpty(storedTheme)
+    ? (storedTheme as PaletteMode)
+    : (NOTES_LABELS.darkMode as PaletteMode);
   const darkTheme = createTheme({
     palette: {
-      mode: currentTheme,
+      mode: currentMode,
     },
   });
 
@@ -84,17 +120,20 @@ const App = (): React.ReactElement => {
     currentTheme === NOTES_LABELS.darkMode ? THEMES.DARK : THEMES.LIGHT
   }`;
 
-  const Loading = () => (
-    <AnimationsLoader
-      options={{
-        animationData: loadingAnimation,
-        loop: true,
-        autoplay: true,
-        style: { width: "150px", height: "150px" },
-        rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
-      }}
-    />
-  );
+  const Loading = () => {
+    const style = { width: 150, height: 150 };
+    return (
+      <AnimationsLoader
+        options={{
+          animationData: loadingAnimation,
+          loop: true,
+          autoplay: true,
+          style,
+          rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
+        }}
+      />
+    );
+  };
 
   const handelNoteAdd = (note: NoteDefault) => {
     dispatch(addNote(note));
@@ -130,8 +169,8 @@ const App = (): React.ReactElement => {
   };
 
   useEffect(() => {
-    dispatch(setTheme(dark));
-  }, [dispatch, dark]);
+    dispatch(setTheme(currentMode));
+  }, [dispatch, currentMode]);
 
   return (
     <>
