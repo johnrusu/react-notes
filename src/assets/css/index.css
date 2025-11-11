@@ -265,4 +265,8 @@ body {
   .header .MuiButton-icon {
     @apply mr-0;
   }
+  .notes-container .notes-grid-and-controls,
+  .notes-container {
+    @apply h-[unset];
+  }
 }
