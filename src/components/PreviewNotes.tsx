@@ -14,7 +14,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { setReorderedNotes } from "../features/notesSlice";
 
 // utils
-import { isArrayNotEmpty, isNilOrEmpty } from "../utils";
+import { isArrayNotEmpty } from "../utils";
 
 // constants
 import { NOTES_LABELS } from "../constants";
@@ -44,7 +44,6 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
   const dispatch = useDispatch();
 
   const notes = useSelector(selectSortedNotes);
-  const filterText = useSelector((state: RootState) => state.notes.filterText);
   const simpleNotes = notes.filter((note) => !note.highlighted);
   const highlightedNotes = notes.filter((note) => note.highlighted);
 
@@ -57,9 +56,6 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
   const showCondition: boolean =
     (isArrayNotEmpty(simpleNotes) && simpleNotes.length > 1) ||
     (isArrayNotEmpty(highlightedNotes) && highlightedNotes.length > 1);
-
-  const filterTextCondition: boolean =
-    !isNilOrEmpty(filterText) && filterText.trim().length > 0;
 
   const moveNote = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -78,14 +74,6 @@ const PreviewCounter: React.FC = (): React.ReactElement | null => {
   useEffect(() => {
     setStateReorderedNotes(notes);
   }, [notes]);
-
-  if (filterTextCondition) {
-    if (isArrayNotEmpty(simpleNotes)) {
-      return null;
-    } else if (isArrayNotEmpty(highlightedNotes)) {
-      return null;
-    }
-  }
 
   return showCondition ? (
     <DndProvider backend={HTML5Backend}>

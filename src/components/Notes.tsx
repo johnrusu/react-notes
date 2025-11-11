@@ -30,9 +30,23 @@ const selectSortedNotes = createSelector(
     if (!filterTextLower) {
       notesToUse = hasFilteredNotes ? filteredNotes : notes;
     } else {
-      notesToUse = filteredNotes.filter((note) =>
-        note.text.toLowerCase().includes(filterTextLower),
-      );
+      // If we have filter text, try filtering filteredNotes first
+      if (hasFilteredNotes) {
+        const filteredByText = filteredNotes.filter((note) =>
+          note.text.toLowerCase().includes(filterTextLower),
+        );
+        // If filtering filteredNotes results in empty array, fall back to filtering all notes
+        notesToUse = isArrayNotEmpty(filteredByText)
+          ? filteredByText
+          : notes.filter((note) =>
+              note.text.toLowerCase().includes(filterTextLower),
+            );
+      } else {
+        // No filtered notes, filter all notes
+        notesToUse = notes.filter((note) =>
+          note.text.toLowerCase().includes(filterTextLower),
+        );
+      }
     }
 
     // Sort the notes

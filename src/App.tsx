@@ -77,6 +77,9 @@ const App = (): React.ReactElement => {
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
   const filterText = useSelector((state: RootState) => state.notes.filterText);
   const notes = useSelector(selectSortedNotes);
+  const filteredNotes = useSelector(
+    (state: RootState) => state.notes.filteredNotes,
+  );
   const wasReset = useSelector((state: RootState) => state.notes.wasReset);
   const notesType = useSelector((state: RootState) => state.notes.filteredBy);
   const simpleNotes = notes.filter((note) => !note.highlighted);
@@ -93,6 +96,13 @@ const App = (): React.ReactElement => {
   }
 
   const showPreviewCounterSectionCondition = (): boolean => {
+    if (
+      !isNilOrEmpty(filterText) &&
+      isArrayNotEmpty(filteredNotes) &&
+      filteredNotes.length === 1
+    ) {
+      return false;
+    }
     // Show if we have multiple simple notes OR multiple highlighted notes
     const hasMultipleSimpleNotes = simpleNotes.length > 1;
     const hasMultipleHighlightedNotes = highlightedNotes.length > 1;
