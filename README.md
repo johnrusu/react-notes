@@ -14,3 +14,4 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 - Added notes filter by text search in content
 - Responsive design
 - Implemented localstorage to preserve the data
+- Clear storage with timer
