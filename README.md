@@ -15,3 +15,8 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 - Responsive design
 - Implemented localstorage to preserve the data
 - Clear storage with timer
+
+Demo:
+
+- http://notes.rusu-ionut.ro/
+- https://johnrusu.github.io/react-notes/
