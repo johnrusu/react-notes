@@ -11,7 +11,7 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 
 // mui
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 // utils
 import { stringToJSON } from "./utils";
@@ -20,8 +20,7 @@ import { stringToJSON } from "./utils";
 import { NOTES_LABELS, NOTES_TYPE, THEMES } from "./constants/index";
 
 // components
-import Header from "./components/Header";
-import AnimationsLoader from "./components/AnimationsLoader";
+import { Header, AnimationsLoader, Footer } from "./components";
 
 const NotesCounter = React.lazy(() => import("./components/NotesCounter"));
 const CreateNote = React.lazy(() => import("./components/CreateNote"));
@@ -225,6 +224,11 @@ const App = (): React.ReactElement => {
               )}
             </React.Suspense>
           </Box>
+          <Footer>
+            <Typography variant="body2" color="textSecondary" align="center">
+              {NOTES_LABELS.copyright}
+            </Typography>
+          </Footer>
         </Box>
       </ThemeProvider>
     </>

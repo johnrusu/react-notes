@@ -1,5 +1,6 @@
 import { type PaletteMode } from "@mui/material";
 import type { LottieOptions } from "lottie-react";
+import type React from "react";
 
 type NoteDefault = {
   id: string;
@@ -83,6 +84,10 @@ interface ConfirmDialogProps {
   onClose: () => void;
 }
 
+interface FooterProps {
+  children: React.ReactNode | string;
+}
+
 export type {
   ColorPickerProps,
   Note,
@@ -98,4 +103,5 @@ export type {
   AnimationsLoaderProps,
   FilterNotesProps,
   ConfirmDialogProps,
+  FooterProps,
 };

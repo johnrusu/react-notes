@@ -1,9 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta name="author" content="<%= author %>" />
+    <meta name="description" content="<%= description %>" />
+    <meta name="title" content="<%= title %>" />
+    <meta name="keywords" content="<%= keywords %>" />
+    <meta
+      name="robots"
+      content="index,noarchive,follow,max-image-preview:large"
+    />
+
+    <meta property="twitter:title" content="<%= title %>" />
+    <meta property="article:author" content="<%= author %>" />
+    <meta property="og:title" content="<%= title %>" />
+    <meta property="og:description" content="<%= description %>" />
+    <meta itemprop="description" content="<%= description %>" />
     <meta charset="UTF-8" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1990 12:00:00 GMT" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ionut Rusu - Notes application</title>
+    <title>Rusu Ionut - Notes</title>
     <link
       rel="apple-touch-icon"
       sizes="57x57"
@@ -84,6 +102,14 @@
       async
       src="https://www.googletagmanager.com/gtag/js?id=UA-119547016-1"
     ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-119547016-1");
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

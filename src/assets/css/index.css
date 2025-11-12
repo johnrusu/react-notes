@@ -6,6 +6,7 @@
   --topMarginFromHeader: 90px;
   --headerHeight: 82px;
   --minCardHeight: 241px;
+  --footerHeight: 53px;
 }
 
 html,
@@ -23,8 +24,12 @@ body {
   background-color: var(--defaultBackground);
 }
 
+.footer {
+  @apply p-4 text-center text-sm text-gray-400;
+}
+
 .notes-container {
-  @apply w-full p-4 flex-1 bg-size-[30px_30px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative flex flex-col gap-4 h-[calc(100%-var(--headerHeight))];
+  @apply w-full p-4 flex-1 bg-size-[30px_30px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)] relative flex flex-col gap-4 h-[calc(100%-var(--headerHeight)-var(--footerHeight))];
 }
 
 .notes-container.light-theme {
@@ -40,7 +45,7 @@ body {
 }
 
 .notes-container .notes-grid-and-controls {
-  @apply flex-1 flex relative  flex-row gap-4 h-[calc(100%-104px)];
+  @apply flex-1 flex relative  flex-row gap-4 h-[calc(100%-104px-var(--footerHeight))];
 }
 
 .notes-container .notes-grid-and-controls .create-note-container .create-note {

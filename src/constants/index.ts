@@ -10,6 +10,7 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
+  copyright: "© 2024 Rusu Ionut - Notes. All rights reserved.",
   refreshingPage: (time: number) =>
     `Refreshing page in ${time / 1000} seconds...`,
   confirmAction: "Confirm Action",
@@ -23,7 +24,7 @@ const NOTES_LABELS = {
   theme: "theme",
   filterNotes: "Search Notes by Text",
   loading: "Loading...",
-  title: "Notes application",
+  title: "Notes",
   createNotePlaceholder: "Create a new note...",
   addButton: "Add Note",
   deleteButton: "Delete",
