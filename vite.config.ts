@@ -15,6 +15,7 @@ const appMetadata = {
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/react-notes/", // GitHub Pages repository name
   plugins: [
     react(),
     tailwindcss(),

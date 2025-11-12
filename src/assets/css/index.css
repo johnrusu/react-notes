@@ -206,6 +206,16 @@ body {
     .add-note {
     @apply mb-0;
   }
+  #root {
+    @apply overflow-y-auto;
+  }
+  .notes-container {
+    @apply max-h-[unset];
+  }
+  .notes-container .notes-grid-and-controls,
+  .notes-container {
+    @apply h-[unset];
+  }
 }
 
 @media (width <= 767px) {
