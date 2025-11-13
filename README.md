@@ -18,5 +18,4 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 
 Demo:
 
-- http://notes.rusu-ionut.ro/
 - https://johnrusu.github.io/react-notes/
