@@ -15,6 +15,7 @@ React Notes application created with Vite, Tailwind, React and Typescript.
 - Responsive design
 - Implemented localstorage to preserve the data
 - Clear storage with timer
+- Changed colors if they are same as the background color, to better see the notes
 
 Demo:
 

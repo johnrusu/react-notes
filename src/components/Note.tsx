@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 // mui
 import {
@@ -15,6 +15,9 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import GradeIcon from "@mui/icons-material/Grade";
 
+// hooks
+import useChangedColor from "../hooks/useChangedColor";
+
 // types
 import type { NoteDefault } from "../types";
 
@@ -25,7 +28,12 @@ import NoteContent from "./NoteContent";
 import { NOTES_LABELS } from "../constants";
 
 // utils
-import { isLightColor, hexToRgba } from "../utils";
+import {
+  isLightColor,
+  hexToRgba,
+  generateHigherContrastColor,
+  isNilOrEmpty,
+} from "../utils";
 
 // types
 interface NoteProps extends NoteDefault {
@@ -43,18 +51,39 @@ const Note: React.FC<NoteProps> = ({
   onTextChange,
   style,
 }): React.ReactElement => {
+  const changedColor = useChangedColor(color, "body");
   const title: string = NOTES_LABELS.note(id);
 
   // Function to determine if a color is light or dark
-  const textColor = isLightColor(color) ? "#000000" : "#ffffff";
+  const textColor = isLightColor(changedColor) ? "#000000" : "#ffffff";
   const rgbaColor: { r: number; g: number; b: number; a: number } | null =
     hexToRgba(textColor, 0.3);
+
+  const contrastColor = useMemo(() => {
+    return !isNilOrEmpty(changedColor)
+      ? generateHigherContrastColor(changedColor)
+      : null;
+  }, [changedColor]);
 
   return (
     <Card
       sx={{
-        backgroundColor: color,
+        backgroundColor: changedColor,
         color: textColor,
+      }}
+      onMouseOver={(e) => {
+        if (contrastColor) {
+          const thisEl = e.currentTarget;
+          if (!isNilOrEmpty(contrastColor) && !isNilOrEmpty(thisEl)) {
+            thisEl.style.backgroundColor = contrastColor;
+          }
+        }
+      }}
+      onMouseOut={(e) => {
+        if (contrastColor) {
+          const thisEl = e.currentTarget;
+          thisEl.style.backgroundColor = changedColor;
+        }
       }}
       style={style}
       className="note"
