@@ -15,9 +15,6 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import GradeIcon from "@mui/icons-material/Grade";
 
-// hooks
-import useChangedColor from "../hooks/useChangedColor";
-
 // types
 import type { NoteDefault } from "../types";
 
@@ -51,25 +48,23 @@ const Note: React.FC<NoteProps> = ({
   onTextChange,
   style,
 }): React.ReactElement => {
-  const changedColor = useChangedColor(color, "body");
   const title: string = NOTES_LABELS.note(id);
 
   // Function to determine if a color is light or dark
-  const textColor = isLightColor(changedColor) ? "#000000" : "#ffffff";
+  const textColor = isLightColor(color) ? "#000000" : "#ffffff";
   const rgbaColor: { r: number; g: number; b: number; a: number } | null =
     hexToRgba(textColor, 0.3);
 
   const contrastColor = useMemo(() => {
-    return !isNilOrEmpty(changedColor)
-      ? generateHigherContrastColor(changedColor)
-      : null;
-  }, [changedColor]);
+    return !isNilOrEmpty(color) ? generateHigherContrastColor(color) : null;
+  }, [color]);
 
   return (
     <Card
       sx={{
-        backgroundColor: changedColor,
+        backgroundColor: color,
         color: textColor,
+        border: `1px solid ${contrastColor}`,
       }}
       onMouseOver={(e) => {
         if (contrastColor) {
@@ -82,11 +77,11 @@ const Note: React.FC<NoteProps> = ({
       onMouseOut={(e) => {
         if (contrastColor) {
           const thisEl = e.currentTarget;
-          thisEl.style.backgroundColor = changedColor;
+          thisEl.style.backgroundColor = color;
         }
       }}
       style={style}
-      className="note"
+      className="note shadow-sm!"
     >
       <CardHeader
         title={<Typography variant="subtitle1">{title}</Typography>}

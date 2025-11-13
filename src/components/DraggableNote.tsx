@@ -18,9 +18,6 @@ import {
   generateHigherContrastColor,
 } from "../utils";
 
-// hooks
-import useChangedColor from "../hooks/useChangedColor";
-
 // types
 import type { DraggableNoteProps, DragItem } from "../types";
 
@@ -36,8 +33,6 @@ export const DraggableNote: FC<DraggableNoteProps> = ({
   color = "#FFFFFF",
   highlighted,
 }) => {
-  const changedColor = useChangedColor(color, "body");
-
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -114,19 +109,17 @@ export const DraggableNote: FC<DraggableNoteProps> = ({
   drag(drop(ref));
 
   // Function to determine if a color is light or dark
-  const textColor = isLightColor(changedColor) ? "#000000" : "#ffffff";
+  const textColor = isLightColor(color) ? "#000000" : "#ffffff";
   const rgbaColor: { r: number; g: number; b: number; a: number } | null =
     hexToRgba(textColor, 0.3);
   const contrastColor = useMemo(() => {
-    return !isNilOrEmpty(changedColor)
-      ? generateHigherContrastColor(changedColor)
-      : null;
-  }, [changedColor]);
+    return !isNilOrEmpty(color) ? generateHigherContrastColor(color) : null;
+  }, [color]);
 
   return (
     <Box
       ref={ref}
-      style={{ background: changedColor, opacity }}
+      style={{ background: color, opacity }}
       onMouseOver={(e) => {
         if (contrastColor) {
           const thisEl = e.currentTarget;
@@ -138,7 +131,7 @@ export const DraggableNote: FC<DraggableNoteProps> = ({
       onMouseOut={(e) => {
         if (contrastColor) {
           const thisEl = e.currentTarget;
-          thisEl.style.backgroundColor = changedColor;
+          thisEl.style.backgroundColor = color;
         }
       }}
       data-handler-id={handlerId}
