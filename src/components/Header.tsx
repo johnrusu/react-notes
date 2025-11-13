@@ -64,8 +64,8 @@ const Header: React.FC = (): React.ReactElement => {
   const popOverMessage = () => {
     return (
       <>
-        {NOTES_LABELS.localStorageCleared}{" "}
-        {NOTES_LABELS.refreshingPage(time || 0)}
+        {NOTES_LABELS.localStorageCleared}
+        <p>{NOTES_LABELS.refreshingPage(time || 0)}</p>
       </>
     );
   };
