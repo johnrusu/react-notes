@@ -89,11 +89,11 @@ const Header: React.FC = (): React.ReactElement => {
         >
           <ThemeSwitcher />
           <Button
-            startIcon={<DeleteIcon />}
-            className="clear-storage-button"
+            startIcon={<DeleteIcon className="text-white" />}
+            className="clear-storage-button "
             onClick={(event) => handleClearStorage(event)}
           >
-            <span className="max-md:hidden">
+            <span className="max-md:hidden text-white">
               {NOTES_LABELS.clearLocalStorage}
             </span>
           </Button>

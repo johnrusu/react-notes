@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
@@ -11,7 +11,7 @@ import { deleteNote, updateNote } from "../features/notesSlice";
 import Note from "./Note";
 
 // utils
-import { isArrayNotEmpty } from "../utils";
+import { isArrayNotEmpty, isNilOrEmpty } from "../utils";
 
 // Memoized selector to avoid unnecessary re-renders
 
@@ -58,6 +58,9 @@ const selectSortedNotes = createSelector(
 
 const Notes: React.FC = (): React.ReactElement | null => {
   const notes = useSelector(selectSortedNotes);
+  const lastAddedNote = useSelector(
+    (state: RootState) => state.notes.lastAddedNote,
+  );
   const dispatch = useDispatch();
 
   const onDelete = (id: string) => {
@@ -68,6 +71,49 @@ const Notes: React.FC = (): React.ReactElement | null => {
     // dispatch update note action
     dispatch(updateNote({ noteId: id, text }));
   };
+
+  useEffect(() => {
+    if (!isNilOrEmpty(lastAddedNote) && lastAddedNote) {
+      // Find the newly added note element
+      const findAndScrollToNote = () => {
+        // Try multiple possible selectors for the note
+        const selectors = [
+          `#note-${lastAddedNote.id}-0`,
+          `[data-note-id="${lastAddedNote.id}"]`,
+          `.note[data-id="${lastAddedNote.id}"]`,
+        ];
+
+        let element: HTMLElement | null = null;
+
+        for (const selector of selectors) {
+          element = document.querySelector(selector);
+          if (element) break;
+        }
+
+        if (element) {
+          // Add a smooth scroll with better timing
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest",
+          });
+
+          // Add a subtle highlight effect
+          element.style.transition = "box-shadow 0.3s ease-in-out";
+          element.style.boxShadow = "0 0 20px rgba(59, 130, 246, 0.5)";
+
+          // Remove highlight after animation
+          setTimeout(() => {
+            element!.style.boxShadow = "";
+          }, 1500);
+        }
+        dispatch({ type: "notes/deleteLastdAddedNote" });
+      };
+
+      // Wait for DOM updates and animations to complete
+      setTimeout(findAndScrollToNote, 500);
+    }
+  }, [lastAddedNote, dispatch]);
 
   return isArrayNotEmpty(notes) ? (
     <div className="w-full">

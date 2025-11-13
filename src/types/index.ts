@@ -23,6 +23,7 @@ interface NotesState {
   filteredBy: NotesType;
   filterText: string;
   wasReset: boolean;
+  lastAddedNote: NoteDefault | null;
 }
 
 interface NotesThemeState {

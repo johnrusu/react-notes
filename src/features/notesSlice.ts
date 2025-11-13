@@ -14,6 +14,7 @@ const initialState: NotesState = {
   filteredNotes: [],
   filterText: "",
   wasReset: false,
+  lastAddedNote: null,
 };
 
 export const notesSlice = createSlice({
@@ -29,6 +30,14 @@ export const notesSlice = createSlice({
         ...state.notes,
         { ...action.payload, id: `${lastNoteId + 1}` },
       ];
+      state.filteredNotes = [];
+      state.lastAddedNote = { ...action.payload, id: `${lastNoteId + 1}` };
+    },
+
+    deleteLastdAddedNote: (state) => {
+      if (!isNilOrEmpty(state.lastAddedNote)) {
+        state.lastAddedNote = null;
+      }
     },
 
     deleteNote: (state, action: PayloadAction<string>) => {
@@ -141,6 +150,7 @@ export const {
   setFilteredType,
   setReorderedNotes,
   filterNotesByText,
+  deleteLastdAddedNote,
 } = notesSlice.actions;
 
 export default notesSlice.reducer;

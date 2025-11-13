@@ -61,6 +61,7 @@ const Note: React.FC<NoteProps> = ({
 
   return (
     <Card
+      id={`note-${id}-0`}
       sx={{
         backgroundColor: color,
         color: textColor,
