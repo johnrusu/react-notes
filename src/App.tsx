@@ -226,7 +226,7 @@ const App = (): React.ReactElement => {
           </Box>
           <Footer>
             <Typography variant="body2" color="textSecondary" align="center">
-              {NOTES_LABELS.copyright}
+              {NOTES_LABELS.copyright()}
             </Typography>
           </Footer>
         </Box>

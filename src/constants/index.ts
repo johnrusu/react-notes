@@ -10,7 +10,8 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
-  copyright: "© 2024 Rusu Ionut - Notes. All rights reserved.",
+  copyright: () =>
+    `© ${new Date().getFullYear()} Your Name. All rights reserved.`,
   refreshingPage: (time: number) =>
     `Refreshing page in ${time / 1000} seconds...`,
   confirmAction: "Confirm Action",
