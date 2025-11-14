@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 // mui
 import {
@@ -25,7 +25,12 @@ import NoteContent from "./NoteContent";
 import { NOTES_LABELS } from "../constants";
 
 // utils
-import { isLightColor, hexToRgba } from "../utils";
+import {
+  isLightColor,
+  hexToRgba,
+  generateHigherContrastColor,
+  isNilOrEmpty,
+} from "../utils";
 
 // types
 interface NoteProps extends NoteDefault {
@@ -50,14 +55,34 @@ const Note: React.FC<NoteProps> = ({
   const rgbaColor: { r: number; g: number; b: number; a: number } | null =
     hexToRgba(textColor, 0.3);
 
+  const contrastColor = useMemo(() => {
+    return !isNilOrEmpty(color) ? generateHigherContrastColor(color) : null;
+  }, [color]);
+
   return (
     <Card
+      id={`note-${id}-0`}
       sx={{
         backgroundColor: color,
         color: textColor,
+        border: `1px solid ${contrastColor}`,
+      }}
+      onMouseOver={(e) => {
+        if (contrastColor) {
+          const thisEl = e.currentTarget;
+          if (!isNilOrEmpty(contrastColor) && !isNilOrEmpty(thisEl)) {
+            thisEl.style.backgroundColor = contrastColor;
+          }
+        }
+      }}
+      onMouseOut={(e) => {
+        if (contrastColor) {
+          const thisEl = e.currentTarget;
+          thisEl.style.backgroundColor = color;
+        }
       }}
       style={style}
-      className="note"
+      className="note shadow-sm!"
     >
       <CardHeader
         title={<Typography variant="subtitle1">{title}</Typography>}

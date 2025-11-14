@@ -293,3 +293,110 @@ export const stringToJSON = (str: string): object | false | null => {
     return false;
   }
 };
+
+/**
+ * Converts RGB values to hex string
+ *
+ * @param {number} r - Red value (0-255)
+ * @param {number} g - Green value (0-255)
+ * @param {number} b - Blue value (0-255)
+ * @returns {string} - Hex color string
+ */
+export const rgbToHex = (r: number, g: number, b: number): string => {
+  const toHex = (n: number) => {
+    const hex = Math.round(Math.max(0, Math.min(255, n))).toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  };
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+};
+
+/**
+ * Generates a color with slightly higher contrast than the original
+ * For light colors, it makes them darker; for dark colors, it makes them lighter
+ *
+ * @param {string} hexColor - The original hex color (e.g., "#ff0000")
+ * @param {number} contrastAmount - Amount of contrast to add (0-1, default: 0.15)
+ * @returns {string} - New hex color with higher contrast
+ */
+export const generateHigherContrastColor = (
+  hexColor: string,
+  contrastAmount: number = 0.15,
+): string => {
+  const rgb = hexToRgb(hexColor);
+
+  if (!rgb) {
+    console.warn(`Invalid hex color: ${hexColor}`);
+    return hexColor; // Return original if invalid
+  }
+
+  const { r, g, b } = rgb;
+
+  // Check if the color is light or dark
+  const isLight = isLightColor(hexColor);
+
+  // Calculate the contrast adjustment
+  const adjustment = contrastAmount * 255;
+
+  let newR: number, newG: number, newB: number;
+
+  if (isLight) {
+    // For light colors, make them darker
+    newR = Math.max(0, r - adjustment);
+    newG = Math.max(0, g - adjustment);
+    newB = Math.max(0, b - adjustment);
+  } else {
+    // For dark colors, make them lighter
+    newR = Math.min(255, r + adjustment);
+    newG = Math.min(255, g + adjustment);
+    newB = Math.min(255, b + adjustment);
+  }
+
+  return rgbToHex(newR, newG, newB);
+};
+
+const getElementStyle = (element: HTMLElement, styleProp: string): string => {
+  return window.getComputedStyle(element).getPropertyValue(styleProp);
+};
+
+export { getElementStyle };
+
+const rgbaStringToObject = (
+  rgbaString: string,
+): { r: number; g: number; b: number; a: number } | null => {
+  const regex =
+    /rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(\d*\.?\d+))?\s*\)/i;
+  const matches = rgbaString.match(regex);
+  if (matches) {
+    const r = parseInt(matches[1], 10);
+    const g = parseInt(matches[2], 10);
+    const b = parseInt(matches[3], 10);
+    const a = matches[4] !== undefined ? parseFloat(matches[4]) : 1;
+    return { r, g, b, a };
+  }
+  return null;
+};
+
+const rgbaToHex = (r: number, g: number, b: number, a: number): string => {
+  const toHex = (n: number) => {
+    const hex = Math.round(Math.max(0, Math.min(255, n))).toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  };
+  const alpha = Math.round(a * 255);
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}${toHex(alpha)}`;
+};
+
+const compareHexColors = (hex1: string, hex2: string): boolean => {
+  const normalizeHex = (hex: string) => {
+    let cleanedHex = hex.replace("#", "");
+    if (cleanedHex.length === 3) {
+      cleanedHex = cleanedHex
+        .split("")
+        .map((char) => char + char)
+        .join("");
+    }
+    return cleanedHex.toLowerCase();
+  };
+  return normalizeHex(hex1) === normalizeHex(hex2);
+};
+
+export { rgbaToHex, rgbaStringToObject, compareHexColors };

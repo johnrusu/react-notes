@@ -132,7 +132,7 @@ body {
 }
 
 .notes-container .notes-grid-and-controls .notes-grid {
-  @apply flex flex-1 flex-col gap-4 overflow-y-auto;
+  @apply flex flex-1 flex-col gap-4 overflow-y-auto pb-4;
 }
 
 .notes-container .notes-grid-and-controls .notes-grid .note {

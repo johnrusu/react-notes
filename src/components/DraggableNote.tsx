@@ -1,5 +1,5 @@
 import type { Identifier, XYCoord } from "dnd-core";
-import type { FC } from "react";
+import { useMemo, type FC } from "react";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
@@ -8,9 +8,15 @@ import { Box } from "@mui/material";
 
 //mui icons
 import GradeIcon from "@mui/icons-material/Grade";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
 
 // utils
-import { isLightColor, hexToRgba, isNilOrEmpty } from "../utils";
+import {
+  isLightColor,
+  hexToRgba,
+  isNilOrEmpty,
+  generateHigherContrastColor,
+} from "../utils";
 
 // types
 import type { DraggableNoteProps, DragItem } from "../types";
@@ -106,11 +112,28 @@ export const DraggableNote: FC<DraggableNoteProps> = ({
   const textColor = isLightColor(color) ? "#000000" : "#ffffff";
   const rgbaColor: { r: number; g: number; b: number; a: number } | null =
     hexToRgba(textColor, 0.3);
+  const contrastColor = useMemo(() => {
+    return !isNilOrEmpty(color) ? generateHigherContrastColor(color) : null;
+  }, [color]);
 
   return (
     <Box
       ref={ref}
       style={{ background: color, opacity }}
+      onMouseOver={(e) => {
+        if (contrastColor) {
+          const thisEl = e.currentTarget;
+          if (!isNilOrEmpty(contrastColor) && !isNilOrEmpty(thisEl)) {
+            thisEl.style.backgroundColor = contrastColor;
+          }
+        }
+      }}
+      onMouseOut={(e) => {
+        if (contrastColor) {
+          const thisEl = e.currentTarget;
+          thisEl.style.backgroundColor = color;
+        }
+      }}
       data-handler-id={handlerId}
       className={`relative ${className}`}
       gap={1}
@@ -127,7 +150,13 @@ export const DraggableNote: FC<DraggableNoteProps> = ({
           />
         </Box>
       ) : null}
-      {!isNilOrEmpty(text) ? <Box color={textColor}>{text}</Box> : null}
+      <Box>
+        {!isNilOrEmpty(text) ? <Box color={textColor}>{text}</Box> : null}
+        <DragHandleIcon
+          className="absolute bottom-2 right-2 cursor-move"
+          sx={{ color: textColor, fontSize: 20 }}
+        />
+      </Box>
     </Box>
   );
 };
