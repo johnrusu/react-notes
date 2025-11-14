@@ -92,7 +92,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Rusu Ionut**
 
-- Website: [ionut-rusu.ro](https://ionut-rusu.ro)
+- Website: [rusu-ionut.ro](https://rusu-ionut.ro)
 - GitHub: [@johnrusu](https://github.com/johnrusu)
 - LinkedIn: [Ionut Rusu](https://www.linkedin.com/in/ionut-rusu-1035b112)
 
