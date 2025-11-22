@@ -6,13 +6,11 @@ import {
   Typography,
   CardContent,
   CardActions,
-  Button,
   CardHeader,
   Box,
 } from "@mui/material";
 
 // mui icons
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import GradeIcon from "@mui/icons-material/Grade";
 
 // types
@@ -20,6 +18,7 @@ import type { NoteDefault } from "../types";
 
 // components
 import NoteContent from "./NoteContent";
+import DeleteNote from "./DeleteNote";
 
 // constants
 import { NOTES_LABELS } from "../constants";
@@ -104,15 +103,11 @@ const Note: React.FC<NoteProps> = ({
         <NoteContent text={text} onTextChange={onTextChange} id={id} />
       </CardContent>
       <CardActions className="flex justify-end">
-        <Button
-          aria-label="delete note"
-          variant="text"
-          sx={{ color: textColor }}
-          onClick={() => onDelete(id)}
-          startIcon={<DeleteForeverIcon />}
-        >
-          {NOTES_LABELS.deleteButton}
-        </Button>
+        <DeleteNote
+          onDeleteNote={() => onDelete(id)}
+          textColor={textColor}
+          id={id}
+        />
       </CardActions>
     </Card>
   );

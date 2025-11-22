@@ -10,13 +10,18 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
+  confirmTitleDeleteNote: "Confirm deletion of note:",
+  confirmMessageDeleteNote:
+    "Are you sure you want to delete this note? This action cannot be undone.",
+  deleteButton: "Delete",
+  yes: "Yes",
+  no: "No",
+  cancel: "Cancel",
   copyright: () =>
     `© ${new Date().getFullYear()} Rusu Ionut. All rights reserved.`,
   refreshingPage: (time: number) =>
     `Refreshing page in ${time / 1000} seconds...`,
   confirmAction: "Confirm Action",
-  yes: "Yes",
-  no: "No",
   confirmTitleClearLocalStorage: "Confirm deletion of all notes:",
   confirmMessageClearLocalStorage:
     "Are you sure you want to delete all notes? This action cannot be undone.",
@@ -28,7 +33,6 @@ const NOTES_LABELS = {
   title: "Notes",
   createNotePlaceholder: "Note content...",
   addButton: "Add Note",
-  deleteButton: "Delete",
   updateButton: "Update",
   addHighlightedNote: "Add highlighted node",
   note: (id: string) => `Note ${id ? id : NOTE_DEFAULT.id}`,
