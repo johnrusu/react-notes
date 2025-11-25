@@ -55,7 +55,12 @@ const DeleteNote: React.FC<DeleteNoteProps> = ({
         maxWidth: 300,
       }}
     >
-      <Typography sx={{ color: textColor }}>
+      <Typography
+        sx={{
+          color: textColor,
+          fontWeight: "bold",
+        }}
+      >
         {`${NOTES_LABELS.confirmTitleDeleteNote} ${NOTES_LABELS.note(id)}`}
       </Typography>
       <Box

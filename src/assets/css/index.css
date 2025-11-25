@@ -158,6 +158,39 @@ body {
   @apply border-none outline-none w-full h-full bg-transparent resize-none;
 }
 
+.note-content-textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.note-content-textarea::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.note-content-textarea::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.note-content-textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
+  cursor: grab;
+}
+
+.note-content-textarea::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
+}
+
+.light-theme .note-content-textarea::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.light-theme .note-content-textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
 .notes-container .notes-grid-and-controls .preview-notes-container {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */

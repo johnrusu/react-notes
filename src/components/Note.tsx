@@ -102,7 +102,7 @@ const Note: React.FC<NoteProps> = ({
       <CardContent className="note-content">
         <NoteContent text={text} onTextChange={onTextChange} id={id} />
       </CardContent>
-      <CardActions className="flex justify-end">
+      <CardActions className="flex justify-end items-end! min-h-22">
         <DeleteNote
           onDeleteNote={() => onDelete(id)}
           textColor={textColor}
