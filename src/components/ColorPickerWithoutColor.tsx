@@ -36,6 +36,8 @@ const ColorPickerWithoutColor: React.FC<ColorPickerProps> = ({
         />
         <input
           type="color"
+          name="color-picker-input"
+          aria-label="color-picker-input"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleColorChange(e.target.value)
           }

@@ -75,7 +75,14 @@ const AddNote: React.FC<AddNoteProps> = (props) => {
         </MenuItem>
       </Menu>
       <Box className="add-note">
-        <IconButton onClick={handleClickMenu}>
+        <IconButton
+          onClick={handleClickMenu}
+          name="add-note-button"
+          aria-label="Add new note"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
           <AddIcon fontSize="large" />
         </IconButton>
       </Box>
