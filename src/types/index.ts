@@ -89,6 +89,10 @@ interface FooterProps {
   children: React.ReactNode | string;
 }
 
+interface IHeader {
+  onLoginClick: () => void;
+}
+
 export type {
   ColorPickerProps,
   Note,
@@ -105,4 +109,5 @@ export type {
   FilterNotesProps,
   ConfirmDialogProps,
   FooterProps,
+  IHeader,
 };

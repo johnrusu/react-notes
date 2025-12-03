@@ -24,6 +24,18 @@ body {
   background-color: var(--defaultBackground);
 }
 
+.nav-link button {
+  @apply text-white normal-case text-base font-medium transition-all duration-200;
+}
+
+.nav-link.active button {
+  @apply bg-white/10 rounded;
+}
+
+.nav-link button:hover {
+  @apply bg-white/5 rounded;
+}
+
 .footer {
   @apply p-4 text-center text-sm text-gray-400;
 }

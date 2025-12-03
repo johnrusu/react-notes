@@ -10,6 +10,8 @@ const NOTE_DEFAULT = {
 };
 
 const NOTES_LABELS = {
+  login: "Login",
+  logout: "Logout",
   confirmTitleDeleteNote: "Confirm deletion of note:",
   confirmMessageDeleteNote:
     "Are you sure you want to delete this note? This action cannot be undone.",
@@ -65,8 +67,87 @@ const THEMES = {
 };
 
 const DEFAULT_TIMEOUT_FOR_RELOADING_PAGE = 3000;
+const BASE_NAME = "react-notes";
+
+const SETTINGS_PATHS = [
+  //const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+  { NAME: "Profile", PATH: "/profile", ICON: "person" },
+  { NAME: "Account", PATH: "/account", ICON: "settings" },
+  { NAME: "Dashboard", PATH: "/dashboard", ICON: "dashboard" },
+  { NAME: "Logout", PATH: "/logout", ICON: "logout" },
+];
+
+const ROUTER_PATHS: {
+  PATH: string;
+  EXACT?: boolean;
+  NAME: string;
+  ICON: string;
+}[] = [
+  {
+    PATH: "/",
+    EXACT: true,
+    NAME: "Home",
+    ICON: "home",
+  },
+  {
+    PATH: "/about",
+    NAME: "About",
+    ICON: "about",
+  },
+];
+
+const ABOUT_PAGE = {
+  pageTitle: "About React Notes",
+  subtitle: "A modern, feature-rich note-taking application",
+  sectionsTitle: {
+    features: "Features",
+    technologies: "Technologies",
+    capabilities: "Key Capabilities",
+    openSource: "Open Source",
+  },
+  features: [
+    {
+      title: "Modern Stack",
+      description: "Built with React 19, TypeScript, and Redux Toolkit",
+    },
+    {
+      title: "Fast & Responsive",
+      description: "Optimized with Vite build tool and hash-based caching",
+    },
+    {
+      title: "Persistent Storage",
+      description: "Automatic localStorage sync for data persistence",
+    },
+  ],
+  technologies: [
+    "React 19",
+    "TypeScript",
+    "Redux Toolkit",
+    "Material-UI",
+    "TailwindCSS",
+    "Vite",
+    "react-dnd",
+  ],
+  capabilities: [
+    "Create, edit, and delete notes with a clean interface",
+    "Color-code your notes for better organization",
+    "Drag and drop to reorder notes",
+    "Search and filter notes instantly",
+    "Dark/Light theme support",
+    "Automatic data persistence with localStorage",
+    "Responsive design for mobile and desktop",
+  ],
+  openSource: {
+    title: "Open Source",
+    description: "This project is open source and available on GitHub",
+    linkText: "View on GitHub",
+    repoUrl: "https://github.com/johnrusu/react-notes",
+  },
+  footer: (year: number) => `Created by Rusu Ionut • ${year}`,
+};
 
 export {
+  ROUTER_PATHS,
   NOTE_COLORS,
   NOTES_LABELS,
   NOTE_DEFAULT,
@@ -74,4 +155,7 @@ export {
   ITEM_TYPES,
   THEMES,
   DEFAULT_TIMEOUT_FOR_RELOADING_PAGE,
+  ABOUT_PAGE,
+  BASE_NAME,
+  SETTINGS_PATHS,
 };

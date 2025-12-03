@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { createHtmlPlugin } from "vite-plugin-html";
+import path from "path";
 
 // App metadata configuration
 const appMetadata = {
@@ -16,6 +17,11 @@ const appMetadata = {
 // https://vite.dev/config/
 export default defineConfig({
   base: "/react-notes/", // GitHub Pages repository name
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
   build: {
     rollupOptions: {
       output: {
