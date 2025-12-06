@@ -24,18 +24,6 @@ body {
   background-color: var(--defaultBackground);
 }
 
-.nav-link button {
-  @apply text-white normal-case text-base font-medium transition-all duration-200;
-}
-
-.nav-link.active button {
-  @apply bg-white/10 rounded;
-}
-
-.nav-link button:hover {
-  @apply bg-white/5 rounded;
-}
-
 .footer {
   @apply p-4 text-center text-sm text-gray-400;
 }
@@ -305,21 +293,6 @@ body {
 
   .header h5 {
     @apply text-xl;
-  }
-
-  .header .clear-storage-button {
-    width: 20px !important;
-    max-width: 20px !important;
-    min-width: 20px !important;
-    padding: 0 !important;
-  }
-
-  .header .clear-storage-button .MuiButton-startIcon {
-    margin: 0 !important;
-  }
-
-  .header .clear-storage-button span:not(.MuiButton-icon) {
-    display: none !important;
   }
 
   .header .MuiButton-icon {

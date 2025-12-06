@@ -80,33 +80,42 @@ const AppSettings: React.FC = () => {
     <>
       <Box
         display="flex"
-        flexDirection="row"
+        flexDirection="column"
         gap={2}
+        alignContent={"flex-start"}
         justifyContent={"space-between"}
       >
-        <ThemeSwitcher />
-        <Button
-          startIcon={<DeleteIcon className="text-white" />}
-          className="clear-storage-button "
-          onClick={(event) => handleClearStorage(event)}
-        >
-          <span className="max-md:hidden text-white">
-            {NOTES_LABELS.clearNotes}
-          </span>
-        </Button>
+        <Box>
+          <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+            {NOTES_LABELS.themeSettings}
+          </Typography>
+          <ThemeSwitcher />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+            {NOTES_LABELS.clearNotesSettings}
+          </Typography>
+          <Button
+            startIcon={<DeleteIcon />}
+            className="clear-storage-button"
+            onClick={(event) => handleClearStorage(event)}
+          >
+            <span className="max-md:hidden">{NOTES_LABELS.clearNotes}</span>
+          </Button>
 
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-        >
-          <Typography sx={{ p: 2 }}>{popOverMessage()}</Typography>
-        </Popover>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+          >
+            <Typography sx={{ p: 2 }}>{popOverMessage()}</Typography>
+          </Popover>
+        </Box>
       </Box>
       <ConfirmDialog
         isOpen={confirmDialogOpen}

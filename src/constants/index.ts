@@ -48,6 +48,8 @@ const NOTES_LABELS = {
   applyOrderButton: "Apply Order",
   warningReorderNotes:
     "Simple notes can only be reordered among other simple notes, and highlighted notes can only be reordered among other highlighted notes.",
+  themeSettings: "Theme",
+  clearNotesSettings: "Clear All Notes",
 };
 
 const NOTES_TYPE: { [key in NotesType]: NotesType } = {

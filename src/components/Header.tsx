@@ -107,7 +107,7 @@ const LoginSection = ({
         <Image
           src={src}
           alt={alt}
-          fallbackIcon={<AccountCircleIcon />}
+          fallbackIcon={<AccountCircleIcon fontSize="large" />}
           className="user-avatar"
         />
       </IconButton>
