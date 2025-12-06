@@ -83,12 +83,22 @@ const App = (): React.ReactElement => {
     currentTheme === NOTES_LABELS.darkMode ? THEMES.DARK : THEMES.LIGHT
   }`;
 
-  const handleLogin = (): void => {
-    loginWithRedirect();
+  const handleLogin = async (): Promise<void> => {
+    try {
+      await loginWithRedirect();
+    } catch (error) {
+      console.error("Login failed:", error);
+      // You can add additional user feedback here (e.g., toast notification)
+    }
   };
 
   const handleLogout = (): void => {
-    logout();
+    try {
+      logout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // You can add additional user feedback here (e.g., toast notification)
+    }
   };
 
   useEffect(() => {
