@@ -451,8 +451,11 @@ export const checkImage = (
 
 /**
  * Helper function to build full URL with base path
- * @param basePath - The base path to append to the origin
+ * @param basePath - The base path to append to the origin (should not have leading/trailing slashes)
  * @returns The full URL with base path
+ * @example
+ * buildFullUrl("") // => "http://localhost:3000"
+ * buildFullUrl("react-notes") // => "http://localhost:3000/react-notes"
  */
 export const buildFullUrl = (basePath: string): string => {
   return `${window.location.origin}${basePath ? `/${basePath}` : ""}`;
@@ -460,8 +463,11 @@ export const buildFullUrl = (basePath: string): string => {
 
 /**
  * Helper function to build router basename
- * @param basePath - The base path for the router
- * @returns The router basename
+ * @param basePath - The base path for the router (should not have leading/trailing slashes)
+ * @returns The router basename with leading slash
+ * @example
+ * buildRouterBasename("") // => "/"
+ * buildRouterBasename("react-notes") // => "/react-notes"
  */
 export const buildRouterBasename = (basePath: string): string => {
   return basePath ? `/${basePath}` : "/";
