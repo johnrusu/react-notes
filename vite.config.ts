@@ -4,7 +4,6 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { createHtmlPlugin } from "vite-plugin-html";
 import path from "path";
-import { pathOr } from "ramda";
 
 // App metadata configuration
 const appMetadata = {
@@ -15,9 +14,6 @@ const appMetadata = {
   keywords:
     "notes app, react, redux, material-ui, tailwindcss, typescript, drag and drop, dark mode, ionut rusu, note taking, productivity",
 };
-
-const BASE_URL = pathOr("", ["VITE_BASE_NAME"], import.meta.env);
-console.log(BASE_URL);
 
 // https://vite.dev/config/
 export default defineConfig({

@@ -153,7 +153,7 @@ const LoginSection = ({
                   key={settingKey}
                   to={path}
                   className={({ isActive }) =>
-                    ` nav-link flex flex-row  cursor-pointer items-center ${isActive ? "active" : ""}`
+                    ` nav-link flex flex-row cursor-pointer items-center ${isActive ? "active" : ""}`
                   }
                 >
                   {!isNilOrEmpty(icon) ? (

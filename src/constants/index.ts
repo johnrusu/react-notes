@@ -81,7 +81,6 @@ const ROUTER_PATHS: {
 }[] = [
   {
     PATH: "/",
-    EXACT: true,
     NAME: "Home",
     ICON: "home",
   },
