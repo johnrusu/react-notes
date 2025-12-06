@@ -17,6 +17,17 @@ const VITE_AUTH0_CLIENT_ID = pathOr(
 );
 const BASE_NAME = pathOr("", ["VITE_BASE_NAME"], import.meta.env);
 
+// Validate required Auth0 environment variables
+if (!VITE_AUTH0_DOMAIN || !VITE_AUTH0_CLIENT_ID) {
+  const missingVars = [];
+  if (!VITE_AUTH0_DOMAIN) missingVars.push("VITE_AUTH0_DOMAIN");
+  if (!VITE_AUTH0_CLIENT_ID) missingVars.push("VITE_AUTH0_CLIENT_ID");
+  throw new Error(
+    `Missing required Auth0 environment variables: ${missingVars.join(", ")}. ` +
+      `Please ensure these variables are set in your environment configuration.`,
+  );
+}
+
 createRoot(document.getElementById("root")!).render(
   <Auth0Provider
     domain={VITE_AUTH0_DOMAIN || ""}
