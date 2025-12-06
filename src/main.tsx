@@ -19,16 +19,25 @@ const VITE_AUTH0_CLIENT_ID = pathOr(
   ["VITE_AUTH0_CLIENT_ID"],
   import.meta.env,
 ) as string;
-const BASE_NAME = pathOr("", ["VITE_BASE_NAME"], import.meta.env) as string;
+const BASE_NAME = pathOr(
+  "",
+  ["VITE_BASE_NAME"],
+  import.meta.env,
+) as string;
+
+// Helper function to validate required environment variables
+const isEmptyOrWhitespace = (value: string): boolean => {
+  return !value || value.trim() === "";
+};
 
 // Validate Auth0 configuration
-if (!VITE_AUTH0_DOMAIN || VITE_AUTH0_DOMAIN.trim() === "") {
+if (isEmptyOrWhitespace(VITE_AUTH0_DOMAIN)) {
   throw new Error(
     "Auth0 configuration error: VITE_AUTH0_DOMAIN environment variable is required but not set or is empty. Please set it in your .env file.",
   );
 }
 
-if (!VITE_AUTH0_CLIENT_ID || VITE_AUTH0_CLIENT_ID.trim() === "") {
+if (isEmptyOrWhitespace(VITE_AUTH0_CLIENT_ID)) {
   throw new Error(
     "Auth0 configuration error: VITE_AUTH0_CLIENT_ID environment variable is required but not set or is empty. Please set it in your .env file.",
   );
