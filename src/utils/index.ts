@@ -431,12 +431,13 @@ export const checkImage = (
         console.warn(
           `Image load failed, retrying... (${attemptsLeft} attempts left)`,
         );
+        const attemptNumber = retries - attemptsLeft + 1;
         attemptsLeft -= 1;
         setTimeout(
           () => {
             image.src = imageSrc;
           },
-          delay * (retries - attemptsLeft),
+          delay * attemptNumber,
         ); // Linear backoff
       } else {
         // Clean up handlers to avoid memory leaks
