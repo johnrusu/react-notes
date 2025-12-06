@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { is, pathOr } from "ramda";
+import { pathOr } from "ramda";
 
 // utils
-import { checkImage, isNilOrEmpty } from "../utils";
+import { checkImage } from "../utils";
 
 // types
 interface ImageProps {
@@ -35,16 +35,16 @@ const Image = (props: ImageProps): React.ReactElement | null => {
       });
   }, [src]);
 
-  return !isNilOrEmpty(asyncImage) && asyncImage && is(Object, asyncImage) ? (
+  return asyncImage ? (
     <img
       src={asyncImage.src}
       alt={alt}
       crossOrigin="anonymous"
       className={className}
     />
-  ) : !isNilOrEmpty(fallbackIcon) ? (
+  ) : (
     fallbackIcon
-  ) : null;
+  );
 };
 
 export default Image;

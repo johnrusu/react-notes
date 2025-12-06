@@ -23,7 +23,7 @@ import useStorage from "../hooks/useStorage";
 // component
 import ThemeSwitcher from "./ThemeSwitcher";
 
-const Settings: React.FC = () => {
+const AppSettings: React.FC = () => {
   const { removeFromStorage } = useStorage();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -120,4 +120,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings;
+export default AppSettings;

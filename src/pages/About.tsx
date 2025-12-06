@@ -20,7 +20,7 @@ const About = (): React.ReactElement => {
   const featureIcons = [<CodeIcon />, <SpeedIcon />, <StorageIcon />];
   const featuresWithIcons = ABOUT_PAGE.features.map((feature, index) => ({
     ...feature,
-    icon: featureIcons[index],
+    icon: featureIcons[index] || <CodeIcon />,
   }));
 
   return (

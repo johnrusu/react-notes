@@ -32,12 +32,12 @@ interface NotesThemeState {
 
 interface AddNoteProps {
   onNoteAdd: (note: Note) => void;
-  onNoteHightlightedNote: (note: Note) => void;
+  onNoteHighlightedNote: (note: Note) => void;
 }
 
 interface CreateNoteProps {
   onNoteAdd: (note: Note) => void;
-  onNoteHightlightedNote: (note: Note) => void;
+  onNoteHighlightedNote: (note: Note) => void;
 }
 
 interface NotesCounterProps {

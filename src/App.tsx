@@ -14,13 +14,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Snackbar, Alert } from "@mui/material";
 
 // utils
-import { stringToJSON } from "./utils";
+import { stringToJSON, buildFullUrl } from "./utils";
+
+// config
+import { normalizedBaseName } from "./config";
 
 // constants
 import { NOTES_LABELS, THEMES } from "./constants/index";
 
 // components
-import { Header } from "./components";
+import { Header, ProtectedRoute } from "./components";
 
 // pages
 import Home from "./pages/Home";
@@ -110,7 +113,7 @@ const App = (): React.ReactElement => {
     try {
       await logout({
         logoutParams: {
-          returnTo: window.location.origin,
+          returnTo: buildFullUrl(normalizedBaseName),
         },
       });
     } catch (error) {
@@ -140,7 +143,14 @@ const App = (): React.ReactElement => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/account" element={<Account />} />
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <Account />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Box>
         <Snackbar
