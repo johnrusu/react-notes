@@ -94,7 +94,11 @@ const App = (): React.ReactElement => {
 
   const handleLogout = async (): Promise<void> => {
     try {
-      await logout();
+      await logout({
+        logoutParams: {
+          returnTo: window.location.origin,
+        },
+      });
     } catch (error) {
       console.error("Logout failed:", error);
       // You can add additional user feedback here (e.g., toast notification)

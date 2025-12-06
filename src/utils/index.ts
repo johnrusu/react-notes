@@ -417,27 +417,35 @@ export const checkImage = (
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.crossOrigin = "anonymous";
+    let attemptsLeft = retries;
 
-    const attemptLoad = (attemptsLeft: number) => {
-      image.onload = () => resolve(image);
-      image.onerror = () => {
-        if (attemptsLeft > 0) {
-          console.warn(
-            `Image load failed, retrying... (${attemptsLeft} attempts left)`,
-          );
-          setTimeout(
-            () => {
-              attemptLoad(attemptsLeft - 1);
-            },
-            delay * (retries - attemptsLeft + 1),
-          ); // Exponential backoff
-        } else {
-          reject(new Error("could not load image after retries"));
-        }
-      };
-      image.src = imageSrc;
+    image.onload = () => {
+      // Clean up handlers to avoid memory leaks
+      image.onload = null;
+      image.onerror = null;
+      resolve(image);
     };
 
-    attemptLoad(retries);
+    image.onerror = () => {
+      if (attemptsLeft > 0) {
+        console.warn(
+          `Image load failed, retrying... (${attemptsLeft} attempts left)`,
+        );
+        attemptsLeft -= 1;
+        setTimeout(
+          () => {
+            image.src = imageSrc;
+          },
+          delay * (retries - attemptsLeft),
+        ); // Linear backoff
+      } else {
+        // Clean up handlers to avoid memory leaks
+        image.onload = null;
+        image.onerror = null;
+        reject(new Error("could not load image after retries"));
+      }
+    };
+
+    image.src = imageSrc;
   });
 };

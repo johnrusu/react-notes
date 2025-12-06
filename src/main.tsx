@@ -21,6 +21,9 @@ const VITE_AUTH0_CLIENT_ID = pathOr(
 ) as string;
 const BASE_NAME = pathOr("", ["VITE_BASE_NAME"], import.meta.env) as string;
 
+// Normalize BASE_NAME: ensure no leading or trailing slashes
+const normalizedBaseName = BASE_NAME.replace(/^\/+|\/+$/g, "");
+
 // Helper function to validate required environment variables
 const isEmptyOrWhitespace = (value: string): boolean => {
   return !value || value.trim() === "";
@@ -39,30 +42,21 @@ if (isEmptyOrWhitespace(VITE_AUTH0_CLIENT_ID)) {
   );
 }
 
-// Validate required Auth0 environment variables
-if (!VITE_AUTH0_DOMAIN || !VITE_AUTH0_CLIENT_ID) {
-  const missingVars = [];
-  if (!VITE_AUTH0_DOMAIN) missingVars.push("VITE_AUTH0_DOMAIN");
-  if (!VITE_AUTH0_CLIENT_ID) missingVars.push("VITE_AUTH0_CLIENT_ID");
-  throw new Error(
-    `Missing required Auth0 environment variables: ${missingVars.join(", ")}. ` +
-      `Please ensure these variables are set in your environment configuration.`,
-  );
-}
-
 createRoot(document.getElementById("root")!).render(
   <Auth0Provider
     domain={VITE_AUTH0_DOMAIN}
     clientId={VITE_AUTH0_CLIENT_ID}
     authorizationParams={{
-      redirect_uri: `${window.location.origin}${BASE_NAME}`,
+      redirect_uri: `${window.location.origin}${normalizedBaseName ? `/${normalizedBaseName}` : ""}`,
     }}
+    // Note: Using localStorage for token storage provides convenience but is vulnerable to XSS attacks.
+    // Ensure comprehensive XSS protection measures are in place throughout the application.
     cacheLocation="localstorage"
     useRefreshTokens={true}
   >
     <Provider store={store}>
       <StrictMode>
-        <BrowserRouter basename={`/${BASE_NAME.replace(/\/$/, "")}`}>
+        <BrowserRouter basename={normalizedBaseName ? `/${normalizedBaseName}` : "/"}>
           <App />
         </BrowserRouter>
       </StrictMode>
