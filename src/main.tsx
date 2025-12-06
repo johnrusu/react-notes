@@ -30,8 +30,8 @@ if (!VITE_AUTH0_DOMAIN || !VITE_AUTH0_CLIENT_ID) {
 
 createRoot(document.getElementById("root")!).render(
   <Auth0Provider
-    domain={VITE_AUTH0_DOMAIN || ""}
-    clientId={VITE_AUTH0_CLIENT_ID || ""}
+    domain={VITE_AUTH0_DOMAIN}
+    clientId={VITE_AUTH0_CLIENT_ID}
     authorizationParams={{
       redirect_uri: `${window.location.origin}${BASE_NAME}`,
     }}
