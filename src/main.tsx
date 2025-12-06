@@ -19,11 +19,7 @@ const VITE_AUTH0_CLIENT_ID = pathOr(
   ["VITE_AUTH0_CLIENT_ID"],
   import.meta.env,
 ) as string;
-const BASE_NAME = pathOr(
-  "",
-  ["VITE_BASE_NAME"],
-  import.meta.env,
-) as string;
+const BASE_NAME = pathOr("", ["VITE_BASE_NAME"], import.meta.env) as string;
 
 // Helper function to validate required environment variables
 const isEmptyOrWhitespace = (value: string): boolean => {
