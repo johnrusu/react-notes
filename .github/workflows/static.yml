@@ -44,6 +44,10 @@ jobs:
 
       - name: Build application
         run: npm run build
+        env:
+          VITE_AUTH0_CLIENT_ID: ${{ secrets.VITE_AUTH0_CLIENT_ID }}
+          VITE_AUTH0_DOMAIN: ${{ secrets.VITE_AUTH0_DOMAIN }}
+          VITE_BASE_NAME: ${{ secrets.VITE_BASE_NAME }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -29,7 +29,7 @@ createRoot(document.getElementById("root")!).render(
   >
     <Provider store={store}>
       <StrictMode>
-        <BrowserRouter basename={`/${BASE_NAME.replace(/\/$/, "")}`}>
+        <BrowserRouter basename={`/${BASE_NAME}`}>
           <App />
         </BrowserRouter>
       </StrictMode>
