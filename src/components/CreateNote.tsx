@@ -35,12 +35,12 @@ const CreateNote: React.FC<CreateNoteProps> = (props) => {
     props,
   );
 
-  const handelNoteAdd = () => {
+  const handleNoteAdd = () => {
     const color: string = currentColor;
     onNoteAdd({ ...NOTE_DEFAULT, color, highlighted: false });
   };
 
-  const handelHighlightedNoteAdd = () => {
+  const handleHighlightedNoteAdd = () => {
     const color: string = currentColor;
     onNoteHightlightedNote({
       ...NOTE_DEFAULT,
@@ -56,8 +56,8 @@ const CreateNote: React.FC<CreateNoteProps> = (props) => {
   return isArrayNotEmpty(NOTE_COLORS) ? (
     <Box className="create-note">
       <AddNote
-        onNoteAdd={handelNoteAdd}
-        onNoteHightlightedNote={handelHighlightedNoteAdd}
+        onNoteAdd={handleNoteAdd}
+        onNoteHightlightedNote={handleHighlightedNoteAdd}
       />
       <Box className="color-pickers-container">
         {NOTE_COLORS.map((noteColor: string, noteColorIndex: number) => (
