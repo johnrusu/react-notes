@@ -56,7 +56,9 @@ createRoot(document.getElementById("root")!).render(
   >
     <Provider store={store}>
       <StrictMode>
-        <BrowserRouter basename={normalizedBaseName ? `/${normalizedBaseName}` : "/"}>
+        <BrowserRouter
+          basename={normalizedBaseName ? `/${normalizedBaseName}` : "/"}
+        >
           <App />
         </BrowserRouter>
       </StrictMode>
