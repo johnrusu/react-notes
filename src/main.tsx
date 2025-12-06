@@ -7,20 +7,29 @@ import "./assets/css/index.css";
 import App from "./App.tsx";
 import { Auth0Provider } from "@auth0/auth0-react";
 
-// constants
-import { BASE_NAME } from "./constants/index";
+import { pathOr } from "ramda";
+
+const VITE_AUTH0_DOMAIN = pathOr("", ["VITE_AUTH0_DOMAIN"], import.meta.env);
+const VITE_AUTH0_CLIENT_ID = pathOr(
+  "",
+  ["VITE_AUTH0_CLIENT_ID"],
+  import.meta.env,
+);
+const BASE_NAME = pathOr("", ["VITE_BASE_NAME"], import.meta.env);
 
 createRoot(document.getElementById("root")!).render(
   <Auth0Provider
-    domain={import.meta.env.VITE_AUTH0_DOMAIN || ""}
-    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID || ""}
+    domain={VITE_AUTH0_DOMAIN || ""}
+    clientId={VITE_AUTH0_CLIENT_ID || ""}
     authorizationParams={{
-      redirect_uri: `${window.location.origin}/${BASE_NAME}`,
+      redirect_uri: `${window.location.origin}${BASE_NAME}`,
     }}
+    cacheLocation="localstorage"
+    useRefreshTokens={true}
   >
     <Provider store={store}>
       <StrictMode>
-        <BrowserRouter basename={`/${BASE_NAME}`}>
+        <BrowserRouter basename={`/${BASE_NAME.replace(/\/$/, "")}`}>
           <App />
         </BrowserRouter>
       </StrictMode>

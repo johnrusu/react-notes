@@ -400,3 +400,44 @@ const compareHexColors = (hex1: string, hex2: string): boolean => {
 };
 
 export { rgbaToHex, rgbaStringToObject, compareHexColors };
+
+/**
+ * Checks if an image URL is valid and loads successfully
+ * @param imageSrc - The source URL of the image
+ * @returns A promise that resolves with the HTMLImageElement if successful, or null if the source is empty
+ */
+export const checkImage = (
+  imageSrc: string = "",
+  retries: number = 3,
+  delay: number = 1000,
+): Promise<HTMLImageElement | null> => {
+  if (isNilOrEmpty(imageSrc)) {
+    return Promise.resolve(null);
+  }
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.crossOrigin = "anonymous";
+
+    const attemptLoad = (attemptsLeft: number) => {
+      image.onload = () => resolve(image);
+      image.onerror = () => {
+        if (attemptsLeft > 0) {
+          console.warn(
+            `Image load failed, retrying... (${attemptsLeft} attempts left)`,
+          );
+          setTimeout(
+            () => {
+              attemptLoad(attemptsLeft - 1);
+            },
+            delay * (retries - attemptsLeft + 1),
+          ); // Exponential backoff
+        } else {
+          reject(new Error("could not load image after retries"));
+        }
+      };
+      image.src = imageSrc;
+    };
+
+    attemptLoad(retries);
+  });
+};

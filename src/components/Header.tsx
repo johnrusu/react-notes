@@ -14,15 +14,25 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 
 // mui icons
 import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 //mui icons
 import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import HomeFilledIcon from "@mui/icons-material/HomeFilled";
 import InfoIcon from "@mui/icons-material/Info";
+import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from "@mui/icons-material/Settings";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+
+// components
+import Image from "./Image";
 
 // icons
 import faviconImg from "@/assets/favicons/favicon-32x32.png";
@@ -32,225 +42,288 @@ import type { IHeader } from "../types";
 
 // constants
 import { NOTES_LABELS, ROUTER_PATHS, SETTINGS_PATHS } from "../constants";
-const Header: React.FC<IHeader> = (props: IHeader): React.ReactElement => {
-  const onLoginClick = pathOr(() => {}, ["onLoginClick"], props);
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null,
-  );
+// auth0
+import { useAuth0 } from "@auth0/auth0-react";
+import { isNilOrEmpty } from "@/utils";
+
+const getIcon = (defaultIcon: string, props = {}) => {
+  const ICON_SWITCH: { [key: string]: React.ComponentType } = {
+    home: HomeFilledIcon,
+    about: InfoIcon,
+    logout: LogoutIcon,
+    settings: SettingsIcon,
+    dashboard: DashboardIcon,
+    person: PersonIcon,
+  };
+  return React.createElement(ICON_SWITCH[defaultIcon], props);
+};
+
+const LoginSection = ({
+  onLoginClick,
+  onLogoutClick,
+}: {
+  onLoginClick: () => void;
+  onLogoutClick: () => void;
+}): React.ReactElement => {
+  const { user, isAuthenticated = false } = useAuth0();
+  const src = pathOr("", ["picture"], user);
+  const alt = pathOr("", ["name"], user);
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const handleLogin = () => {
-    onLoginClick();
+  return !isAuthenticated ? (
+    <Button
+      startIcon={<LoginIcon />}
+      className="auth0-button"
+      onClick={() => {
+        onLoginClick();
+      }}
+    >
+      <span>{NOTES_LABELS.login}</span>
+    </Button>
+  ) : (
+    <>
+      <IconButton className="auth0-button" onClick={handleOpenUserMenu}>
+        <Image
+          src={src}
+          alt={alt}
+          fallbackIcon={<AccountCircleIcon />}
+          className="user-avatar"
+        />
+      </IconButton>
+      <Menu
+        sx={{ mt: "40px", minWidth: "250px" }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {SETTINGS_PATHS.map((settingPath, settingKey) => {
+          const path = settingPath?.PATH;
+          const name = settingPath?.NAME;
+          const icon = getIcon(settingPath?.ICON || "");
+          const method = settingPath?.METHOD || undefined;
+          switch (method) {
+            case "logout":
+              return (
+                <MenuItem
+                  key={`${path}-${settingKey}`}
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    onLogoutClick();
+                  }}
+                >
+                  {!isNilOrEmpty(icon) ? (
+                    <ListItemIcon>{icon}</ListItemIcon>
+                  ) : null}
+                  <ListItemText>{name}</ListItemText>
+                </MenuItem>
+              );
+          }
+
+          return (
+            <MenuItem
+              key={`${path}-${settingKey}`}
+              onClick={handleCloseUserMenu}
+            >
+              {!isNilOrEmpty(path) ? (
+                <NavLink
+                  key={settingKey}
+                  to={path}
+                  className={({ isActive }) =>
+                    `nav-link flex flex-row  cursor-pointer items-center ${isActive ? "active" : ""}`
+                  }
+                >
+                  {!isNilOrEmpty(icon) ? (
+                    <ListItemIcon>{icon}</ListItemIcon>
+                  ) : null}
+                  <ListItemText>{name}</ListItemText>
+                </NavLink>
+              ) : (
+                <Box
+                  key={settingKey}
+                  {...(typeof method === "function" ? { onClick: method } : {})}
+                  className="nav-link cursor-pointer flex flex-row items-center"
+                >
+                  {!isNilOrEmpty(icon) ? (
+                    <ListItemIcon>{icon}</ListItemIcon>
+                  ) : null}
+                  <ListItemText>{name}</ListItemText>
+                </Box>
+              )}
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    </>
+  );
+};
+
+// Header component
+const Header: React.FC<IHeader> = (props: IHeader): React.ReactElement => {
+  const onLoginClick = pathOr(() => {}, ["onLoginClick"], props);
+  const onLogoutClick = pathOr(() => {}, ["onLogoutClick"], props);
+
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null,
+  );
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
   };
 
-  const getIcon = (defaultIcon: string) => {
-    console.log("Default Icon:", defaultIcon); // Debugging line
-    const ICON_SWITCH: { [key: string]: React.ReactElement } = {
-      home: <HomeFilledIcon className={"text-white"} />,
-      about: <InfoIcon className={"text-white"} />,
-    };
-    return ICON_SWITCH[defaultIcon];
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar
-            disableGutters
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ flexGrow: 0 }}>
-              <Box
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  alignItems: "center",
-                  justifyContent: "center",
-                  mr: 2,
-                }}
-              >
-                <img src={faviconImg} alt={NOTES_LABELS.title} />
-                <span className="text-white ml-2 text-lg font-semibold">
-                  {NOTES_LABELS.title}
-                </span>
-              </Box>
-              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "block", md: "none" } }}
-                >
-                  {ROUTER_PATHS.map((router, key) => {
-                    const path = router.PATH;
-                    const defaultIcon = router.ICON;
-                    const name = router.NAME;
-                    return (
-                      <MenuItem key={path} onClick={handleCloseNavMenu}>
-                        <NavLink
-                          key={key}
-                          to={path}
-                          className={({ isActive }) =>
-                            `nav-link ${isActive ? "active" : ""}`
-                          }
-                          style={{ textDecoration: "none" }}
-                        >
-                          <Button
-                            color="inherit"
-                            startIcon={getIcon(defaultIcon)}
-                          >
-                            {name}
-                          </Button>
-                        </NavLink>
-                      </MenuItem>
-                    );
-                  })}
-                </Menu>
-              </Box>
-            </Box>
+    <AppBar position="static">
+      <Container className="min-w-full">
+        <Toolbar
+          disableGutters
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ flexGrow: 0 }}>
             <Box
               sx={{
-                display: "flex",
+                display: { xs: "none", md: "flex" },
                 alignItems: "center",
                 justifyContent: "center",
-                flex: 1,
+                mr: 2,
               }}
             >
-              <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <img src={faviconImg} alt={NOTES_LABELS.title} />
-                  <span className="text-white ml-2 text-lg font-semibold">
-                    {NOTES_LABELS.title}
-                  </span>
-                </Box>
-              </Box>
-              <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-                {ROUTER_PATHS.map((router, key) => {
-                  const path = router.PATH;
-                  const defaultIcon = router.ICON;
-                  const name = router.NAME;
-                  return (
-                    <NavLink
-                      key={key}
-                      to={path}
-                      className={({ isActive }) =>
-                        `nav-link ${isActive ? "active" : ""}`
-                      }
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Button color="inherit" startIcon={getIcon(defaultIcon)}>
-                        {name}
-                      </Button>
-                    </NavLink>
-                  );
-                })}
-              </Box>
+              <img src={faviconImg} alt={NOTES_LABELS.title} />
+              <span className="ml-2 text-lg font-semibold">
+                {NOTES_LABELS.title}
+              </span>
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
-              <Button
-                startIcon={<LoginIcon className="text-white" />}
-                className="auth0-button"
-                onClick={(event) => {
-                  handleLogin();
-                  handleOpenUserMenu(event);
-                }}
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
               >
-                <span className="text-white">{NOTES_LABELS.login}</span>
-              </Button>
+                <MenuIcon />
+              </IconButton>
               <Menu
-                sx={{ mt: "45px" }}
                 id="menu-appbar"
-                anchorEl={anchorElUser}
+                anchorEl={anchorElNav}
                 anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+                  vertical: "bottom",
+                  horizontal: "left",
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "right",
+                  horizontal: "left",
                 }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{ display: { xs: "block", md: "none" }, minWidth: "250px" }}
               >
-                {SETTINGS_PATHS.map((settingPath, settingKey) => {
-                  const path = settingPath?.PATH;
-                  const name = settingPath?.NAME;
-                  const icon = settingPath?.ICON;
+                {ROUTER_PATHS.map((router, key) => {
+                  const path = router.PATH;
+                  const defaultIcon = router.ICON;
+                  const name = router.NAME;
+                  const icon = getIcon(defaultIcon);
 
                   return (
-                    <MenuItem
-                      key={`${path}-${settingKey}`}
-                      onClick={handleCloseUserMenu}
-                    >
+                    <MenuItem key={path} onClick={handleCloseNavMenu}>
                       <NavLink
-                        key={settingKey}
+                        key={key}
                         to={path}
                         className={({ isActive }) =>
-                          `nav-link ${isActive ? "active" : ""}`
+                          `nav-link flex flex-row ${isActive ? "active" : ""}`
                         }
                         style={{ textDecoration: "none" }}
                       >
-                        <Button color="inherit" startIcon={getIcon(icon)}>
-                          {name}
-                        </Button>
+                        {!isNilOrEmpty(icon) ? (
+                          <ListItemIcon>{icon}</ListItemIcon>
+                        ) : null}
+                        <ListItemText>{name}</ListItemText>
                       </NavLink>
                     </MenuItem>
                   );
                 })}
               </Menu>
             </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flex: 1,
+            }}
+          >
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <img src={faviconImg} alt={NOTES_LABELS.title} />
+                <span className="ml-2 text-lg font-semibold">
+                  {NOTES_LABELS.title}
+                </span>
+              </Box>
+            </Box>
+            <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+              {ROUTER_PATHS.map((router, key) => {
+                const path = router.PATH;
+                const defaultIcon = router.ICON;
+                const name = router.NAME;
+                const icon = getIcon(defaultIcon);
+                return (
+                  <NavLink
+                    key={key}
+                    to={path}
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button startIcon={icon}>{name}</Button>
+                  </NavLink>
+                );
+              })}
+            </Box>
+          </Box>
+          <LoginSection
+            onLoginClick={onLoginClick}
+            onLogoutClick={onLogoutClick}
+          />
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 export default Header;

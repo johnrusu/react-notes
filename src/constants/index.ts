@@ -67,14 +67,10 @@ const THEMES = {
 };
 
 const DEFAULT_TIMEOUT_FOR_RELOADING_PAGE = 3000;
-const BASE_NAME = "react-notes";
 
 const SETTINGS_PATHS = [
-  //const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-  { NAME: "Profile", PATH: "/profile", ICON: "person" },
-  { NAME: "Account", PATH: "/account", ICON: "settings" },
-  { NAME: "Dashboard", PATH: "/dashboard", ICON: "dashboard" },
-  { NAME: "Logout", PATH: "/logout", ICON: "logout" },
+  { NAME: "Account", PATH: "/account", ICON: "settings", METHOD: undefined },
+  { NAME: "Logout", PATH: "", ICON: "logout", METHOD: "logout" },
 ];
 
 const ROUTER_PATHS: {
@@ -156,6 +152,5 @@ export {
   THEMES,
   DEFAULT_TIMEOUT_FOR_RELOADING_PAGE,
   ABOUT_PAGE,
-  BASE_NAME,
   SETTINGS_PATHS,
 };

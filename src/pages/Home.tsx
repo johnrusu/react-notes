@@ -125,7 +125,7 @@ const Home = (): React.ReactElement => {
   };
 
   return (
-    <Box className="notes-container-content">
+    <>
       <React.Suspense fallback={<Loading />}>
         {isArrayNotEmpty(notes) ? (
           <FilterNotes
@@ -168,7 +168,7 @@ const Home = (): React.ReactElement => {
           {NOTES_LABELS.copyright()}
         </Typography>
       </Footer>
-    </Box>
+    </>
   );
 };
 

@@ -24,6 +24,7 @@ import { Header } from "./components";
 
 // pages
 import Home from "./pages/Home";
+import Account from "./pages/Account";
 import About from "./pages/About";
 
 // state
@@ -49,7 +50,7 @@ const convertedStoredTheme = (storedTheme: string = ""): object | null => {
 };
 
 const App = (): React.ReactElement => {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, logout } = useAuth0();
   const dispatch = useDispatch();
   const storageCurrentTheme: (key: string) => string | null = pathOr(
     () => null,
@@ -86,6 +87,10 @@ const App = (): React.ReactElement => {
     loginWithRedirect();
   };
 
+  const handleLogout = (): void => {
+    logout();
+  };
+
   useEffect(() => {
     dispatch(setTheme(currentMode));
   }, [dispatch, currentMode]);
@@ -94,11 +99,12 @@ const App = (): React.ReactElement => {
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Header onLoginClick={handleLogin} />
+        <Header onLoginClick={handleLogin} onLogoutClick={handleLogout} />
         <Box className={notesContainerClass}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
         </Box>
       </ThemeProvider>

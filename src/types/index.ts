@@ -91,6 +91,7 @@ interface FooterProps {
 
 interface IHeader {
   onLoginClick: () => void;
+  onLogoutClick: () => void;
 }
 
 export type {
