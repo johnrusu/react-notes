@@ -23,7 +23,7 @@ import { normalizedBaseName } from "./config";
 import { NOTES_LABELS, THEMES } from "./constants/index";
 
 // components
-import { Header } from "./components";
+import { Header, ProtectedRoute } from "./components";
 
 // pages
 import Home from "./pages/Home";
@@ -143,7 +143,14 @@ const App = (): React.ReactElement => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/account" element={<Account />} />
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <Account />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Box>
         <Snackbar

@@ -15,5 +15,6 @@ export { default as NoteContent } from "./NoteContent";
 export { default as Notes } from "./Notes";
 export { default as NotesCounter } from "./NotesCounter";
 export { default as PreviewNotes } from "./PreviewNotes";
+export { default as ProtectedRoute } from "./ProtectedRoute";
 export { default as Tabs } from "./Tabs";
 export { default as ThemeSwitcher } from "./ThemeSwitcher";
