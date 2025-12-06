@@ -334,3 +334,7 @@ body {
 .user-avatar {
   @apply w-8 h-8 rounded-full;
 }
+
+.menu-item {
+  @apply min-w-[200px];
+}

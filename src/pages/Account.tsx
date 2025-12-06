@@ -16,14 +16,38 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 // components
 import AppSettings from "@/components/AppSettings";
+import { AnimationsLoader } from "@/components";
+
+// animations
+import loadingAnimation from "@/assets/animations/loading.json";
+
+// constants
+import { ACCOUNT_PAGE } from "@/constants";
 
 const Account = (): React.ReactElement => {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
     return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h5">Loading...</Typography>
+      <Container
+        maxWidth="lg"
+        sx={{
+          py: 8,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "50vh",
+        }}
+      >
+        <AnimationsLoader
+          options={{
+            animationData: loadingAnimation,
+            loop: true,
+            autoplay: true,
+            style: { width: 150, height: 150 },
+            rendererSettings: { preserveAspectRatio: "xMidYMid slice" },
+          }}
+        />
       </Container>
     );
   }
@@ -31,7 +55,7 @@ const Account = (): React.ReactElement => {
   if (!isAuthenticated || !user) {
     return (
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h5">Please log in to view your account</Typography>
+        <Typography variant="h5">{ACCOUNT_PAGE.loginRequired}</Typography>
       </Container>
     );
   }
@@ -48,13 +72,13 @@ const Account = (): React.ReactElement => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Typography variant="h3" component="h1" gutterBottom sx={{ mb: 4 }}>
-        Account
+        {ACCOUNT_PAGE.pageTitle}
       </Typography>
 
       {/* User Profile Section */}
       <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
         <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-          Profile Information
+          {ACCOUNT_PAGE.sections.profile}
         </Typography>
         <Stack direction={{ xs: "column", md: "row" }} spacing={4}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -95,7 +119,11 @@ const Account = (): React.ReactElement => {
                 <EmailIcon color="action" />
                 <Typography variant="body1">{user.email}</Typography>
                 {user.email_verified && (
-                  <Chip label="Verified" size="small" color="success" />
+                  <Chip
+                    label={ACCOUNT_PAGE.labels.verified}
+                    size="small"
+                    color="success"
+                  />
                 )}
               </Box>
 
@@ -103,7 +131,8 @@ const Account = (): React.ReactElement => {
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <CalendarTodayIcon color="action" />
                   <Typography variant="body2" color="text.secondary">
-                    Last updated: {formatDate(user.updated_at)}
+                    {ACCOUNT_PAGE.labels.lastUpdated}{" "}
+                    {formatDate(user.updated_at)}
                   </Typography>
                 </Box>
               )}
@@ -111,7 +140,7 @@ const Account = (): React.ReactElement => {
               {user.sub && (
                 <Box>
                   <Typography variant="caption" color="text.secondary">
-                    User ID: {user.sub}
+                    {ACCOUNT_PAGE.labels.userId} {user.sub}
                   </Typography>
                 </Box>
               )}
@@ -124,7 +153,7 @@ const Account = (): React.ReactElement => {
       {user.user_metadata && Object.keys(user.user_metadata).length > 0 && (
         <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
           <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-            Additional Information
+            {ACCOUNT_PAGE.sections.additionalInfo}
           </Typography>
           <Stack spacing={2}>
             {Object.entries(user.user_metadata).map(([key, value]) => (
@@ -142,7 +171,7 @@ const Account = (): React.ReactElement => {
       {/* App Settings Section */}
       <Paper elevation={3} sx={{ p: 4 }}>
         <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-          App Settings
+          {ACCOUNT_PAGE.sections.appSettings}
         </Typography>
         <AppSettings />
       </Paper>

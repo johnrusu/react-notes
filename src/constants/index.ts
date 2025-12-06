@@ -142,6 +142,21 @@ const ABOUT_PAGE = {
   footer: (year: number) => `Created by Rusu Ionut • ${year}`,
 };
 
+const ACCOUNT_PAGE = {
+  pageTitle: "Account",
+  loginRequired: "Please log in to view your account",
+  sections: {
+    profile: "Profile Information",
+    additionalInfo: "Additional Information",
+    appSettings: "App Settings",
+  },
+  labels: {
+    verified: "Verified",
+    lastUpdated: "Last updated:",
+    userId: "User ID:",
+  },
+};
+
 export {
   ROUTER_PATHS,
   NOTE_COLORS,
@@ -152,5 +167,6 @@ export {
   THEMES,
   DEFAULT_TIMEOUT_FOR_RELOADING_PAGE,
   ABOUT_PAGE,
+  ACCOUNT_PAGE,
   SETTINGS_PATHS,
 };

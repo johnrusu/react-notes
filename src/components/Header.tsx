@@ -103,7 +103,7 @@ const LoginSection = ({
         />
       </IconButton>
       <Menu
-        sx={{ mt: "40px", minWidth: "250px" }}
+        sx={{ mt: "40px" }}
         id="menu-appbar"
         anchorEl={anchorElUser}
         anchorOrigin={{
@@ -127,6 +127,7 @@ const LoginSection = ({
             case "logout":
               return (
                 <MenuItem
+                  className="menu-item"
                   key={`${path}-${settingKey}`}
                   onClick={() => {
                     handleCloseUserMenu();
@@ -145,13 +146,14 @@ const LoginSection = ({
             <MenuItem
               key={`${path}-${settingKey}`}
               onClick={handleCloseUserMenu}
+              className="menu-item"
             >
               {!isNilOrEmpty(path) ? (
                 <NavLink
                   key={settingKey}
                   to={path}
                   className={({ isActive }) =>
-                    `nav-link flex flex-row  cursor-pointer items-center ${isActive ? "active" : ""}`
+                    ` nav-link flex flex-row  cursor-pointer items-center ${isActive ? "active" : ""}`
                   }
                 >
                   {!isNilOrEmpty(icon) ? (
@@ -254,7 +256,11 @@ const Header: React.FC<IHeader> = (props: IHeader): React.ReactElement => {
                   const icon = getIcon(defaultIcon);
 
                   return (
-                    <MenuItem key={path} onClick={handleCloseNavMenu}>
+                    <MenuItem
+                      className="menu-item"
+                      key={path}
+                      onClick={handleCloseNavMenu}
+                    >
                       <NavLink
                         key={key}
                         to={path}
