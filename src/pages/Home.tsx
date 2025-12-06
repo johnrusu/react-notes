@@ -91,12 +91,12 @@ const Home = (): React.ReactElement => {
     );
   };
 
-  const handelNoteAdd = (note: NoteDefault) => {
+  const handleNoteAdd = (note: NoteDefault) => {
     dispatch(addNote(note));
     handleFilteredNotesClick(notesType, !isNilOrEmpty(filterText));
   };
 
-  const handelHighlightedNoteAdd = (note: NoteDefault) => {
+  const handleHighlightedNoteAdd = (note: NoteDefault) => {
     dispatch(addNote(note));
     handleFilteredNotesClick(notesType, !isNilOrEmpty(filterText));
   };
@@ -139,8 +139,8 @@ const Home = (): React.ReactElement => {
         <React.Suspense fallback={<Loading />}>
           <Box className="create-note-container">
             <CreateNote
-              onNoteAdd={handelNoteAdd}
-              onNoteHightlightedNote={handelHighlightedNoteAdd}
+              onNoteAdd={handleNoteAdd}
+              onNoteHightlightedNote={handleHighlightedNoteAdd}
             />
           </Box>
         </React.Suspense>
