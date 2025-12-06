@@ -24,11 +24,11 @@ const NOTES_LABELS = {
   refreshingPage: (time: number) =>
     `Refreshing page in ${time / 1000} seconds...`,
   confirmAction: "Confirm Action",
-  confirmTitleClearLocalStorage: "Confirm deletion of all notes:",
-  confirmMessageClearLocalStorage:
+  confirmTitleClearNotes: "Confirm deletion of all notes:",
+  confirmMessageClearNotes:
     "Are you sure you want to delete all notes? This action cannot be undone.",
-  clearLocalStorage: "Clear notes",
-  localStorageCleared: "All notes were removed successfully.",
+  clearNotes: "Clear notes",
+  notesCleared: "All notes were removed successfully.",
   theme: "theme",
   filterNotes: "Search Notes by Text",
   loading: "Loading...",
@@ -69,25 +69,25 @@ const THEMES = {
 const DEFAULT_TIMEOUT_FOR_RELOADING_PAGE = 3000;
 
 const SETTINGS_PATHS = [
-  { NAME: "Account", PATH: "/account", ICON: "settings", METHOD: undefined },
-  { NAME: "Logout", PATH: "", ICON: "logout", METHOD: "logout" },
+  { name: "Account", path: "/account", icon: "settings", method: undefined },
+  { name: "Logout", path: "", icon: "logout", method: "logout" },
 ];
 
 const ROUTER_PATHS: {
-  PATH: string;
-  EXACT?: boolean;
-  NAME: string;
-  ICON: string;
+  path: string;
+  exact?: boolean;
+  name: string;
+  icon: string;
 }[] = [
   {
-    PATH: "/",
-    NAME: "Home",
-    ICON: "home",
+    path: "/",
+    name: "Home",
+    icon: "home",
   },
   {
-    PATH: "/about",
-    NAME: "About",
-    ICON: "about",
+    path: "/about",
+    name: "About",
+    icon: "about",
   },
 ];
 

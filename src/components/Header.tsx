@@ -47,7 +47,7 @@ import { NOTES_LABELS, ROUTER_PATHS, SETTINGS_PATHS } from "../constants";
 import { useAuth0 } from "@auth0/auth0-react";
 import { isNilOrEmpty } from "@/utils";
 
-const getIcon = (defaultIcon: string, props = {}) => {
+const getIcon = (defaultIcon: string) => {
   const ICON_SWITCH: { [key: string]: React.ComponentType } = {
     home: HomeFilledIcon,
     about: InfoIcon,
@@ -56,7 +56,12 @@ const getIcon = (defaultIcon: string, props = {}) => {
     dashboard: DashboardIcon,
     person: PersonIcon,
   };
-  return React.createElement(ICON_SWITCH[defaultIcon], props);
+  const IconComponent = ICON_SWITCH[defaultIcon];
+  if (!IconComponent) {
+    console.warn(`Unknown icon: ${defaultIcon}`);
+    return null;
+  }
+  return React.createElement(IconComponent);
 };
 
 const LoginSection = ({
@@ -119,10 +124,10 @@ const LoginSection = ({
         onClose={handleCloseUserMenu}
       >
         {SETTINGS_PATHS.map((settingPath, settingKey) => {
-          const path = settingPath?.PATH;
-          const name = settingPath?.NAME;
-          const icon = getIcon(settingPath?.ICON || "");
-          const method = settingPath?.METHOD || undefined;
+          const path = settingPath?.path;
+          const name = settingPath?.name;
+          const icon = getIcon(settingPath?.icon || "");
+          const method = settingPath?.method || undefined;
           switch (method) {
             case "logout":
               return (
@@ -140,6 +145,8 @@ const LoginSection = ({
                   <ListItemText>{name}</ListItemText>
                 </MenuItem>
               );
+            default:
+              break;
           }
 
           return (
@@ -250,9 +257,9 @@ const Header: React.FC<IHeader> = (props: IHeader): React.ReactElement => {
                 sx={{ display: { xs: "block", md: "none" }, minWidth: "250px" }}
               >
                 {ROUTER_PATHS.map((router, key) => {
-                  const path = router.PATH;
-                  const defaultIcon = router.ICON;
-                  const name = router.NAME;
+                  const path = router.path;
+                  const defaultIcon = router.icon;
+                  const name = router.name;
                   const icon = getIcon(defaultIcon);
 
                   return (
@@ -304,9 +311,9 @@ const Header: React.FC<IHeader> = (props: IHeader): React.ReactElement => {
             </Box>
             <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
               {ROUTER_PATHS.map((router, key) => {
-                const path = router.PATH;
-                const defaultIcon = router.ICON;
-                const name = router.NAME;
+                const path = router.path;
+                const defaultIcon = router.icon;
+                const name = router.name;
                 const icon = getIcon(defaultIcon);
                 return (
                   <NavLink

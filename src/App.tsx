@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { pathOr, is } from "ramda";
@@ -11,7 +11,7 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 
 // mui
-import { Box } from "@mui/material";
+import { Box, Snackbar, Alert } from "@mui/material";
 
 // utils
 import { stringToJSON } from "./utils";
@@ -52,6 +52,16 @@ const convertedStoredTheme = (storedTheme: string = ""): object | null => {
 const App = (): React.ReactElement => {
   const { loginWithRedirect, logout } = useAuth0();
   const dispatch = useDispatch();
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: "error" | "success" | "info" | "warning";
+  }>({
+    open: false,
+    message: "",
+    severity: "info",
+  });
+
   const storageCurrentTheme: (key: string) => string | null = pathOr(
     () => null,
     ["getFromStorage"],
@@ -83,12 +93,38 @@ const App = (): React.ReactElement => {
     currentTheme === NOTES_LABELS.darkMode ? THEMES.DARK : THEMES.LIGHT
   }`;
 
-  const handleLogin = (): void => {
-    loginWithRedirect();
+  const handleLogin = async (): Promise<void> => {
+    try {
+      await loginWithRedirect();
+    } catch (error) {
+      console.error("Login failed:", error);
+      setSnackbar({
+        open: true,
+        message: "Login failed. Please try again.",
+        severity: "error",
+      });
+    }
   };
 
-  const handleLogout = (): void => {
-    logout();
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await logout({
+        logoutParams: {
+          returnTo: window.location.origin,
+        },
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+      setSnackbar({
+        open: true,
+        message: "Logout failed. Please try again.",
+        severity: "error",
+      });
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   useEffect(() => {
@@ -107,6 +143,20 @@ const App = (): React.ReactElement => {
             <Route path="/account" element={<Account />} />
           </Routes>
         </Box>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity={snackbar.severity}
+            sx={{ width: "100%" }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
       </ThemeProvider>
     </>
   );
