@@ -135,7 +135,7 @@ const Home = (): React.ReactElement => {
           <Box className="create-note-container">
             <CreateNote
               onNoteAdd={handleNoteAdd}
-              onNoteHightlightedNote={handleNoteAdd}
+              onNoteHighlightedNote={handleNoteAdd}
             />
           </Box>
         </React.Suspense>

@@ -75,7 +75,6 @@ const SETTINGS_PATHS = [
 
 const ROUTER_PATHS: {
   path: string;
-  exact?: boolean;
   name: string;
   icon: string;
 }[] = [

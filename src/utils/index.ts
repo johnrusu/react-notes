@@ -415,35 +415,54 @@ export const checkImage = (
     return Promise.resolve(null);
   }
   return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.crossOrigin = "anonymous";
-    let attemptsLeft = retries;
+    const attemptLoad = (attemptsLeft: number, attemptNumber: number) => {
+      const image = new Image();
+      image.crossOrigin = "anonymous";
 
-    image.onload = () => {
-      // Clean up handlers to avoid memory leaks
-      image.onload = null;
-      image.onerror = null;
-      resolve(image);
-    };
-
-    image.onerror = () => {
-      if (attemptsLeft > 0) {
-        console.warn(
-          `Image load failed, retrying... (${attemptsLeft} attempts left)`,
-        );
-        const attemptNumber = retries - attemptsLeft + 1;
-        attemptsLeft -= 1;
-        setTimeout(() => {
-          image.src = imageSrc;
-        }, delay * attemptNumber); // Linear backoff
-      } else {
+      image.onload = () => {
         // Clean up handlers to avoid memory leaks
         image.onload = null;
         image.onerror = null;
-        reject(new Error("could not load image after retries"));
-      }
-    };
+        resolve(image);
+      };
 
-    image.src = imageSrc;
+      image.onerror = () => {
+        if (attemptsLeft > 0) {
+          attemptsLeft -= 1;
+          console.warn(
+            `Image load failed, retrying... (${attemptsLeft} attempts left)`,
+          );
+          setTimeout(() => {
+            attemptLoad(attemptsLeft, attemptNumber + 1);
+          }, delay * attemptNumber); // Linear backoff
+        } else {
+          // Clean up handlers to avoid memory leaks
+          image.onload = null;
+          image.onerror = null;
+          reject(new Error("could not load image after retries"));
+        }
+      };
+
+      image.src = imageSrc;
+    };
+    attemptLoad(retries, 1);
   });
+};
+
+/**
+ * Helper function to build full URL with base path
+ * @param basePath - The base path to append to the origin
+ * @returns The full URL with base path
+ */
+export const buildFullUrl = (basePath: string): string => {
+  return `${window.location.origin}${basePath ? `/${basePath}` : ""}`;
+};
+
+/**
+ * Helper function to build router basename
+ * @param basePath - The base path for the router
+ * @returns The router basename
+ */
+export const buildRouterBasename = (basePath: string): string => {
+  return basePath ? `/${basePath}` : "/";
 };

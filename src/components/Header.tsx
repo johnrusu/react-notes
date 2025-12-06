@@ -99,7 +99,11 @@ const LoginSection = ({
     </Button>
   ) : (
     <>
-      <IconButton className="auth0-button" onClick={handleOpenUserMenu}>
+      <IconButton
+        className="auth0-button"
+        onClick={handleOpenUserMenu}
+        aria-label="Open user menu"
+      >
         <Image
           src={src}
           alt={alt}
@@ -233,6 +237,7 @@ const Header: React.FC<IHeader> = (props: IHeader): React.ReactElement => {
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
+                aria-label="Open navigation menu"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}

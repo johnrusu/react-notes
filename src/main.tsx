@@ -8,6 +8,8 @@ import App from "./App.tsx";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 import { pathOr } from "ramda";
+import { buildFullUrl, buildRouterBasename } from "./utils";
+import { normalizedBaseName } from "./config";
 
 const VITE_AUTH0_DOMAIN = pathOr(
   "",
@@ -19,20 +21,6 @@ const VITE_AUTH0_CLIENT_ID = pathOr(
   ["VITE_AUTH0_CLIENT_ID"],
   import.meta.env,
 ) as string;
-const BASE_NAME = pathOr("", ["VITE_BASE_NAME"], import.meta.env) as string;
-
-// Normalize BASE_NAME: ensure no leading or trailing slashes
-const normalizedBaseName = BASE_NAME.replace(/^\/+|\/+$/g, "");
-
-// Helper function to build full URL with base path
-const buildFullUrl = (basePath: string): string => {
-  return `${window.location.origin}${basePath ? `/${basePath}` : ""}`;
-};
-
-// Helper function to build router basename
-const buildRouterBasename = (basePath: string): string => {
-  return basePath ? `/${basePath}` : "/";
-};
 
 // Helper function to validate required environment variables
 const isEmptyOrWhitespace = (value: string): boolean => {

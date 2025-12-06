@@ -24,9 +24,9 @@ import type { AddNoteProps } from "../types";
 
 const AddNote: React.FC<AddNoteProps> = (props) => {
   const onNoteAdd = pathOr(() => {}, ["onNoteAdd"], props);
-  const onNoteHightlightedNote = pathOr(
+  const onNoteHighlightedNote = pathOr(
     () => {},
-    ["onNoteHightlightedNote"],
+    ["onNoteHighlightedNote"],
     props,
   );
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -43,8 +43,8 @@ const AddNote: React.FC<AddNoteProps> = (props) => {
     handleClose();
   };
 
-  const handleAddHightlightedNote = (): void => {
-    onNoteHightlightedNote();
+  const handleAddHighlightedNote = (): void => {
+    onNoteHighlightedNote();
     handleClose();
   };
 
@@ -67,7 +67,7 @@ const AddNote: React.FC<AddNoteProps> = (props) => {
           </ListItemIcon>
           <ListItemText>{NOTES_LABELS.addButton}</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleAddHightlightedNote}>
+        <MenuItem onClick={handleAddHighlightedNote}>
           <ListItemIcon>
             <StickyNote2Icon fontSize="small" />
           </ListItemIcon>

@@ -29,9 +29,9 @@ const CreateNote: React.FC<CreateNoteProps> = (props) => {
     ["onNoteAdd"],
     props,
   );
-  const onNoteHightlightedNote: (note: NoteDefault) => void = pathOr(
+  const onNoteHighlightedNote: (note: NoteDefault) => void = pathOr(
     () => {},
-    ["onNoteHightlightedNote"],
+    ["onNoteHighlightedNote"],
     props,
   );
 
@@ -42,7 +42,7 @@ const CreateNote: React.FC<CreateNoteProps> = (props) => {
 
   const handelHighlightedNoteAdd = () => {
     const color: string = currentColor;
-    onNoteHightlightedNote({
+    onNoteHighlightedNote({
       ...NOTE_DEFAULT,
       color,
       highlighted: true,
@@ -57,7 +57,7 @@ const CreateNote: React.FC<CreateNoteProps> = (props) => {
     <Box className="create-note">
       <AddNote
         onNoteAdd={handelNoteAdd}
-        onNoteHightlightedNote={handelHighlightedNoteAdd}
+        onNoteHighlightedNote={handelHighlightedNoteAdd}
       />
       <Box className="color-pickers-container">
         {NOTE_COLORS.map((noteColor: string, noteColorIndex: number) => (
