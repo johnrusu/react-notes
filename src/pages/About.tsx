@@ -16,7 +16,7 @@ import SpeedIcon from "@mui/icons-material/Speed";
 import StorageIcon from "@mui/icons-material/Storage";
 import { ABOUT_PAGE } from "../constants";
 
-const About = () => {
+const About = (): React.ReactElement => {
   const featureIcons = [<CodeIcon />, <SpeedIcon />, <StorageIcon />];
   const featuresWithIcons = ABOUT_PAGE.features.map((feature, index) => ({
     ...feature,
@@ -40,9 +40,9 @@ const About = () => {
               spacing={3}
               sx={{ mt: 3 }}
             >
-              {featuresWithIcons.map((feature, index) => (
+              {featuresWithIcons.map((feature) => (
                 <Box
-                  key={index}
+                  key={feature.title}
                   sx={{
                     flex: 1,
                     p: 3,
