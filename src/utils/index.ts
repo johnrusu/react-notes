@@ -433,12 +433,9 @@ export const checkImage = (
         );
         const attemptNumber = retries - attemptsLeft + 1;
         attemptsLeft -= 1;
-        setTimeout(
-          () => {
-            image.src = imageSrc;
-          },
-          delay * attemptNumber,
-        ); // Linear backoff
+        setTimeout(() => {
+          image.src = imageSrc;
+        }, delay * attemptNumber); // Linear backoff
       } else {
         // Clean up handlers to avoid memory leaks
         image.onload = null;
