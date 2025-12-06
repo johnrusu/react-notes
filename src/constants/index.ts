@@ -24,11 +24,11 @@ const NOTES_LABELS = {
   refreshingPage: (time: number) =>
     `Refreshing page in ${time / 1000} seconds...`,
   confirmAction: "Confirm Action",
-  confirmTitleClearLocalStorage: "Confirm deletion of all notes:",
-  confirmMessageClearLocalStorage:
+  confirmTitleClearNotes: "Confirm deletion of all notes:",
+  confirmMessageClearNotes:
     "Are you sure you want to delete all notes? This action cannot be undone.",
-  clearLocalStorage: "Clear notes",
-  localStorageCleared: "All notes were removed successfully.",
+  clearNotes: "Clear notes",
+  notesCleared: "All notes were removed successfully.",
   theme: "theme",
   filterNotes: "Search Notes by Text",
   loading: "Loading...",

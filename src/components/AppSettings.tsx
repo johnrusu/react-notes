@@ -54,7 +54,7 @@ const Settings: React.FC = () => {
   const popOverMessage = () => {
     return (
       <>
-        {NOTES_LABELS.localStorageCleared}
+        {NOTES_LABELS.notesCleared}
         <p>{NOTES_LABELS.refreshingPage(time || 0)}</p>
       </>
     );
@@ -91,7 +91,7 @@ const Settings: React.FC = () => {
           onClick={(event) => handleClearStorage(event)}
         >
           <span className="max-md:hidden text-white">
-            {NOTES_LABELS.clearLocalStorage}
+            {NOTES_LABELS.clearNotes}
           </span>
         </Button>
 
@@ -112,8 +112,8 @@ const Settings: React.FC = () => {
         isOpen={confirmDialogOpen}
         onConfirmButtonClick={handleConfirmClearStorage}
         onClose={() => setConfirmDialogOpen(false)}
-        title={NOTES_LABELS.confirmTitleClearLocalStorage}
-        message={NOTES_LABELS.confirmMessageClearLocalStorage}
+        title={NOTES_LABELS.confirmTitleClearNotes}
+        message={NOTES_LABELS.confirmMessageClearNotes}
         labels={{ yes: NOTES_LABELS.yes, no: NOTES_LABELS.no }}
       />
     </>
