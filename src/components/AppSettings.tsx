@@ -1,0 +1,161 @@
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
+
+// mui
+import { Box, Button } from "@mui/material";
+
+// constants
+import {
+  NOTES_LABELS,
+  DEFAULT_TIMEOUT_FOR_RELOADING_PAGE,
+} from "../constants/index";
+
+// MUI icons
+import DeleteIcon from "@mui/icons-material/Delete";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+
+// components
+import ConfirmDialog from "./ConfirmDialog";
+
+// utils
+import useStorage from "../hooks/useStorage";
+
+// component
+import ThemeSwitcher from "./ThemeSwitcher";
+
+// state
+import {
+  deleteAllNotesAsync,
+  resetFilteredNotes,
+} from "../features/notesSlice";
+
+// hooks
+import { useLoading } from "../contexts/LoadingContext.hooks";
+import { useAccessToken } from "../hooks/useAccessToken";
+
+const AppSettings: React.FC = () => {
+  const { setIsLoading } = useLoading();
+  const { removeFromStorage } = useStorage();
+  const { getToken } = useAccessToken();
+  const { isAuthenticated } = useAuth0();
+  const dispatch = useDispatch();
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState<number | null>(
+    DEFAULT_TIMEOUT_FOR_RELOADING_PAGE,
+  );
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null,
+  );
+
+  const id = open ? "clear-storage-popover-confirmation" : undefined;
+  const initTimer = () => {
+    const newTime = setInterval(() => {
+      setTime((prevTime: number | null) => {
+        if (prevTime && typeof prevTime === "number" && prevTime <= 1000) {
+          clearInterval(newTime);
+          setOpen(false);
+          window.location.reload();
+          return null;
+        }
+        return (prevTime as number) - 1000;
+      });
+    }, 1000);
+    return () => clearInterval(newTime);
+  };
+
+  const popOverMessage = () => {
+    return (
+      <>
+        {NOTES_LABELS.notesCleared}
+        <p>{NOTES_LABELS.refreshingPage(time || 0)}</p>
+      </>
+    );
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClearStorage = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setConfirmDialogOpen(true);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleConfirmClearStorage = async () => {
+    if (isAuthenticated) {
+      try {
+        const token = await getToken();
+        setIsLoading(true);
+        dispatch(deleteAllNotesAsync(token) as any);
+      } catch (error) {
+        console.error("Error deleting all notes:", error);
+      }
+    } else {
+      dispatch(resetFilteredNotes());
+    }
+    removeFromStorage(NOTES_LABELS.notes);
+    setConfirmDialogOpen(false);
+    setOpen(true);
+    initTimer();
+    setIsLoading(false);
+  };
+
+  return (
+    <>
+      <Box
+        display="flex"
+        flexDirection="column"
+        gap={2}
+        alignContent={"flex-start"}
+        justifyContent={"space-between"}
+      >
+        <Box>
+          <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+            {NOTES_LABELS.themeSettings}
+          </Typography>
+          <ThemeSwitcher />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+            {NOTES_LABELS.clearNotesSettings}
+          </Typography>
+          <Button
+            startIcon={<DeleteIcon />}
+            className="clear-storage-button"
+            variant="contained"
+            onClick={(event) => handleClearStorage(event)}
+          >
+            <span className="max-md:hidden">{NOTES_LABELS.clearNotes}</span>
+          </Button>
+
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+          >
+            <Box sx={{ p: 2 }}>{popOverMessage()}</Box>
+          </Popover>
+        </Box>
+      </Box>
+      <ConfirmDialog
+        isOpen={confirmDialogOpen}
+        onConfirmButtonClick={handleConfirmClearStorage}
+        onClose={() => setConfirmDialogOpen(false)}
+        title={NOTES_LABELS.confirmTitleClearNotes}
+        message={NOTES_LABELS.confirmMessageClearNotes}
+        labels={{ yes: NOTES_LABELS.yes, no: NOTES_LABELS.no }}
+      />
+    </>
+  );
+};
+
+export default AppSettings;

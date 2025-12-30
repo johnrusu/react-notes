@@ -1,0 +1,48 @@
+{
+  "name": "Rusu Ionut - Notes",
+  "short_name": "Rusu Ionut - Notes",
+  "description": "A modern, feature-rich notes application built with React, Redux, Material-UI, and TailwindCSS. Features drag-and-drop organization, text search, note highlighting, dark/light mode, responsive design, and localStorage persistence with auto-clear timer.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "src/assets/favicons/android-icon-36x36.png",
+      "sizes": "36x36",
+      "type": "imagesrc/assets/favicons/png",
+      "density": "0.75"
+    },
+    {
+      "src": "src/assets/favicons/android-icon-48x48.png",
+      "sizes": "48x48",
+      "type": "imagesrc/assets/favicons/png",
+      "density": "1.0"
+    },
+    {
+      "src": "src/assets/favicons/android-icon-72x72.png",
+      "sizes": "72x72",
+      "type": "imagesrc/assets/favicons/png",
+      "density": "1.5"
+    },
+    {
+      "src": "src/assets/favicons/android-icon-96x96.png",
+      "sizes": "96x96",
+      "type": "imagesrc/assets/favicons/png",
+      "density": "2.0"
+    },
+    {
+      "src": "src/assets/favicons/android-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "imagesrc/assets/favicons/png",
+      "density": "3.0"
+    },
+    {
+      "src": "src/assets/favicons/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "imagesrc/assets/favicons/png",
+      "density": "4.0"
+    }
+  ]
+}

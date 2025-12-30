@@ -15,7 +15,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     <Box
       className={`color-picker ${isSelected ? "selected" : ""}`}
       sx={{ backgroundColor: color }}
-      onClick={onClick}
+      onClick={() => onClick(color)}
     />
   );
 };

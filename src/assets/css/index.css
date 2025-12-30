@@ -1,0 +1,329 @@
+@import "tailwindcss";
+@import "./animations.css";
+
+:root {
+  --defaultBackground: var(--color-gray-800);
+  --topMarginFromHeader: 90px;
+  --headerHeight: 82px;
+  --minCardHeight: 241px;
+  --footerHeight: 53px;
+}
+
+html,
+body {
+  @apply w-full p-0 box-border m-0;
+  height: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+#root {
+  @apply w-full flex flex-col  bg-size-[30px_30px] bg-[radial-gradient(circle,#ccc_1px,rgba(0,0,0,0)_1px)];
+  min-height: 100vh;
+}
+
+.footer {
+  @apply p-4 text-center text-sm text-gray-400;
+}
+
+.notes-container {
+  @apply w-full p-4 flex-1  relative flex flex-col gap-4 h-[calc(100%-var(--headerHeight)-var(--footerHeight))];
+}
+
+.notes-container.light-theme {
+  @apply bg-[radial-gradient(circle,#000_1px,rgba(0,0,0,0)_1px)];
+}
+
+.notes-container .filter-notes {
+  @apply bg-(--defaultBackground) p-4 rounded-lg shadow-lg flex items-center gap-4;
+}
+
+.notes-container .filter-notes .filter-notes-input {
+  @apply w-full bg-transparent border-none outline-none text-white;
+}
+
+.notes-container .notes-grid-and-controls {
+  @apply flex-1 flex relative  flex-row gap-4 h-[calc(100%-104px-var(--footerHeight))];
+}
+
+.notes-container .notes-grid-and-controls .create-note-container .create-note {
+  @apply bg-(--defaultBackground) p-4 rounded-lg shadow-lg;
+}
+
+.color-picker {
+  @apply w-15 h-15 rounded-full border border-gray-300 cursor-pointer mb-4;
+}
+
+.color-picker.selected {
+  @apply ring-4 ring-blue-500;
+}
+
+.color-picker:last-child {
+  @apply mb-0;
+}
+
+.color-picker:hover {
+  @apply opacity-80;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .color-picker.custom-color {
+  @apply border-none bg-gray-700;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .add-note {
+  @apply w-15 h-15 mb-4;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .create-note-container
+  .create-note
+  .add-note
+  button {
+  @apply w-full h-full rounded-full bg-gray-700 text-white flex items-center justify-center cursor-pointer hover:bg-gray-600;
+}
+
+.notes-container .notes-grid-and-controls .preview-counter-section {
+  @apply flex flex-col gap-4;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-counter-section
+  .notes-counter {
+  @apply min-h-(--minCardHeight) flex flex-col gap-4 justify-between p-4;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-counter-section
+  .notes-counter,
+.notes-container
+  .notes-grid-and-controls
+  .preview-counter-section
+  .preview-notes {
+  @apply [&&]:bg-(--defaultBackground) p-4 max-w-[300px] min-w-[300px] gap-4 rounded-lg shadow-lg flex flex-col;
+}
+
+.notes-container .notes-grid-and-controls .notes-grid {
+  @apply flex flex-1 flex-col gap-4 overflow-y-auto pb-4;
+}
+
+.notes-container .notes-grid-and-controls .notes-grid .note {
+  @apply w-full relative min-h-(--minCardHeight);
+  animation: noteSlideIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.notes-container .notes-grid-and-controls .notes-grid .note + .note {
+  @apply mt-4;
+}
+
+.notes-container .notes-grid-and-controls .notes-grid .note .note-content {
+  @apply w-full min-h-32 overflow-hidden;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .notes-grid
+  .note
+  .note-content
+  .note-content-textarea {
+  @apply border-none outline-none w-full h-full bg-transparent resize-y min-h-32;
+}
+
+.note-content-textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.note-content-textarea::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.note-content-textarea::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.note-content-textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
+  cursor: grab;
+}
+
+.note-content-textarea::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
+}
+
+.light-theme .note-content-textarea::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.light-theme .note-content-textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.notes-container .notes-grid-and-controls .preview-notes-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-notes-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.notes-container .notes-grid-and-controls .preview-notes-container,
+.notes-container .notes-grid-and-controls .notes-grid {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(128, 128, 128, 0.3) transparent; /* thumb track */
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-notes-container::-webkit-scrollbar,
+.notes-container .notes-grid-and-controls .notes-grid::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-notes-container::-webkit-scrollbar-track,
+.notes-container .notes-grid-and-controls .notes-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-notes-container::-webkit-scrollbar-thumb,
+.notes-container .notes-grid-and-controls .notes-grid::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.notes-container
+  .notes-grid-and-controls
+  .preview-notes-container::-webkit-scrollbar-thumb:hover,
+.notes-container
+  .notes-grid-and-controls
+  .notes-grid::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+.note-content-textarea::-webkit-resizer {
+  background: url("../images/corner.png") no-repeat center center / contain;
+  cursor: nwse-resize;
+}
+
+.light-theme
+  .notes-container
+  .notes-grid-and-controls
+  .notes-grid::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.light-theme
+  .notes-container
+  .notes-grid-and-controls
+  .notes-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.light-theme
+  .notes-container
+  .notes-grid-and-controls
+  .notes-grid::-webkit-resizer {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+@media (width <= 1024px) {
+  .notes-container .notes-grid-and-controls {
+    @apply flex-col;
+  }
+  .notes-container .notes-grid-and-controls .create-note-container .create-note,
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .color-pickers-container {
+    @apply flex-row flex gap-4;
+  }
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .color-picker,
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .add-note {
+    @apply mb-0;
+  }
+
+  .notes-container {
+    @apply max-h-[unset];
+  }
+  .notes-container .notes-grid-and-controls,
+  .notes-container {
+    @apply h-[unset];
+  }
+}
+
+@media (width <= 767px) {
+  #root {
+    @apply overflow-y-auto;
+  }
+  .notes-container {
+    @apply max-h-[unset];
+  }
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note {
+    @apply overflow-hidden overflow-x-auto;
+  }
+
+  .color-picker,
+  .color-picker input,
+  .notes-container
+    .notes-grid-and-controls
+    .create-note-container
+    .create-note
+    .add-note {
+    @apply w-10 h-10;
+  }
+
+  .color-picker svg {
+    @apply w-6 h-6;
+  }
+
+  .notes-container .notes-grid-and-controls,
+  .notes-container {
+    @apply h-[unset];
+  }
+}
+
+.user-avatar {
+  @apply w-8 h-8 rounded-full;
+}
+
+.menu-item {
+  @apply min-w-[200px];
+}
+
+.nav-link.active {
+  @apply font-semibold underline;
+}
