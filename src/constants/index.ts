@@ -7,7 +7,7 @@ const NOTE_DEFAULT = {
   text: "",
   color: NOTE_COLORS[0],
   highlighted: false,
-  height: 128,
+  height: 200,
   orderId: 0,
   title: "",
   isHtml: false,

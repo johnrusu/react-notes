@@ -5,7 +5,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { NotesState, Note, NoteDefault, NotesType } from "../types";
 
 // constants
-import { NOTES_TYPE, NOTES_LABELS, NOTE_DEFAULT } from "../constants";
+import { NOTES_TYPE, NOTES_LABELS } from "../constants";
 import { isNilOrEmpty } from "../utils";
 
 // services
@@ -245,13 +245,13 @@ export const notesSlice = createSlice({
       state.wasReset = false;
       const {
         noteId,
-        text = NOTE_DEFAULT.text,
-        highlighted = NOTE_DEFAULT.highlighted,
-        height = NOTE_DEFAULT.height,
-        title = NOTE_DEFAULT.title,
-        isHtml = NOTE_DEFAULT.isHtml,
-        orderId = NOTE_DEFAULT.orderId,
-        color = NOTE_DEFAULT.color,
+        text,
+        highlighted,
+        height,
+        title,
+        isHtml,
+        orderId,
+        color,
       } = action.payload;
 
       const updateNotesKeys = (notesArray: NoteDefault[]) => {
