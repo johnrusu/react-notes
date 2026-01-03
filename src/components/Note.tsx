@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 // mui
 import { Card, CardContent, Box, Tooltip } from "@mui/material";
@@ -28,6 +28,7 @@ import {
   isLightColor,
   generateHigherContrastColor,
   isNilOrEmpty,
+  hexToRgb,
 } from "../utils";
 
 const Note: React.FC<NoteProps> = ({
@@ -53,6 +54,10 @@ const Note: React.FC<NoteProps> = ({
   updatedAt,
   onToggleCollapsed = () => {},
 }): React.ReactElement => {
+  const [overlayColor, setOverlayColor] = React.useState<string>("");
+  const HEADER_PADDING_TOP_CLASS = collapsed ? "p-4" : "px-4 pt-4 pb-0";
+  const ALPHA_OVERLAY = 0.5;
+
   const title: string = !isNilOrEmpty(initialTitle)
     ? initialTitle
     : NOTES_LABELS.note(id);
@@ -74,6 +79,25 @@ const Note: React.FC<NoteProps> = ({
     onToggleCollapsed(noteId);
   };
 
+  const generateOverlayColor = (
+    currentColor: string = "",
+    alpha: number = 0.4,
+  ) => {
+    const {
+      r = 0,
+      g = 0,
+      b = 0,
+    } = hexToRgb(currentColor) || { r: 0, g: 0, b: 0 };
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
+  useEffect(() => {
+    if (!isNilOrEmpty(contrastColor) && contrastColor) {
+      setOverlayColor(generateOverlayColor(contrastColor, ALPHA_OVERLAY));
+    }
+  }, [contrastColor]);
+
   return (
     <Card
       id={`note-${id}-0`}
@@ -85,8 +109,13 @@ const Note: React.FC<NoteProps> = ({
       onMouseOver={(e) => {
         if (contrastColor) {
           const thisEl = e.currentTarget;
-          if (!isNilOrEmpty(contrastColor) && !isNilOrEmpty(thisEl)) {
+          if (
+            !isNilOrEmpty(contrastColor) &&
+            !isNilOrEmpty(thisEl) &&
+            contrastColor
+          ) {
             thisEl.style.backgroundColor = contrastColor;
+            setOverlayColor(generateOverlayColor(color, ALPHA_OVERLAY));
           }
         }
       }}
@@ -94,12 +123,15 @@ const Note: React.FC<NoteProps> = ({
         if (contrastColor) {
           const thisEl = e.currentTarget;
           thisEl.style.backgroundColor = color;
+          setOverlayColor(generateOverlayColor(contrastColor, ALPHA_OVERLAY));
         }
       }}
       style={style}
       className="note shadow-sm!"
     >
-      <Box className="p-4 flex items-center justify-between gap-2">
+      <Box
+        className={`${HEADER_PADDING_TOP_CLASS} flex items-center justify-between gap-2`}
+      >
         <NoteTitle
           title={title}
           id={id}
@@ -130,7 +162,10 @@ const Note: React.FC<NoteProps> = ({
           />
         </CardContent>
       )}
-      <Box className="p-4 flex items-center justify-between gap-2">
+      <Box
+        className={`p-4 flex items-center justify-between gap-2`}
+        style={{ backgroundColor: overlayColor }}
+      >
         <Box sx={{ fontSize: "0.75rem", opacity: 0.8, lineHeight: 1.6 }}>
           {createdAt && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
