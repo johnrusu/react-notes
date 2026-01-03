@@ -3,6 +3,8 @@ const router = express.Router();
 
 const { pathOr } = require("ramda");
 
+// Version: 1.0.1 - Timestamp fixes
+
 // Constants
 const { APP_NAME } = require("../constants/index.js");
 const { ROUTES } = require("../constants/routes.js");
@@ -218,7 +220,7 @@ router[ROUTES.CREATE_NOTE.method.toLowerCase()](
         text,
         createdAt: now,
       };
-      
+
       // Only include optional fields if provided
       if (title !== undefined) noteData.title = title;
       if (color !== undefined) noteData.color = color;
@@ -335,11 +337,15 @@ router[ROUTES.UPDATE_NOTE.method.toLowerCase()](
       if (orderId !== undefined) updateData.orderId = orderId;
       if (isHtml !== undefined) updateData.isHtml = isHtml;
       if (collapsed !== undefined) updateData.collapsed = collapsed;
-      
+
       // Always set updatedAt
       updateData.updatedAt = new Date();
 
+      console.log("UPDATE_NOTE - updateData:", updateData);
+
       const note = await updateNote(noteId, auth0Id, updateData);
+
+      console.log("UPDATE_NOTE - returned note:", note);
 
       res.status(200).json({ success: true, note });
     } catch (error) {

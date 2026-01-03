@@ -12,4 +12,9 @@ fi
 # Copy server directory to functions/server
 cp -r server functions/server
 
+# Copy package-lock.json to functions directory to ensure sync
+if [ -f "functions/package-lock.json" ]; then
+  cp functions/package-lock.json functions/package-lock.json.bak
+fi
+
 echo "✓ Server folder copied successfully to functions/server"

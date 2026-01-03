@@ -50,8 +50,8 @@ const notesSchema = new mongoose.Schema({
   height: { type: Number, required: false, default: NOTE_DEFAULT.height },
   orderId: { type: Number, required: false, default: NOTE_DEFAULT.orderId },
   isHtml: { type: Boolean, required: false, default: NOTE_DEFAULT.isHtml },
-  createdAt: { type: Date, required: false, default: NOTE_DEFAULT.createdAt },
-  updatedAt: { type: Date, required: false, default: NOTE_DEFAULT.updatedAt },
+  createdAt: { type: Date, required: false },
+  updatedAt: { type: Date, required: false },
   collapsed: {
     type: Boolean,
     required: false,
@@ -144,6 +144,7 @@ const getThemeByUserId = async (userId) => {
 };
 
 // Notes database methods
+// Create a new note with proper timestamp handling
 const createNote = async (noteData) => {
   const {
     id = NOTE_DEFAULT.id,
@@ -155,13 +156,11 @@ const createNote = async (noteData) => {
     height = NOTE_DEFAULT.height,
     orderId = NOTE_DEFAULT.orderId,
     isHtml = NOTE_DEFAULT.isHtml,
-    createdAt = NOTE_DEFAULT.createdAt,
-    updatedAt = NOTE_DEFAULT.updatedAt,
     collapsed = NOTE_DEFAULT.collapsed,
   } = noteData;
 
   try {
-    const newNote = new notes({
+    const noteToCreate = {
       id,
       userId,
       title,
@@ -171,10 +170,14 @@ const createNote = async (noteData) => {
       height,
       orderId,
       isHtml,
-      createdAt,
-      updatedAt,
       collapsed,
-    });
+    };
+
+    // Only include createdAt and updatedAt if provided
+    if (noteData.createdAt) noteToCreate.createdAt = noteData.createdAt;
+    if (noteData.updatedAt) noteToCreate.updatedAt = noteData.updatedAt;
+
+    const newNote = new notes(noteToCreate);
     await newNote.save();
     return newNote;
   } catch (error) {

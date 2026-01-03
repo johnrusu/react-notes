@@ -1,3 +1,4 @@
+// Firebase Functions v2 - Notes App API v1.0.1
 const { onRequest } = require("firebase-functions/v2/https");
 const express = require("express");
 const cors = require("cors");

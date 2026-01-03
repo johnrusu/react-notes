@@ -22,8 +22,7 @@ const NOTE_DEFAULT = {
   title: "",
   isHtml: false,
   collapsed: false,
-  createdAt: "",
-  updatedAt: "",
+  // Remove defaults for timestamps - let them be undefined
 };
 
 module.exports = {
