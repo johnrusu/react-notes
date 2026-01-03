@@ -11,9 +11,16 @@ const NOTE_DEFAULT = {
   orderId: 0,
   title: "",
   isHtml: false,
+  createdAt: "",
+  updatedAt: "",
+  collapsed: false,
 };
 
 const NOTES_LABELS = {
+  expand: "Expand",
+  collapse: "Collapse",
+  createdAt: "Created at:",
+  updatedAt: "Updated at:",
   close: "Close",
   save: "Save",
   delete: "Delete",
@@ -76,7 +83,7 @@ const NOTES_LABELS = {
   addButton: "Add Note",
   updateButton: "Update",
   addHighlightedNote: "Add highlighted node",
-  note: (id: string) => `Note ${id ? id : NOTE_DEFAULT.id}`,
+  note: (id: string) => `Note #${id ? id : NOTE_DEFAULT.id}`,
   darkMode: "dark",
   lightMode: "light",
   simpleNotes: "Simple Notes",

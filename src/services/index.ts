@@ -22,6 +22,13 @@ interface NoteData {
   text: string;
   color: string;
   highlighted: boolean;
+  height?: number;
+  orderId?: number;
+  title?: string;
+  isHtml?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  collapsed?: boolean;
 }
 
 interface NoteUpdateData {

@@ -116,6 +116,9 @@ router[ROUTES.EXPORT_NOTES.method.toLowerCase()](
             orderId: note.orderId,
             title: note.title,
             isHtml: note.isHtml,
+            collapsed: note.collapsed,
+            createdAt: note.createdAt,
+            updatedAt: note.updatedAt,
           })),
         });
         return;
@@ -179,8 +182,17 @@ router[ROUTES.CREATE_NOTE.method.toLowerCase()](
   async (req, res) => {
     try {
       const auth0Id = pathOr(null, ["auth", "payload", "sub"], req);
-      const { id, title, text, color, highlighted, height, orderId, isHtml } =
-        req.body;
+      const {
+        id,
+        title,
+        text,
+        color,
+        highlighted,
+        height,
+        orderId,
+        isHtml,
+        collapsed,
+      } = req.body;
 
       if (isNilOrEmpty(auth0Id)) {
         return res.status(401).json({ error: "Unauthorized" });
@@ -199,6 +211,7 @@ router[ROUTES.CREATE_NOTE.method.toLowerCase()](
           .json({ error: "Missing required note data: text" });
       }
 
+      const now = new Date();
       const note = await createNote({
         id,
         userId: auth0Id,
@@ -209,6 +222,8 @@ router[ROUTES.CREATE_NOTE.method.toLowerCase()](
         height,
         orderId,
         isHtml,
+        collapsed,
+        createdAt: now,
       });
 
       res.status(201).json({ success: true, note });
@@ -267,7 +282,10 @@ router[ROUTES.UPDATE_NOTE_HEIGHT.method.toLowerCase()](
         return res.status(400).json({ error: "Height must be a number" });
       }
 
-      const note = await updateNote(noteId, auth0Id, { height });
+      const note = await updateNote(noteId, auth0Id, {
+        height,
+        updatedAt: new Date(),
+      });
 
       res.status(200).json({ success: true, note });
     } catch (error) {
@@ -284,8 +302,16 @@ router[ROUTES.UPDATE_NOTE.method.toLowerCase()](
     try {
       const auth0Id = pathOr(null, ["auth", "payload", "sub"], req);
       const noteId = pathOr(null, ["params", "noteId"], req);
-      const { title, text, color, highlighted, isHtml, height, orderId } =
-        req.body;
+      const {
+        title,
+        text,
+        color,
+        highlighted,
+        isHtml,
+        height,
+        orderId,
+        collapsed,
+      } = req.body;
 
       if (isNilOrEmpty(auth0Id)) {
         return res.status(401).json({ error: "Unauthorized" });
@@ -303,6 +329,8 @@ router[ROUTES.UPDATE_NOTE.method.toLowerCase()](
         height,
         orderId,
         isHtml,
+        collapsed,
+        updatedAt: new Date(),
       });
 
       res.status(200).json({ success: true, note });

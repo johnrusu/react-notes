@@ -1,18 +1,13 @@
 import React, { useMemo } from "react";
 
 // mui
-import {
-  Card,
-  CardContent,
-  CardActions,
-  CardHeader,
-  Box,
-  Tooltip,
-} from "@mui/material";
+import { Card, CardContent, Box, Tooltip } from "@mui/material";
 
 // mui icons
 import SwitchAccessShortcutIcon from "@mui/icons-material/SwitchAccessShortcut";
 import StarsIcon from "@mui/icons-material/Stars";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
 
 // types
 import type { NoteProps } from "../types";
@@ -23,6 +18,7 @@ import DeleteNote from "./DeleteNote";
 import NoteBottomBar from "./NoteBottomBar";
 import NoteSettings from "./NoteSettings";
 import NoteTitle from "./NoteTitle";
+import ToggleNote from "./ToggleNote";
 
 // constants
 import { NOTE_COLORS, NOTES_LABELS } from "../constants";
@@ -52,6 +48,10 @@ const Note: React.FC<NoteProps> = ({
   onColorChange = () => {},
   isHtml = false,
   noteColor = NOTE_COLORS[0],
+  collapsed = false,
+  createdAt,
+  updatedAt,
+  onToggleCollapsed = () => {},
 }): React.ReactElement => {
   const title: string = !isNilOrEmpty(initialTitle)
     ? initialTitle
@@ -69,6 +69,10 @@ const Note: React.FC<NoteProps> = ({
   ) : (
     <SwitchAccessShortcutIcon fontSize="large" />
   );
+
+  const handleOnToggleCollapsed = (noteId: string) => {
+    onToggleCollapsed(noteId);
+  };
 
   return (
     <Card
@@ -95,46 +99,58 @@ const Note: React.FC<NoteProps> = ({
       style={style}
       className="note shadow-sm!"
     >
-      <CardHeader
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 2,
-        }}
-        title={
-          <NoteTitle
-            title={title}
-            id={id}
-            textColor={textColor}
-            disabled={isTitleDisabled}
-            onEditSaveTitle={onEditSaveTitle}
-          />
-        }
-        action={
-          <Tooltip title={NOTES_LABELS.toggleHighlight} arrow>
-            <Box
-              onClick={onToggleHighlightedNote.bind(null, id)}
-              sx={{
-                cursor: "pointer",
-              }}
-            >
-              {icon}
-            </Box>
-          </Tooltip>
-        }
-      />
-      <CardContent className="note-content">
-        <NoteContent
-          text={text}
-          height={height as number}
-          onTextChange={onTextChange}
+      <Box className="p-4 flex items-center justify-between gap-2">
+        <NoteTitle
+          title={title}
           id={id}
-          setNoteHeight={setNoteHeight}
-          isHtml={isHtml}
+          textColor={textColor}
+          disabled={isTitleDisabled}
+          onEditSaveTitle={onEditSaveTitle}
         />
-      </CardContent>
-      <CardActions className="relative min-h-16">
+        <Tooltip title={NOTES_LABELS.toggleHighlight} arrow>
+          <Box
+            onClick={onToggleHighlightedNote.bind(null, id)}
+            sx={{
+              cursor: "pointer",
+            }}
+          >
+            {icon}
+          </Box>
+        </Tooltip>
+      </Box>
+      {!collapsed && (
+        <CardContent className="note-content">
+          <NoteContent
+            text={text}
+            height={height as number}
+            onTextChange={onTextChange}
+            id={id}
+            setNoteHeight={setNoteHeight}
+            isHtml={isHtml}
+          />
+        </CardContent>
+      )}
+      <Box className="p-4 flex items-center justify-between gap-2">
+        <Box sx={{ fontSize: "0.75rem", opacity: 0.8, lineHeight: 1.6 }}>
+          {createdAt && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <AddCircleOutlineIcon sx={{ fontSize: "0.875rem" }} />
+              <Box component="span" sx={{ fontWeight: 600 }}>
+                {NOTES_LABELS.createdAt}
+              </Box>
+              <Box component="span">{new Date(createdAt).toLocaleString()}</Box>
+            </Box>
+          )}
+          {updatedAt && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <UpdateOutlinedIcon sx={{ fontSize: "0.875rem" }} />
+              <Box component="span" sx={{ fontWeight: 600 }}>
+                {NOTES_LABELS.updatedAt}
+              </Box>
+              <Box component="span">{new Date(updatedAt).toLocaleString()}</Box>
+            </Box>
+          )}
+        </Box>
         <NoteBottomBar
           textColor={textColor}
           menuItems={[
@@ -146,10 +162,16 @@ const Note: React.FC<NoteProps> = ({
               isHtmlContent={isHtml}
               noteColor={noteColor}
             />,
+            <ToggleNote
+              id={id}
+              isToggled={collapsed}
+              onClick={() => console.log("Settings clicked")}
+              onToggle={handleOnToggleCollapsed}
+            />,
             <DeleteNote id={id} onDeleteNote={() => onDelete(id)} />,
           ]}
         />
-      </CardActions>
+      </Box>
     </Card>
   );
 };

@@ -34,10 +34,15 @@ const NoteContent: React.FC<{
     const targetRef = isHtml ? editorContainerRef : textareaRef;
 
     if (targetRef.current) {
+      let previousHeight = targetRef.current.offsetHeight;
+
       const debouncedSetHeight = debounce(() => {
         if (targetRef.current) {
           const newHeight = targetRef.current.offsetHeight;
-          setNoteHeight(id, newHeight);
+          if (newHeight !== previousHeight) {
+            setNoteHeight(id, newHeight);
+            previousHeight = newHeight;
+          }
         }
       }, 1000);
 

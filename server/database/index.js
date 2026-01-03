@@ -4,18 +4,36 @@ const mongoose = require("mongoose");
 const { DB_URI, NOTE_DEFAULT } = require("../constants/index.js");
 
 const initializeDatabase = async () => {
-  try {
-    console.log("Connecting to MongoDB...");
-    const dbConnection = await mongoose.connect(DB_URI, {
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-    });
-    console.log("MongoDB connected successfully");
-    return dbConnection;
-  } catch (error) {
-    console.error("MongoDB connection error:", error.message);
-    throw error;
+  const maxRetries = 3;
+  let lastError;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(
+        `Connecting to MongoDB... (attempt ${attempt}/${maxRetries})`,
+      );
+      const dbConnection = await mongoose.connect(DB_URI, {
+        serverSelectionTimeoutMS: 10000, // Increased to 10 seconds
+        socketTimeoutMS: 45000,
+      });
+      console.log("MongoDB connected successfully");
+      return dbConnection;
+    } catch (error) {
+      lastError = error;
+      console.error(
+        `MongoDB connection attempt ${attempt} failed:`,
+        error.message,
+      );
+
+      if (attempt < maxRetries) {
+        console.log(`Retrying in 2 seconds...`);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+    }
   }
+
+  console.error("MongoDB connection failed after all retries");
+  throw lastError;
 };
 
 const notesSchema = new mongoose.Schema({
@@ -32,6 +50,13 @@ const notesSchema = new mongoose.Schema({
   height: { type: Number, required: false, default: NOTE_DEFAULT.height },
   orderId: { type: Number, required: false, default: NOTE_DEFAULT.orderId },
   isHtml: { type: Boolean, required: false, default: NOTE_DEFAULT.isHtml },
+  createdAt: { type: Date, required: false, default: NOTE_DEFAULT.createdAt },
+  updatedAt: { type: Date, required: false, default: NOTE_DEFAULT.updatedAt },
+  collapsed: {
+    type: Boolean,
+    required: false,
+    default: NOTE_DEFAULT.collapsed,
+  },
 });
 
 const usersSchema = new mongoose.Schema({
@@ -130,6 +155,9 @@ const createNote = async (noteData) => {
     height = NOTE_DEFAULT.height,
     orderId = NOTE_DEFAULT.orderId,
     isHtml = NOTE_DEFAULT.isHtml,
+    createdAt = NOTE_DEFAULT.createdAt,
+    updatedAt = NOTE_DEFAULT.updatedAt,
+    collapsed = NOTE_DEFAULT.collapsed,
   } = noteData;
 
   try {
@@ -143,6 +171,9 @@ const createNote = async (noteData) => {
       height,
       orderId,
       isHtml,
+      createdAt,
+      updatedAt,
+      collapsed,
     });
     await newNote.save();
     return newNote;
@@ -177,6 +208,10 @@ const updateNote = async (noteId, userId, updateData) => {
     if (updateData.height !== undefined) note.height = updateData.height;
     if (updateData.orderId !== undefined) note.orderId = updateData.orderId;
     if (updateData.isHtml !== undefined) note.isHtml = updateData.isHtml;
+    if (updateData.updatedAt !== undefined)
+      note.updatedAt = updateData.updatedAt;
+    if (updateData.collapsed !== undefined)
+      note.collapsed = updateData.collapsed;
 
     await note.save();
     return note;
@@ -210,15 +245,9 @@ const deleteAllNotesByUserId = async (userId) => {
 
 const bulkUpdateNotes = async (userId, notesArray) => {
   try {
-    console.log("Bulk update request:", {
-      userId,
-      noteCount: notesArray.length,
-      firstNote: notesArray[0],
-    });
-
     // Ensure all notes belong to the user
-    const bulkOps = notesArray.map(
-      ({
+    const bulkOps = notesArray.map((note) => {
+      const {
         text = NOTE_DEFAULT.text,
         id = NOTE_DEFAULT.id,
         title = NOTE_DEFAULT.title,
@@ -227,7 +256,12 @@ const bulkUpdateNotes = async (userId, notesArray) => {
         height = NOTE_DEFAULT.height,
         orderId = NOTE_DEFAULT.orderId,
         isHtml = NOTE_DEFAULT.isHtml,
-      }) => ({
+        collapsed = NOTE_DEFAULT.collapsed,
+        createdAt = NOTE_DEFAULT.createdAt,
+        updatedAt = Date.now(), // Always update timestamp for bulk operations
+      } = note;
+
+      return {
         updateOne: {
           filter: { id, userId },
           update: {
@@ -240,12 +274,17 @@ const bulkUpdateNotes = async (userId, notesArray) => {
               ...(height !== undefined && { height }),
               orderId,
               isHtml,
+              collapsed,
+              createdAt,
+            },
+            $currentDate: {
+              updatedAt: true, // This forces MongoDB to always update the timestamp
             },
           },
           upsert: true,
         },
-      }),
-    );
+      };
+    });
 
     const result = await notes.bulkWrite(bulkOps);
     console.log("Bulk update result:", {

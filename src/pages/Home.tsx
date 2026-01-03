@@ -122,6 +122,8 @@ const Home = (): React.ReactElement => {
           highlighted: note.highlighted || false,
           height: note?.height || 128,
           orderId: notes.length + 1,
+          isHtml: note.isHtml || false,
+          collapsed: note.collapsed || false,
         };
         dispatch(createNote({ noteData: noteWithId, token }) as any);
       } catch (error) {

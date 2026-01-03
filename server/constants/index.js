@@ -21,6 +21,9 @@ const NOTE_DEFAULT = {
   orderId: 0,
   title: "",
   isHtml: false,
+  collapsed: false,
+  createdAt: "",
+  updatedAt: "",
 };
 
 module.exports = {

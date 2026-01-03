@@ -82,7 +82,7 @@ const DeleteNote: React.FC<DeleteNoteProps> = ({
               {NOTES_LABELS.note(id)}
             </Typography>
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ p: 2 }}>
             <Button onClick={handleCloseDialog} disabled={isDeleting}>
               {NOTES_LABELS.cancel}
             </Button>

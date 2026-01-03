@@ -216,6 +216,43 @@ const Notes: React.FC = (): React.ReactElement | null => {
     }
   };
 
+  const handleOnToggleCollapsed = async (noteId: string) => {
+    console.log("Toggling collapsed state for note:", noteId);
+    const note = notes.find((note) => note.id === noteId);
+    if (!note) return;
+
+    const newCollapsedStatus = !note.collapsed;
+
+    if (isAuthenticated) {
+      try {
+        const token = await getToken();
+        dispatch(
+          updateNoteAsync({
+            noteId,
+            updateData: { collapsed: newCollapsedStatus },
+            token,
+          } as any) as any,
+        );
+      } catch (error) {
+        console.error("Error updating note collapsed status:", error);
+        // Fallback to local-only update
+        dispatch(
+          updateNote({
+            noteId,
+            collapsed: newCollapsedStatus,
+          } as any) as any,
+        );
+      }
+    } else {
+      dispatch(
+        updateNote({
+          noteId,
+          collapsed: newCollapsedStatus,
+        } as any) as any,
+      );
+    }
+  };
+
   useEffect(() => {
     if (!isNilOrEmpty(lastAddedNote) && lastAddedNote) {
       // Find the newly added note element
@@ -272,6 +309,9 @@ const Notes: React.FC = (): React.ReactElement | null => {
             orderId = NOTE_DEFAULT.orderId,
             title = NOTE_DEFAULT.title,
             isHtml = NOTE_DEFAULT.isHtml,
+            collapsed = NOTE_DEFAULT.collapsed,
+            createdAt = NOTE_DEFAULT.createdAt,
+            updatedAt = NOTE_DEFAULT.updatedAt,
           },
           index,
         ) => {
@@ -298,6 +338,10 @@ const Notes: React.FC = (): React.ReactElement | null => {
               onHtmlContentChange={handleHtmlContentChange}
               onColorChange={handleColorChange}
               noteColor={color}
+              collapsed={collapsed}
+              createdAt={createdAt}
+              updatedAt={updatedAt}
+              onToggleCollapsed={handleOnToggleCollapsed}
             />
           );
         },

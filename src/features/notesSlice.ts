@@ -73,6 +73,9 @@ export const updateNoteAsync = createAsyncThunk(
       title?: string;
       isHtml?: boolean;
       orderId?: number;
+      createdAt?: Date;
+      updatedAt?: Date;
+      collapsed?: boolean;
     };
     token: string;
   }) => {
@@ -240,6 +243,9 @@ export const notesSlice = createSlice({
         isHtml?: boolean;
         orderId?: number;
         color?: string;
+        createdAt?: Date | string;
+        updatedAt?: Date | string;
+        collapsed?: boolean;
       }>,
     ) => {
       state.wasReset = false;
@@ -252,6 +258,7 @@ export const notesSlice = createSlice({
         isHtml,
         orderId,
         color,
+        collapsed,
       } = action.payload;
 
       const updateNotesKeys = (notesArray: NoteDefault[]) => {
@@ -275,6 +282,9 @@ export const notesSlice = createSlice({
         }
         if (!isNilOrEmpty(color) && color !== undefined) {
           notesArray[noteIndex].color = color;
+        }
+        if (!isNilOrEmpty(collapsed) && collapsed !== undefined) {
+          notesArray[noteIndex].collapsed = collapsed;
         }
       };
 

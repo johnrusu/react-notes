@@ -11,6 +11,9 @@ type NoteDefault = {
   orderId?: number;
   title?: string;
   isHtml?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  collapsed?: boolean;
 };
 
 interface NoteProps extends NoteDefault {
@@ -28,6 +31,10 @@ interface NoteProps extends NoteDefault {
   onHtmlContentChange?: (id: string, isHtml: boolean) => void;
   onColorChange?: (id: string, color: string) => void;
   noteColor?: string;
+  collapsed?: boolean;
+  onToggleCollapsed?: (id: string) => void;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }
 
 type ColorPickerProps = {

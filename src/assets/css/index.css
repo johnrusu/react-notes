@@ -5,7 +5,6 @@
   --defaultBackground: var(--color-gray-800);
   --topMarginFromHeader: 90px;
   --headerHeight: 82px;
-  --minCardHeight: 241px;
   --footerHeight: 53px;
 }
 
@@ -99,7 +98,7 @@ body {
   .notes-grid-and-controls
   .preview-counter-section
   .notes-counter {
-  @apply min-h-(--minCardHeight) flex flex-col gap-4 justify-between p-4;
+  @apply flex flex-col gap-4 justify-between p-4;
 }
 
 .notes-container
@@ -118,7 +117,7 @@ body {
 }
 
 .notes-container .notes-grid-and-controls .notes-grid .note {
-  @apply w-full relative min-h-(--minCardHeight);
+  @apply w-full relative;
   animation: noteSlideIn 0.4s ease-out forwards;
   opacity: 0;
 }
