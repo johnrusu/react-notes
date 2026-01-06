@@ -341,11 +341,7 @@ router[ROUTES.UPDATE_NOTE.method.toLowerCase()](
       // Always set updatedAt
       updateData.updatedAt = new Date();
 
-      console.log("UPDATE_NOTE - updateData:", updateData);
-
       const note = await updateNote(noteId, auth0Id, updateData);
-
-      console.log("UPDATE_NOTE - returned note:", note);
 
       res.status(200).json({ success: true, note });
     } catch (error) {

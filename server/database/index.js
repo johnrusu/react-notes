@@ -16,7 +16,6 @@ const initializeDatabase = async () => {
         serverSelectionTimeoutMS: 10000, // Increased to 10 seconds
         socketTimeoutMS: 45000,
       });
-      console.log("MongoDB connected successfully");
       return dbConnection;
     } catch (error) {
       lastError = error;

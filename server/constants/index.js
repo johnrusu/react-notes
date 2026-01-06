@@ -1,7 +1,8 @@
-const DB_URI =
-  process.env.MONGO_URI ||
-  process.env.DB_URI ||
-  "mongodb://localhost:27017/notes";
+const IS_DEV = process.env.NODE_ENV !== "production";
+
+const DB_URI = IS_DEV
+  ? "mongodb://localhost:27017/notes"
+  : process.env.MONGO_URI || process.env.DB_URI;
 const AUTH0_AUDIENCE = process.env.AUTH0_AUDIENCE || "your-api-identifier";
 const AUTH0_ISSUER =
   process.env.AUTH0_ISSUER ||

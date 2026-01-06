@@ -73,8 +73,6 @@ export const updateNoteAsync = createAsyncThunk(
       title?: string;
       isHtml?: boolean;
       orderId?: number;
-      createdAt?: Date;
-      updatedAt?: Date;
       collapsed?: boolean;
     };
     token: string;
@@ -127,12 +125,15 @@ export const notesSlice = createSlice({
       const lastNoteId = [...state.notes]
         .map((q) => Number(q.id))
         .reduce((a, b) => Math.max(a, b), 0);
-      state.notes = [
-        ...state.notes,
-        { ...action.payload, id: `${lastNoteId + 1}` },
-      ];
+      const now = new Date().toISOString();
+      const newNote = {
+        ...action.payload,
+        id: `${lastNoteId + 1}`,
+        createdAt: now,
+      };
+      state.notes = [...state.notes, newNote];
       state.filteredNotes = [];
-      state.lastAddedNote = { ...action.payload, id: `${lastNoteId + 1}` };
+      state.lastAddedNote = newNote;
     },
 
     deleteLastdAddedNote: (state) => {
@@ -220,15 +221,18 @@ export const notesSlice = createSlice({
     ) => {
       state.wasReset = false;
       const { noteId, height } = action.payload;
+      const now = new Date().toISOString();
       const noteIndex = state.notes.findIndex((note) => note.id === noteId);
       if (noteIndex !== -1) {
         state.notes[noteIndex].height = height;
+        state.notes[noteIndex].updatedAt = now;
       }
       const filteredNoteIndex = state.filteredNotes.findIndex(
         (note) => note.id === noteId,
       );
       if (filteredNoteIndex !== -1) {
         state.filteredNotes[filteredNoteIndex].height = height;
+        state.filteredNotes[filteredNoteIndex].updatedAt = now;
       }
     },
 
@@ -286,6 +290,8 @@ export const notesSlice = createSlice({
         if (!isNilOrEmpty(collapsed) && collapsed !== undefined) {
           notesArray[noteIndex].collapsed = collapsed;
         }
+        // Always update timestamp for local changes
+        notesArray[noteIndex].updatedAt = new Date().toISOString();
       };
 
       const noteIndex = state.notes.findIndex((note) => note.id === noteId);
