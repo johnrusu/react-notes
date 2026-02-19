@@ -19,6 +19,11 @@ const NoteContent: React.FC<{
   const editorContainerRef = useRef<HTMLDivElement>(null);
   const [editedText, setEditedText] = useState<string>(text);
 
+  // Sync local state with prop changes (for when data updates from API/Redux)
+  useEffect(() => {
+    setEditedText(text);
+  }, [text]);
+
   const debouncedTextChange = useRef(
     debounce((id: string, value: string) => {
       onTextChange(id, value);
