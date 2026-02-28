@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://johnrusu.github.io/react-notes/sitemap.xml
